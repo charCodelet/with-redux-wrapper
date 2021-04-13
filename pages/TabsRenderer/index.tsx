@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { Tabs, TabList, Tab } from '@coreym/benchmark';
 import { useActions } from '../../hooks/useActions';
+// import { Link } from 'next/link';
 
 // eslint-disable-next-line
 const TabsRenderer = (tabNums: any): ReactElement | null => {
