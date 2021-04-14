@@ -1,4 +1,3 @@
-import { AnyCnameRecord } from 'dns';
 import { ActionType } from '../action-types';
 
 interface FetchStartAction {

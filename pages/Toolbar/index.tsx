@@ -4,7 +4,7 @@ import { useActions } from '../../hooks/useActions';
 import { Toolbar } from '@coreym/benchmark';
 
 // eslint-disable-next-line
-const ToolbarConnector = (tabNums: any): ReactElement | null => {
+const ToolbarRenderer = (tabNums: any): ReactElement | null => {
   const [num, setNum] = useState(1800 / 60);
   // const [help, setHelp] = useState(0);
   const intervalRef = useRef(null);
@@ -107,4 +107,4 @@ const ToolbarConnector = (tabNums: any): ReactElement | null => {
   );
 };
 
-export default ToolbarConnector;
+export default ToolbarRenderer;

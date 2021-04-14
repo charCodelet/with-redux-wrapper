@@ -54,8 +54,11 @@ const ItemRenderer = (item1: { item: Widget; embeddedSimpleItemIdMap: Map<string
   );
 };
 
-export default React.memo(ItemRenderer, (/*prevProps, nextProps*/) => {
-  // console.log(prevProps, `--> prevProps`);
-  // console.log(nextProps, `--> nextProps`);
-  return true;
-});
+export default ItemRenderer;
+
+
+// export default React.memo(ItemRenderer, (/*prevProps, nextProps*/) => {
+//   // console.log(prevProps, `--> prevProps`);
+//   // console.log(nextProps, `--> nextProps`);
+//   return true;
+// });
