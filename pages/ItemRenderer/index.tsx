@@ -33,7 +33,6 @@ const ItemRenderer = (item1: { item: Widget; embeddedSimpleItemIdMap: Map<string
     element = 'Placeholder';
     console.warn(incomingElement + ' not found in WidgetMap used by ADE Renderer.');
     console.warn(item.element + ' not found in WidgetMap used by ADE Renderer.');
-    alert(33);
     if (!props) {
       props = { height: '30px', label: incomingElement }; // Added height, in case it is not passed, so as to render a rect for Placeholder
     } else {
@@ -54,11 +53,10 @@ const ItemRenderer = (item1: { item: Widget; embeddedSimpleItemIdMap: Map<string
   );
 };
 
-export default ItemRenderer;
+// export default ItemRenderer;
 
-
-// export default React.memo(ItemRenderer, (/*prevProps, nextProps*/) => {
-//   // console.log(prevProps, `--> prevProps`);
-//   // console.log(nextProps, `--> nextProps`);
-//   return true;
-// });
+export default React.memo(ItemRenderer, (/*prevProps, nextProps*/) => {
+  // console.log(prevProps, `--> prevProps`);
+  // console.log(nextProps, `--> nextProps`);
+  return true;
+});

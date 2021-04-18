@@ -23,6 +23,7 @@ const tabsReducer = (state: RepositoriesState = initialState, action: Action): R
     case ActionType.TABS_FETCH:
       return { ...state, loading: true, error: null, data: [] };
     case ActionType.TABS_SUCCESS:
+      // console.log(action.payload, `0000000000000000000000000--> action.payload`);
       return { ...state, loading: false, error: null, data: action.payload };
     case ActionType.TABS_ERROR:
       return { ...state, loading: false, error: action.payload, data: [] };

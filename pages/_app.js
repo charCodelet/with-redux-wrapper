@@ -2,7 +2,7 @@ import { wrapper } from '../state/store'
 
 const WrappedApp = ({ Component, pageProps }) => {
   return (
-    <Component {...pageProps} />
+      <Component {...pageProps} />
   )
 }
 

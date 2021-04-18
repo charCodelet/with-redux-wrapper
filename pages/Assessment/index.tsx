@@ -1,34 +1,32 @@
-import React, { ReactElement/*, useEffect*/ } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import { Flex } from '@coreym/benchmark';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-// import { useActions } from '../../hooks/useActions';
-// import LoadingIndicator from '../../components/shared/LoadingIndicator';
+import { useActions } from '../../hooks/useActions';
+import LoadingIndicator from '../../pages/shared/LoadingIndicator';
 
 // components
-// import ItemRenderer from '../ItemRenderer';
+import ItemRenderer from '../ItemRenderer';
 
 // interfaces
 import { Item } from '../../types/src/stateMachineTypes';
 
 const NewAssessment = (): ReactElement => {
+  // console.log(props.tabNums, `--> props`);
   const { item, item2, tabs } = useTypedSelector((state) => state);
-  // const { fetchItem, fetchItem2, fetchStart } = useActions();
-  // useEffect(() => {
-  //   // console.log('called once');
-  //   fetchStart('start');
-  //   fetchItem('item/VH447209');
-  //   fetchItem2('item/VH447212');
-  // }, []);
+  const { fetchItem, fetchItem2 } = useActions();
+  useEffect(() => {
+    fetchItem('item/VH447209');
+    fetchItem2('item/VH447212');
+  }, []);
+  // console.log(tabs, `--> tabs`);
   const itemContent = item.data;
   const itemContent2 = item2.data2;
-  // console.log(tabs && tabs.data[0] && tabs.data[0].simpleItemIdsInComplexItem[0], `--> tabs.data[0].simpleItemIdsInComplexItem[0]`); // prettier-ignore
   const getEmbeddedSimpleItemsMap = new Map<string, Item>();
-  [tabs && tabs.data[0] && tabs.data[0].simpleItemIdsInComplexItem[0]].map((sid: string) => getEmbeddedSimpleItemsMap.set(sid, itemContent)); // prettier-ignore
-  // console.log(itemContent2.content, `--> itemContent2.content`);
+  [tabs && tabs.data[0] && tabs.data[0].nestedItemIds[0]].map((sid: string) => getEmbeddedSimpleItemsMap.set(sid, itemContent)); // prettier-ignore
   if (
     tabs &&
     tabs.data[0] &&
-    tabs.data[0].simpleItemIdsInComplexItem[0] &&
+    tabs.data[0].nestedItemIds[0] &&
     itemContent2 &&
     itemContent2.content &&
     itemContent &&
@@ -36,7 +34,6 @@ const NewAssessment = (): ReactElement => {
   ) {
     return (
       <>
-      <div>Testing not in Flex...</div>
       <Flex
         sx={{
           label: 'AppContainer',
@@ -46,16 +43,15 @@ const NewAssessment = (): ReactElement => {
         }}
       >
         <Flex justify="center" px={6} py={4}>
-          <div>Testing...</div>
-          {/* {itemContent2.content ? (
+          {itemContent2.content ? (
             <ItemRenderer item={itemContent2.content} embeddedSimpleItemIdMap={getEmbeddedSimpleItemsMap} />
-          ) : null} */}
+          ) : null}
         </Flex>
       </Flex>
       </>
     );
   } else {
-    return <div>Testing...</div>
+    return <LoadingIndicator />;
   }
 };
 

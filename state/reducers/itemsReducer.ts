@@ -16,6 +16,7 @@ const initialState = {
 };
 
 const itemsReducer = (state: RepositoriesState = initialState, action: Action): RepositoriesState => {
+  // console.log(action.type, `--> action.type`);
   switch (action.type) {
     case ActionType.FETCH_ITEM:
       return { loading: true, error: null, data: [] };

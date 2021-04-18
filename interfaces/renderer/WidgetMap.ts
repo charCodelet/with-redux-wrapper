@@ -1,4 +1,4 @@
-import Components from '../../components/benchmark';
+import Components from '../../pages/benchmark';
 export const WidgetMap = {
   Alert: Components.Alert,
   Box: Components.Box,
