@@ -5,7 +5,7 @@ import {SSRProvider} from '@react-aria/ssr'
 import ToolbarRenderer from './Toolbar';
 import TabsRenderer from './TabsRenderer';
 import AssessmentRenderer from './Assessment';
-
+import dynamic from "next/dynamic";
 // import { useActions } from '../hooks/useActions';
 // import useSWR from "swr";
 import { wrapper } from '../state/store';
@@ -21,7 +21,7 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
   // let nestedIds = nestedIdsMap.filter(v => v);
   // console.log(nestedIds, `--> nestedIds`);
   store.dispatch({type: 'tabs_success_server_side', payload: {tabsData: blocksJson[0].itemHeaders, nestedId: 'VH447209'}});
-  console.log(store.getState(), ` --> getState`)
+  // console.log(store.getState(), ` --> getState`)
   let urls = await store.getState().tabs.tabsData.map(datum => `http://localhost:3010/item/${datum.id}`); // return { props: store.dispatch({type: 'tabs_success', payload: blocksJson[0].itemHeaders}) }
   let requests = await urls.map((url: RequestInfo) => fetch(url)); // map every url to the promise of the fetch
   // console.log("oh wow! I needed to put await in from of Promise.all...that made ALL the difference...");
@@ -34,7 +34,7 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
 const App: React.FC = (): ReactElement => {
   // const { createLaunch, fetchTabs, fetchStart } = useActions();
   const { theme } = useTypedSelector((state) => state.theme);
-  const { fetchAllItems } = useTypedSelector((state) => state);
+  // const { fetchAllItems } = useTypedSelector((state) => state);
   // const { data, error } = useSWR('tools/VH447212', createLaunch);
   // console.log(data, `--> data`);
   // console.log(error, `--> error`);
@@ -43,13 +43,12 @@ const App: React.FC = (): ReactElement => {
   //   fetchTabs('blocks');
   //   createLaunch('tools/VH447212');
   // }, []);
-
   // const obj = {};
   // tabs && tabs.tabsData.map((v: { sequence: string | number; id: any }) => (obj[v.sequence] = v.id));
   // console.log(obj, `--> obj`);
   // console.log(theme, `--> theme`);
-  console.log(fetchAllItems, `--> fetchAllItems`);
-  return (  
+  // console.log(fetchAllItems, `--> fetchAllItems`);
+  return ( 
     <SSRProvider>   
       <GlobalProvider theme={themes[theme]}>
         <ToolbarRenderer />

@@ -7,7 +7,7 @@ import { Widget } from '@enaep-ng/types';
 export const MultipleSelectConnector = (widget: Widget): ReactElement | null => {
   // selectors
   const { selected, eliminated } = useTypedSelector((state) => state.multipleSelectChoices);
-  // console.log(selected, `--> selected`);
+  console.log(selected, `--> selected`);
   // console.log(eliminated, `--> eliminated`);
   const { multipleSelect } = useActions();
   const handleSelect = (optionId: string) => {
