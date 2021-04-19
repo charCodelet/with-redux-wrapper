@@ -5,14 +5,15 @@ import { useActions } from '../../hooks/useActions';
 // import { Link } from 'next/link';
 
 // eslint-disable-next-line
-const TabsRenderer = (): ReactElement | null => {
+const TabsRenderer = (tabNums: any): ReactElement | null => {
   const { tabs } = useTypedSelector((state) => state);
   const { fetchItem2, getTabNumber, /*getBlockNumber,*/ multipleSelect, singleSelect } = useActions();
   const handleSelect = (optionId: number) => {
     getTabNumber(optionId);
     // getBlockNumber(tabNums.tabNums[optionId]);
-    if (optionId < tabs.data.length - 1) {
-      // fetchItem2(`item/${tabNums.tabNums[optionId]}`);
+    // console.log(tabNums, `--> tabNums`);
+    if (optionId < tabs.tabsData.length - 1) {
+      fetchItem2(`item/${tabNums.tabNums[optionId]}`);
     } else {
       fetchItem2(`item/BlockRev`);
     }
@@ -31,9 +32,8 @@ const TabsRenderer = (): ReactElement | null => {
       >
         <TabList>
           {/* eslint-disable-next-line*/}
-          {tabs.data /*Object.values(tabNums.tabNums)*/.map((v: any, i: number) => {
-            // console.log(v, `--> v`);
-            return <Tab tabIndex={i === tabs.tabNumber ? 0 : -1} aria-selected={i === tabs.tabNumber} key={tabs.tabNumber}>{v.sequence + 1}</Tab>; // prettier-ignore
+          {tabs.tabsData.map((v: any, i: number) => {
+            return <Tab tabIndex={i === tabs.tabNumber ? 0 : -1} aria-selected={i === tabs.tabNumber} key={tabs.tabNumber}>{v.sequence || v.sequence == 0 ? v.sequence + 1 : "Block"}</Tab>; // prettier-ignore
           })}
         </TabList>
       </Tabs>

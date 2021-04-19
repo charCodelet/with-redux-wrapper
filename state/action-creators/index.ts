@@ -100,6 +100,8 @@ export const fetchItem = (term: string) => {
   };
 };
 
+
+
 export const fetchTabs = (term: string) => {
   // eslint-disable-next-line
   return async (dispatch: Dispatch<Action>) => {

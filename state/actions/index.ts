@@ -37,6 +37,14 @@ interface TabsSuccessAction {
   payload: any;
 }
 
+interface TabsSuccessServerSideAction {
+  type: ActionType.TABS_SUCCESS_SERVER_SIDE;
+  payload: {
+    tabsData: any,
+    nestedId: string
+  }
+}
+
 interface TabsErrorAction {
   type: ActionType.TABS_ERROR;
   payload: string;
@@ -131,9 +139,14 @@ interface FetchCalculatorAction {
   payload: any;
 }
 
+interface FetchAllItemsAction {
+  type: 'fetch_all_items';
+  payload: any;
+}
 
 
 export type Action =
+  | FetchAllItemsAction 
   | FetchStartAction
   | FetchStartSuccessAction
   | FetchStartErrorAction
@@ -161,3 +174,5 @@ export type Action =
   | GetScratchAction
   | ChangeZoomAction
   | FetchCalculatorAction
+  | TabsSuccessServerSideAction
+ 

@@ -7,6 +7,9 @@ export interface RepositoriesState {
   data?: any; // eslint-disable-line
   tabNumber?: number;
   blockNumber: string;
+  tabsData?: any;
+  nestedId?: any;
+  // fetchAllItems?: any;
 }
 
 const initialState = {
@@ -15,6 +18,8 @@ const initialState = {
   data: [],
   tabNumber: 0,
   blockNumber: 'VH447212',
+  // fetchAllItems: [],
+  // tabsData: "",
 };
 
 const tabsReducer = (state: RepositoriesState = initialState, action: Action): RepositoriesState => {
@@ -22,8 +27,16 @@ const tabsReducer = (state: RepositoriesState = initialState, action: Action): R
   switch (action.type) {
     case ActionType.TABS_FETCH:
       return { ...state, loading: true, error: null, data: [] };
+    case ActionType.TABS_SUCCESS_SERVER_SIDE:
+      // console.log(action.payload, `--> action.payload TABS_SUCCESS_SERVER_SIDE`);
+      // console.log(action.payload.tabsData, `--> action.payload.tabsData`);
+      // console.log(action.payload.nestedId, `--> action.payload.nestedId`);
+      return { ...state, loading: false, error: null, tabsData: [...action.payload.tabsData, {id: action.payload.nestedId}], nestedId: action.payload.nestedId };
+    // case 'fetch_all_items':
+    //   console.log(action.payload, `--> action.payload fetch_all_items`);
+    //   return { ...state, fetchAllItems: action.payload };
     case ActionType.TABS_SUCCESS:
-      // console.log(action.payload, `0000000000000000000000000--> action.payload`);
+      // console.log(action.payload, `--> action.payload`);
       return { ...state, loading: false, error: null, data: action.payload };
     case ActionType.TABS_ERROR:
       return { ...state, loading: false, error: action.payload, data: [] };

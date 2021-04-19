@@ -12,6 +12,7 @@ import setThemeReducer from './reducers/setThemeReducer';
 import getScratchReducer from './reducers/getScratchReducer';
 import changeZoomReducer from './reducers/changeZoomReducer';
 import fetchCalculatorElementReducer from './reducers/fetchCalculatorElementReducer';
+import fetchAllReducer from './reducers/fetchAllReducer';
 
 const combinedReducer = combineReducers({
   tools: toolsReducer,
@@ -25,7 +26,9 @@ const combinedReducer = combineReducers({
   scratch: getScratchReducer,
   zoom: changeZoomReducer,
   calculator: fetchCalculatorElementReducer,
-})
+  fetchAllItems: fetchAllReducer,
+});
+
 
 const reducer = (state, action) => {
   // console.log(state, `--> state`);

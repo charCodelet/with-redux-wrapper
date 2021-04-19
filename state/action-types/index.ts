@@ -1,4 +1,5 @@
 export enum ActionType {
+  FETCH_ALL_ITEMS = 'fetch_all_items',
   FETCH_START = 'fetch_start',
   FETCH_START_SUCCESS = 'fetch_start_success',
   FETCH_START_ERROR = 'fetch_start_error',
@@ -7,6 +8,7 @@ export enum ActionType {
   TOOLS_PROPS_ERROR = 'tools_props_error',
   TABS_FETCH = 'tabs_fetch',
   TABS_SUCCESS = 'tabs_success',
+  TABS_SUCCESS_SERVER_SIDE = 'tabs_success_server_side',
   TABS_ERROR = 'tools_error',
   TAB_NUMBER = 'tab_number',
   BLOCK_NUMBER = 'block_number',

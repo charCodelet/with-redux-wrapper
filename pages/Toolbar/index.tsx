@@ -21,7 +21,7 @@ const ToolbarRenderer = (tabNums: any): ReactElement | null => {
   let { zoom } = useTypedSelector((state) => state.zoom);
   const { getTabNumber, getBlockNumber, fetchItem2, multipleSelect, setTheme, getScratch , changeZoom } = useActions(); // prettier-ignore
   const { id, toolbar, tools } = data;
-  const progressFormula = (tabs.data.length > 0) ? (100 / tabs.data.length) * (tabs.tabNumber === 0 ? 1 : tabs.tabNumber + 1) : 0 // prettier-ignore
+  const progressFormula = (tabs.tabsData.length > 0) ? (100 / tabs.tabsData.length) * (tabs.tabNumber === 0 ? 1 : tabs.tabNumber + 1) : 0 // prettier-ignore
   const onClickZoomOut = () => {
     // console.log('zoom out');
     zoom = +zoom.toFixed(2);
@@ -53,6 +53,9 @@ const ToolbarRenderer = (tabNums: any): ReactElement | null => {
     fetchItem2(`item/${tabNums.tabNums[tabs.tabNumber - 1]}`);
     multipleSelect('multiple_clear', (tabs.tabNumber - 1).toString());
   };
+  // console.log(tabs, `--> tabs toolbar`);
+  // console.log(tools, `--> tools toolbar`);
+  // console.log(toolbar, `--> toolbar toolbar`);
   return (
     data && (
       <Toolbar
@@ -67,7 +70,7 @@ const ToolbarRenderer = (tabNums: any): ReactElement | null => {
         isHelpDisabled={tools?.help?.enabled}
         isThemeDisabled={!tools?.theme?.enabled}
         isZoomInDisabled={!tools?.zoomIn?.enabled}
-        isZoomOutDisabled={/*!tools?.zoomOut?.enabled ||*/ zoom == 1.0}
+        isZoomOutDisabled={zoom == 1.0}
         isLangDisabled={!tools?.bilingual?.enabled}
         isTTSDisabled={!tools?.readAloud?.enabled}
         isScratchDisabled={!tools?.scratchwork?.enabled}
