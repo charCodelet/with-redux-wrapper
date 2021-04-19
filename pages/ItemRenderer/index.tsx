@@ -54,7 +54,7 @@ const ItemRenderer = (item1: { item: Widget; embeddedSimpleItemIdMap: any }): Re
     { ...item, ...props, key: Math.random() * 100 },
     // prettier-ignore
     children && children.length && children.map((child) => { 
-        console.log(child, `--> child`);
+        // console.log(child, `--> child`);
         return typeof child === 'string' ? `${child}` : ItemRenderer({ item: child, embeddedSimpleItemIdMap: embeddedSimpleItemIdMap })
       }),
   );

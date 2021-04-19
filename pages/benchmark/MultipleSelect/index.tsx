@@ -2,7 +2,7 @@ import React, { ReactElement /*, useState*/ } from 'react';
 import { MultipleSelect } from '@coreym/benchmark';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { useActions } from '../../../hooks/useActions';
-import { Widget } from '@enaep-ng/types';
+import { Widget } from '../../../types/src/stateMachineTypes/Widget';
 
 export const MultipleSelectConnector = (widget: Widget): ReactElement | null => {
   // selectors

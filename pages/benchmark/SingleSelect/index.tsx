@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { SingleSelect } from '@coreym/benchmark';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { useActions } from '../../../hooks/useActions';
-import { Widget } from '@enaep-ng/types';
+import { Widget } from '../../../types/src/stateMachineTypes/Widget';
 
 export const SingleSelectConnector = (widget: Widget): ReactElement | null => {
   // console.log('SingleSelectConnector');

@@ -5,7 +5,6 @@ import {SSRProvider} from '@react-aria/ssr'
 import ToolbarRenderer from './Toolbar';
 import TabsRenderer from './TabsRenderer';
 import AssessmentRenderer from './Assessment';
-import dynamic from "next/dynamic";
 // import { useActions } from '../hooks/useActions';
 // import useSWR from "swr";
 import { wrapper } from '../state/store';
