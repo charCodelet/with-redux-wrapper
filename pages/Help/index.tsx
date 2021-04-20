@@ -1,9 +1,7 @@
 import React, { ReactElement } from 'react';
-// import { Dialog, Text } from '@coreym/benchmark';
 
-const Help = (): ReactElement => {
+const help = (): ReactElement => {
   return (
-    // prettier-ignore
     <>
       <div className="helpContent">You have opened Help. To go back, tap the Help button again.</div>
       <div className="helpContent">
@@ -136,4 +134,4 @@ const Help = (): ReactElement => {
   );
 };
 
-export default Help;
+export default help;

@@ -11,14 +11,15 @@ const  NewAssessment = (): ReactElement => {
   const itemContent2 = fetchAllItems.fetchAllItems[15/*fetchAllItems.fetchAllItems.length - 1*/]; 
   // console.log(itemContent.content, `--> itemContent.content`);
   // console.log(itemContent2, `--> itemContent2`)
+ 
   return (
     <>
     <Flex
       sx={{label: 'AppContainer', minHeight: 0, flexDirection: 'column', overflow: 'hidden'}}>
-      <Flex justify="center" px={6} py={4}>
-        {itemContent ? (
-          <ItemRenderer item={itemContent.content} embeddedSimpleItemIdMap={itemContent2} />
-        ) : null}
+      <Flex justify="center" px={6} py={4}>      
+          {itemContent ? (
+              <ItemRenderer item={itemContent.content} embeddedSimpleItemIdMap={itemContent2} />         
+          ) : null}      
       </Flex>
     </Flex>
     </>

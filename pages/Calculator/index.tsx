@@ -23,22 +23,21 @@ const Calculator = (): ReactElement => {
     window.TI30.prototype.constructor(TI30XSDefaultConfiguration);
     fetchCalculatorElement(ref);
   }, []);
-  // eslint-disable-next-line
   interact('.calculatorDiv').draggable({
       restrict: {
         restriction: 'parent',
         elementRect: { left: 0, top: 0, right: 1, bottom: 1 }
       },
-      onmove: (event) => { // prettier-ignore
-      const target = event.target; // prettier-ignore
-      const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx; // prettier-ignore
-      const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy; // prettier-ignore
-      target.style.webkitTransform = target.style.transform = `translate(${x}px, ${y}px)`; // prettier-ignore
-      target.setAttribute('data-x', '' + x); // prettier-ignore
-      target.setAttribute('data-y', '' + y); // prettier-ignore
+      onmove: (event) => { 
+      const target = event.target; 
+      const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx; 
+      const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+      target.style.webkitTransform = target.style.transform = `translate(${x}px, ${y}px)`;
+      target.setAttribute('data-x', '' + x); 
+      target.setAttribute('data-y', '' + y); 
     }
-  }); // prettier-ignore
-  return <div className='calculatorDiv' ref={ref} id='calculatorDiv' style={{position: "absolute", width: "210px", height: "316px", visibility: "hidden"}}></div> // prettier-ignore
+  }); 
+  return <div className='calculatorDiv' ref={ref} id='calculatorDiv' style={{position: "absolute", width: "210px", height: "316px", visibility: "hidden"}}></div> 
 };
 
 export default Calculator;

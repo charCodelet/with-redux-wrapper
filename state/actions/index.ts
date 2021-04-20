@@ -41,7 +41,7 @@ interface TabsSuccessServerSideAction {
   type: ActionType.TABS_SUCCESS_SERVER_SIDE;
   payload: {
     tabsData: any,
-    nestedId: string
+    nestedId: string,
   }
 }
 

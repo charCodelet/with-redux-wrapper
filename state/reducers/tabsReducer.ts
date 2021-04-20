@@ -9,6 +9,7 @@ export interface RepositoriesState {
   blockNumber: string;
   tabsData?: any;
   nestedId?: any;
+  ref?: any;
   // fetchAllItems?: any;
 }
 
