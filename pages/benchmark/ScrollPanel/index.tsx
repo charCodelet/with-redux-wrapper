@@ -1,6 +1,6 @@
 import React, { ReactElement, useRef, useState, useEffect, useLayoutEffect } from 'react';
 import useResizeObserver from 'use-resize-observer';
-import { Box, ScrollButton } from '@coreym/benchmark';
+import { ThemeProvider, Box, ScrollButton } from '@coreym/benchmark';
 import * as styles from './ScrollPanels.styles';
 
 // eslint-disable-next-line
@@ -76,35 +76,37 @@ const ScrollPanel = React.forwardRef((props: any, forwardedRef: any): ReactEleme
     });   
   }
   return (
-    <Box position="absolute" {...props}>
-      {/* prettier-ignore */}
-      <Box
-        onScroll={handleScroll}
-        overflowY="auto"
-        height="100%"
-        sx={styles.scrollpanel}
-        ref={panelRef}
-      >
-        <div ref={scrollRef}>{props.children}</div>
+    <ThemeProvider>
+      <Box position="absolute" {...props}>
+        {/* prettier-ignore */}
+        <Box
+          onScroll={handleScroll}
+          overflowY="auto"
+          height="100%"
+          sx={styles.scrollpanel}
+          ref={panelRef}
+        >
+          <div ref={scrollRef}>{props.children}</div>
+        </Box>
+        <Box
+          sx={{
+            visibility: props.hasIndicator && isOverflown && click < 2 ? 'visible' : 'hidden',
+            opacity: props.hasIndicator && isOverflown && click < 2 ? '1' : '0',
+            transition: 'visibility 1000ms linear 0s, opacity 1000ms',
+          }}
+        >
+          <ScrollButton
+            onClick={handleClick}
+            direction={isBottom ? 'up' : 'down'}
+            position="absolute"
+            opacity=".85"
+            bottom="1em"
+            right="2em"
+            transition="opacity 4s"
+          />
+        </Box>
       </Box>
-      <Box
-        sx={{
-          visibility: props.hasIndicator && isOverflown && click < 2 ? 'visible' : 'hidden',
-          opacity: props.hasIndicator && isOverflown && click < 2 ? '1' : '0',
-          transition: 'visibility 1000ms linear 0s, opacity 1000ms',
-        }}
-      >
-        <ScrollButton
-          onClick={handleClick}
-          direction={isBottom ? 'up' : 'down'}
-          position="absolute"
-          opacity=".85"
-          bottom="1em"
-          right="2em"
-          transition="opacity 4s"
-        />
-      </Box>
-    </Box>
+    </ThemeProvider>
   );
 });
 

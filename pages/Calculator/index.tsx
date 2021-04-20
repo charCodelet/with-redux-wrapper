@@ -3,7 +3,6 @@ import React, { ReactElement, useEffect, useRef } from 'react';
 import { useActions } from '../../hooks/useActions';
 import interact from 'interactjs';
 
-// eslint-disable-next-line
 declare const window: any;
 const Calculator = (): ReactElement => {
   const { fetchCalculatorElement } = useActions();
@@ -25,7 +24,7 @@ const Calculator = (): ReactElement => {
   }, []);
   interact('.calculatorDiv').draggable({
       restrict: {
-        restriction: 'parent',
+        // restriction: 'parent', // this makes it so you can only go in the x direction...
         elementRect: { left: 0, top: 0, right: 1, bottom: 1 }
       },
       onmove: (event) => { 

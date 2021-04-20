@@ -7,13 +7,15 @@ import ToolbarRenderer from './Toolbar';
 import Head from 'next/head';
 import dynamic from "next/dynamic";
 
+// const GlobalProvider = dynamic(() => import('./../pages/benchmark/GlobalProvider'), { ssr: false });
+// const themes = dynamic(() => import('./../pages/benchmark/themes'), { ssr: false });
 const ScrollPanel = dynamic(() => import("./../pages/benchmark/ScrollPanel"), { ssr: false });
-
 const CalculatorServer = dynamic(() => import("./Calculator"), { ssr: false });
 
 const WrappedApp = ({ Component, pageProps }) => {
   const ref = useRef(null);
   const { theme } = useTypedSelector((state) => state.theme);
+  // console.log(theme)
   return (
     <> 
       <Head>
@@ -21,18 +23,18 @@ const WrappedApp = ({ Component, pageProps }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       </Head>
       <CalculatorServer />
-      <GlobalProvider theme={themes[theme]}>
-        <ScrollPanel ref={ref} hasIndicator height="100%" width="100%" overflow="hidden">
-            <div ref={ref} id="scrollWrapper">
-              <Box style={{ zIndex: 1, position: 'sticky' }}>
-                <ToolbarRenderer />
-                <TabsRenderer /> 
-              </Box>
-              <canvas id="can" style={{zIndex: 1, display: "none", position: "absolute", border: "2px solid"}}/>
-              <Component {...pageProps} />
-            </div>
-          </ScrollPanel> 
-      </GlobalProvider>
+      <ScrollPanel ref={ref} hasIndicator height="100%" width="100%" overflow="hidden">
+        <GlobalProvider theme={themes[theme]}>
+          <div ref={ref} id="scrollWrapper">
+            <Box style={{ zIndex: 1, position: 'sticky' }}>
+              <ToolbarRenderer />
+              <TabsRenderer /> 
+            </Box>
+            <canvas id="can" style={{zIndex: 1, display: "none", position: "absolute", border: "2px solid"}}/>
+            <Component {...pageProps} />
+          </div>  
+        </GlobalProvider>
+      </ScrollPanel> 
     </>
   )
 }

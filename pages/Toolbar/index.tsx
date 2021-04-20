@@ -5,15 +5,15 @@ import { useActions } from '../../hooks/useActions';
 import { Toolbar } from '@coreym/benchmark';
 
 // eslint-disable-next-line
-const ToolbarRenderer = (tabNums: any): ReactElement | null => {
+const ToolbarRenderer = (): ReactElement | null => {
   const [num, setNum] = useState(1800 / 60);
   const router = useRouter();
   const intervalRef = useRef(null);
   useEffect(() => {
-    intervalRef.current = setInterval(decreaseNum, 1000 * 60);
+    intervalRef.current = setInterval(decreaseNum, (1000 * 60 / 60).toFixed(2));
     return () => clearInterval(intervalRef.current);
   }, []);
-  const decreaseNum = () => setNum((prev) => prev - 1);
+  const decreaseNum = () => setNum((prev) => (prev - 1/60).toFixed(2));
   const { calculator } = useTypedSelector((state) => state.calculator);
   const { scratch } = useTypedSelector((state) => state.scratch);
   const { theme } = useTypedSelector((state) => state.theme);
@@ -42,7 +42,7 @@ const ToolbarRenderer = (tabNums: any): ReactElement | null => {
   };
   const onClickTheme = () => setTheme(theme);
   var canvas: HTMLElement; 
-  var ctx: { beginPath: () => void; moveTo: (arg0: number, arg1: number) => void; lineTo: (arg0: number, arg1: number) => void; strokeStyle: string; lineWidth: number; stroke: () => void; closePath: () => void; fillStyle: string; fillRect: (arg0: number, arg1: number, arg2: number, arg3: number) => void; };
+  var ctx: { getContext: (arg1: string) => void; clearRect: (arg0: number, arg1: number, arg2: number, arg3: number) => void; beginPath: () => void; moveTo: (arg0: number, arg1: number) => void; lineTo: (arg0: number, arg1: number) => void; strokeStyle: string; lineWidth: number; stroke: () => void; closePath: () => void; fillStyle: string; fillRect: (arg0: number, arg1: number, arg2: number, arg3: number) => void; };
   var flag = false;
   var prevX = 0;
   var currX = 0;
@@ -60,9 +60,6 @@ const ToolbarRenderer = (tabNums: any): ReactElement | null => {
   }
   const onClickEraser = () => {
     switch ("white") {
-      case "yellow":
-          x = "yellow";
-          break;
       case "white":
           x = "white";
           break;
@@ -111,7 +108,7 @@ const ToolbarRenderer = (tabNums: any): ReactElement | null => {
       }
     }
     canvas = document.getElementById('can');
-    ctx = canvas?.getContext("2d");
+    ctx = canvas.getContext("2d");
     canvas.style.display = "block";
     canvas.width = window.innerWidth; //canvas.width; // window.innerWidth;
     canvas.height = window.innerHeight; //canvas.height; // window.innerHeight;
@@ -124,7 +121,6 @@ const ToolbarRenderer = (tabNums: any): ReactElement | null => {
     getScratch(!scratch) 
   };
   const onClickHelp = () => {
-    console.log(router.pathname, `--> router.pathname`);
     if (router.pathname == '/') {
       router.push('/help');
     } else {
@@ -132,15 +128,14 @@ const ToolbarRenderer = (tabNums: any): ReactElement | null => {
     }
   };
   const nextItem = () => {
+    console.log(tabs.tabsData[tabs.tabNumber + 1], `--> tabs`);
     getTabNumber(tabs.tabNumber + 1);
-    getBlockNumber(tabNums.tabNums[tabs.tabNumber + 1]);
-    fetchItem2(`item/${tabNums.tabNums[tabs.tabNumber + 1]}`);
+    getBlockNumber(tabs.tabsData[tabs.tabNumber + 1].id);
     multipleSelect('multiple_clear', (tabs.tabNumber + 1).toString());
   };
   const prevItem = () => {
     getTabNumber(tabs.tabNumber - 1);
-    getBlockNumber(tabNums.tabNums[tabs.tabNumber - 1]);
-    fetchItem2(`item/${tabNums.tabNums[tabs.tabNumber - 1]}`);
+    getBlockNumber(tabs.tabsData[tabs.tabNumber - 1].id);
     multipleSelect('multiple_clear', (tabs.tabNumber - 1).toString());
   };
   // console.log(tabs, `--> tabs toolbar`);
@@ -149,9 +144,9 @@ const ToolbarRenderer = (tabNums: any): ReactElement | null => {
   return (
     data && (
       <Toolbar
-        id={id} // dom
+        id={id} 
         label={toolbar?.title}
-        blockTitle={'Cognitive Demo Block 1'} // data
+        blockTitle={tabs?.title + 'WE NEED TO ADD TITLE TO REDUX!!! Cognitive Demo Block 1'} 
         itemTitle={tabs.blockNumber}
         language={tools?.bilingual?.language}
         progress={progressFormula}
