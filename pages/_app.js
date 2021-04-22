@@ -26,7 +26,7 @@ const WrappedApp = ({ Component, pageProps }) => {
       <ScrollPanel ref={ref} hasIndicator height="100%" width="100%" overflow="hidden">
         <GlobalProvider theme={themes[theme]}>
           <div style={{userSelect: 'none'}} ref={ref} id="scrollWrapper">
-            <Box style={{ zIndex: 1, position: 'sticky' }}>
+            <Box style={{ zIndex: 1, position: 'sticky', overflow: 'hidden' }}>
               <ToolbarRenderer />
               <TabsRenderer /> 
             </Box>

@@ -244,7 +244,7 @@ const ToolbarRenderer = (): ReactElement | null => {
         isDisabled={!toolbar?.enabled}
         isHelpDisabled={tools?.help?.enabled}
         isThemeDisabled={!tools?.theme?.enabled}
-        isZoomInDisabled={!tools?.zoomIn?.enabled}
+        isZoomInDisabled={/*!tools?.zoomIn?.enabled*/zoom == 1.3}
         isZoomOutDisabled={zoom == 1.0}
         isLangDisabled={!tools?.bilingual?.enabled}
         isTTSDisabled={!tools?.readAloud?.enabled}
