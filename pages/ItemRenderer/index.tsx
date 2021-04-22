@@ -4,9 +4,9 @@ import { WidgetMap } from '../../interfaces/renderer/WidgetMap';
 import { /*Item,*/ Widget } from '../../types/src/stateMachineTypes';
 
 // eslint-disable-next-line
-const ItemRenderer = (item1: { item: Widget; embeddedSimpleItemIdMap: any }): ReactElement | null => {
+const ItemRenderer = (item1: { item: Widget; embeddedSimpleItemIdMap: any; tabNumber: any  }): ReactElement | null => {
   // console.log('itemRenderer');
-  const { item, embeddedSimpleItemIdMap } = item1;
+  const { item, embeddedSimpleItemIdMap, tabNumber } = item1;
   // console.log(item, `--> item`);
   // console.log(embeddedSimpleItemIdMap, `--> embeddedSimpleItemIdMap`);
   // console.log('embeddedSimpleItemIdMap is always the same map...this is just really clumsy, but it might be hard to change without getting into Papago...');
@@ -54,16 +54,15 @@ const ItemRenderer = (item1: { item: Widget; embeddedSimpleItemIdMap: any }): Re
     { ...item, ...props, key: Math.random() * 100 },
     // prettier-ignore
     children && children.length && children.map((child) => { 
-        // console.log(child, `--> child`);
-        return typeof child === 'string' ? `${child}` : ItemRenderer({ item: child, embeddedSimpleItemIdMap: embeddedSimpleItemIdMap })
+        return typeof child === 'string' ? `${child}` : ItemRenderer({ item: child, embeddedSimpleItemIdMap: embeddedSimpleItemIdMap, tabNumber: tabNumber })
       }),
   );
 };
 
-export default ItemRenderer;
+// export default ItemRenderer;
 
-// export default React.memo(ItemRenderer, (/*prevProps, nextProps*/) => {
-//   // console.log(prevProps, `--> prevProps`);
-//   // console.log(nextProps, `--> nextProps`);
-//   return true;
-// });
+export default React.memo(ItemRenderer, (prevProps, nextProps) => {
+  // console.log(prevProps.tabNumber, '==', nextProps.tabNumber);
+  return prevProps.tabNumber == nextProps.tabNumber;
+});
+

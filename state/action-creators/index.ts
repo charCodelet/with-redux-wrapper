@@ -212,6 +212,17 @@ export const singleSelect = (action: string, optionId?: string) => {
   }
 };
 
+// eslint-disable-next-line
+export const dropdownSelect = (action: string, value?: string) => {
+  // console.log(action, `--> action`);
+  return (dispatch: Dispatch<Action>) => {
+      dispatch({
+        type: ActionType.DROPDOWN_SELECT,
+        payload: value,
+      });
+  };
+};
+
 export const setTheme = (theme: string) => {
   // eslint-disable-next-line
 return (dispatch: Dispatch<Action>) => {
@@ -252,3 +263,16 @@ return (dispatch: Dispatch<Action>) => {
     });
   };
 };
+
+// eslint-disable-next-line
+export const textInputValue = (text: string | number) => {
+  // console.log(text, `--> text`);
+  // eslint-disable-next-line
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.TEXT_INPUT_VALUE,
+      payload: text,
+    });
+  };
+};
+

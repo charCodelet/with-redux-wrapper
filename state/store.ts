@@ -13,6 +13,8 @@ import getScratchReducer from './reducers/getScratchReducer';
 import changeZoomReducer from './reducers/changeZoomReducer';
 import fetchCalculatorElementReducer from './reducers/fetchCalculatorElementReducer';
 import fetchAllReducer from './reducers/fetchAllReducer';
+import dropdownSelectReducer from './reducers/dropdownSelectReducer';
+import textInputValueReducer from './reducers/textInputValueReducer';
 
 const combinedReducer = combineReducers({
   tools: toolsReducer,
@@ -24,9 +26,11 @@ const combinedReducer = combineReducers({
   singleSelectChoices: singleSelect,
   theme: setThemeReducer,
   scratch: getScratchReducer,
+  dropdownSelectChoice: dropdownSelectReducer,
   zoom: changeZoomReducer,
   calculator: fetchCalculatorElementReducer,
   fetchAllItems: fetchAllReducer,
+  textInputRef: textInputValueReducer,
 });
 
 

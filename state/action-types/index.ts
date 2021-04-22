@@ -28,4 +28,6 @@ export enum ActionType {
   GET_SCRATCH = 'get_scratch',
   CHANGE_ZOOM = 'change_zoom',
   FETCH_CALCULATOR_ELEMENT = 'fetch_calculator_element',
+  DROPDOWN_SELECT = 'dropdown_select',
+  TEXT_INPUT_VALUE = 'text_input_value',
 }

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 308 87">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #6b6b6b;
+      }
+
+      .cls-2, .cls-4 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        stroke-width: 0.5px;
+      }
+
+      .cls-4 {
+        font-size: 37.86px;
+        font-family: Calibri, Calibri;
+      }
+
+      .cls-5 {
+        letter-spacing: -0.01em;
+      }
+
+      .cls-6 {
+        letter-spacing: 0em;
+      }
+
+      .cls-7 {
+        letter-spacing: 0em;
+      }
+
+      .cls-8 {
+        letter-spacing: -0.02em;
+      }
+    </style>
+  </defs>
+  <title>Asset 43</title>
+  <g id="Layer_2" data-name="Layer 2">
+    <g id="Layer_1-2" data-name="Layer 1">
+      <g>
+        <rect width="308" height="87"/>
+        <g>
+          <path class="cls-1" d="M154.46,84.15l.11-57.33a6.09,6.09,0,0,1,6.15-6H291.54a6.1,6.1,0,0,1,6.16,6l-.11,57.33Z"/>
+          <path class="cls-2" d="M291.54,21.06a5.84,5.84,0,0,1,5.91,5.76l-.11,57.08H154.71l.11-57.08a5.84,5.84,0,0,1,5.9-5.76H291.54m0-.5H160.72a6.33,6.33,0,0,0-6.4,6.26l-.11,57.58H297.84L298,26.82a6.33,6.33,0,0,0-6.41-6.26Z"/>
+        </g>
+        <path id="normal-contrast" class="cls-3" d="M10,84.44V11.16a6.57,6.57,0,0,1,6.42-6.72H147.6A6.57,6.57,0,0,1,154,11.16V84.44"/>
+        <text class="cls-4" transform="translate(41.48 60.25) scale(1.02 1)">S<tspan class="cls-5" x="17.4" y="0">t</tspan><tspan x="29.71" y="0">o</tspan><tspan class="cls-6" x="49.68" y="0">r</tspan><tspan class="cls-7" x="63.06" y="0">y</tspan></text>
+        <text class="cls-4" transform="translate(181.8 66.08) scale(1.02 1)"><tspan class="cls-8">P</tspan><tspan x="18.8" y="0">oem</tspan></text>
+        <rect class="cls-2" y="83.94" width="10.04" height="0.5"/>
+        <rect class="cls-2" x="297.95" y="83.92" width="10.05" height="0.5"/>
+      </g>
+    </g>
+  </g>
+</svg>

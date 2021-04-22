@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 308 80.25">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f5f5f5;
+      }
+
+      .cls-2 {
+        fill: #ababab;
+      }
+
+      .cls-3 {
+        fill: #fff;
+        stroke: #ababab;
+        stroke-miterlimit: 10;
+        stroke-width: 0.5px;
+      }
+
+      .cls-4, .cls-7 {
+        font-size: 40.27px;
+        font-family: Calibri, Calibri;
+      }
+
+      .cls-5 {
+        letter-spacing: -0.01em;
+      }
+
+      .cls-6 {
+        letter-spacing: 0em;
+      }
+
+      .cls-7 {
+        letter-spacing: -0.02em;
+      }
+
+      .cls-8 {
+        letter-spacing: 0em;
+      }
+    </style>
+  </defs>
+  <title>high</title>
+  <g id="Layer_2" data-name="Layer 2">
+    <g id="Layer_1-2" data-name="Layer 1">
+      <g id="high">
+        <g>
+          <path class="cls-1" d="M154.15,80l.11-61.51A6.33,6.33,0,0,1,160.43,12H291.59a6.33,6.33,0,0,1,6.17,6.47L297.65,80Z"/>
+          <path class="cls-2" d="M291.59,12.25a6.09,6.09,0,0,1,5.92,6.22l-.11,61.26h-143l.1-61.26a6.09,6.09,0,0,1,5.92-6.22H291.59m0-.5H160.43A6.58,6.58,0,0,0,154,18.47l-.11,61.76h144L298,18.47a6.58,6.58,0,0,0-6.42-6.72Z"/>
+        </g>
+        <path id="normal-contrast" class="cls-3" d="M10,80.25V7A6.57,6.57,0,0,1,16.37.25H147.52A6.58,6.58,0,0,1,154,7V80.25"/>
+        <rect class="cls-2" y="79.75" width="9.95" height="0.5"/>
+        <rect class="cls-2" x="298.05" y="79.75" width="9.95" height="0.5"/>
+        <text class="cls-4" transform="translate(41.21 54.53) scale(0.96 1)">S<tspan class="cls-5" x="18.5" y="0">t</tspan><tspan x="31.6" y="0">o</tspan><tspan class="cls-6" x="52.84" y="0">r</tspan><tspan x="67.07" y="0">y</tspan></text>
+        <text class="cls-7" transform="translate(181.37 60.73) scale(0.96 1)">P<tspan class="cls-8" x="20" y="0">oem</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -25,13 +25,13 @@ const WrappedApp = ({ Component, pageProps }) => {
       <CalculatorServer />
       <ScrollPanel ref={ref} hasIndicator height="100%" width="100%" overflow="hidden">
         <GlobalProvider theme={themes[theme]}>
-          <div ref={ref} id="scrollWrapper">
+          <div style={{userSelect: 'none'}} ref={ref} id="scrollWrapper">
             <Box style={{ zIndex: 1, position: 'sticky' }}>
               <ToolbarRenderer />
               <TabsRenderer /> 
             </Box>
-            <canvas id="can" style={{zIndex: 1, display: "none", position: "absolute", border: "2px solid"}}/>
             <Component {...pageProps} />
+            <canvas id="can" style={{display: "none", position: "absolute", top: '0', border: "2px solid"}}/>
           </div>  
         </GlobalProvider>
       </ScrollPanel> 

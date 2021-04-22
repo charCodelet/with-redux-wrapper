@@ -42,6 +42,7 @@ interface TabsSuccessServerSideAction {
   payload: {
     tabsData: any,
     nestedId: string,
+    blockTitle: string,
   }
 }
 
@@ -144,6 +145,15 @@ interface FetchAllItemsAction {
   payload: any;
 }
 
+interface DropdownSelectAction {
+  type: ActionType.DROPDOWN_SELECT;
+  payload: string;
+}
+
+interface TextInputValueAction {
+  type: ActionType.TEXT_INPUT_VALUE;
+  payload: any;
+}
 
 export type Action =
   | FetchAllItemsAction 
@@ -175,4 +185,6 @@ export type Action =
   | ChangeZoomAction
   | FetchCalculatorAction
   | TabsSuccessServerSideAction
+  | DropdownSelectAction
+  | TextInputValueAction
  
