@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect, useRef } from 'react';
+import React, { ReactElement, useState, useLayoutEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useActions';
@@ -27,14 +27,20 @@ const ToolbarRenderer = (): ReactElement | null => {
   const [num, setNum] = useState(1800 / 60);
   const router = useRouter();
   const intervalRef = useRef(null);
-  useEffect(() => {
+
+  useLayoutEffect(() => {
     intervalRef.current = setInterval(decreaseNum, (1000 * 60 / 60).toFixed(2));
     return () => clearInterval(intervalRef.current);
   }, []);
-
-  
-
   const decreaseNum = () => setNum((prev) => (prev - 1/60).toFixed(2));
+
+  // useEffect(() => {
+  //   intervalRef.current = setInterval(decreaseNum, (1000 * 60));
+  //   return () => clearInterval(intervalRef.current);
+  // }, []);
+  // const decreaseNum = () => setNum((prev) => (prev - 1));
+
+
   const { calculator } = useTypedSelector((state) => state.calculator);
   const { scratch } = useTypedSelector((state) => state.scratch);
   const { theme } = useTypedSelector((state) => state.theme);

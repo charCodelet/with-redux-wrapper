@@ -7,14 +7,13 @@ import { Widget } from '../../../types/src/stateMachineTypes/Widget';
 
 export const TextInputConnector = (widget: Widget): ReactElement | null => {
   const [text, setText] = useState<String | Number>('');
-  const { entered } = useTypedSelector((state) => state.textInputRef);
-  const { textInputValue } = useActions();
-  const handleSelect = (optionId: string | number) => {
-    // console.log(optionId, `--> optionId`);
-    textInputValue(optionId);
+  const { tabs } = useTypedSelector((state) => state);
+  const { multipleSelect } = useActions();
+  const handleSelect = (optionId: string) => {
+    multipleSelect('text_input_value', optionId, tabs.tabNumber);
     setText(optionId); 
   }
-  console.log(entered, `--> entered`);
+  // console.log(entered, `--> entered`);
   return (
     <TextInput onChange={handleSelect} value={text/*entered*/} /*type={'search'}*/>
       {widget.children}

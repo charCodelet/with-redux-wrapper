@@ -30,10 +30,10 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
 
 const App: React.FC = (): ReactElement => {
   const { zoom } = useTypedSelector((state) => state.zoom);
-  console.log(zoom, `--> zoom`);
+  // alert('wow! the translate done fucked everything up yall!')
   return ( 
     // <SSRProvider>     
-      <section id="pointerTest" style={{ /*overflow: 'hidden',*/ position: 'relative', transform: `scale(${zoom.toFixed(2)}) translate(${zoom.toFixed(2)}rem)`}}>
+      <section id="pointerTest" style={{ overflow: 'hidden', position: 'relative', transform: `scale(${zoom.toFixed(2)})` /*translate(${zoom.toFixed(2)}rem)`*/}}>
         <AssessmentRenderer /> 
       </section>   
   //  </SSRProvider>

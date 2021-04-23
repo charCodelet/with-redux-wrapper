@@ -6,15 +6,22 @@ import { Widget } from '../../../types/src/stateMachineTypes/Widget';
 
 export const SingleSelectConnector = (widget: Widget): ReactElement | null => {
   // console.log('SingleSelectConnector');
-  const { selected, eliminated } = useTypedSelector((state) => state.singleSelectChoices);
+  const { selected, eliminated } = useTypedSelector((state) => state.multipleSelectChoices);
+  const { tabs } = useTypedSelector((state) => state);
   // console.log(selected, `--> selected`);
   // console.log(eliminated, `--> eliminated`);
-  const { singleSelect } = useActions();
+  const { singleSelect, multipleSelect } = useActions();
+  // const handleSelect = (optionId: string) => {
+  //   singleSelect('single_select', optionId);
+  // };
+  // const handleEliminate = (optionId: string) => {
+  //   singleSelect('single_eliminate', optionId);
+  // };
   const handleSelect = (optionId: string) => {
-    singleSelect('single_select', optionId);
+    multipleSelect('multiple_select', optionId, tabs.tabNumber);
   };
   const handleEliminate = (optionId: string) => {
-    singleSelect('single_eliminate', optionId);
+    multipleSelect('multiple_eliminate', optionId, tabs.tabNumber);
   };
   const handleClear = () => {
     singleSelect('single_clear');
@@ -24,7 +31,7 @@ export const SingleSelectConnector = (widget: Widget): ReactElement | null => {
       onClear={handleClear}
       onChange={handleSelect}
       onEliminate={handleEliminate}
-      selected={selected}
+      selected={selected[0]}
       eliminated={eliminated}
       {...widget.props}
     >

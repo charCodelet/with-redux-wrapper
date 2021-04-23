@@ -147,15 +147,40 @@ return (dispatch: Dispatch<Action>) => {
 };
 
 // eslint-disable-next-line
-export const multipleSelect = (action: string, optionId?: string) => {
+export const multipleSelect = (action: string, optionId?: string, tabNumber?: number) => {
   // console.log(action, `--> action`);
   switch (action) {
+    case 'dropdown_select':
+      return (dispatch: Dispatch<Action>/*, getState: () => any*/) => {
+        dispatch({
+          type: ActionType.DROPDOWN_SELECT,
+          payload: {
+            optionId,
+            tabNumber
+          }
+        });
+        // console.log(getState().multipleSelectChoices);
+      }; 
+    case 'text_input_value':
+      return (dispatch: Dispatch<Action>/*, getState: () => any*/) => {
+        dispatch({
+          type: ActionType.TEXT_INPUT_VALUE,
+          payload: {
+            optionId,
+            tabNumber
+          }
+        });
+        // console.log(getState().multipleSelectChoices);
+      }; 
     case 'multiple_select':
       // eslint-disable-next-line
     return (dispatch: Dispatch<Action>/*, getState: () => any*/) => {
         dispatch({
           type: ActionType.MULTIPLE_SELECT,
-          payload: optionId,
+          payload: {
+            optionId,
+            tabNumber
+          }
         });
         // console.log(getState().multipleSelectChoices);
       };
@@ -164,7 +189,10 @@ export const multipleSelect = (action: string, optionId?: string) => {
     return (dispatch: Dispatch<Action>/*, getState: () => any*/) => {
         dispatch({
           type: ActionType.MULTIPLE_ELIMINATE,
-          payload: optionId,
+          payload: {
+            optionId,
+            tabNumber
+          }
         });
         // console.log(getState().multipleSelectChoices);
       };

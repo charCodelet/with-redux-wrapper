@@ -11,6 +11,7 @@ const initialState = {
 };
 
 const fetchAllReducer = (state: RepositoriesState = initialState, action: Action): RepositoriesState => {
+  // console.log(state, `--> state`);
   switch (action.type) {
     case ActionType.FETCH_ALL_ITEMS:
       return { ...state, fetchAllItems: action.payload };

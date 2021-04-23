@@ -34,7 +34,7 @@ const tabsReducer = (state: RepositoriesState = initialState, action: Action): R
       // console.log(action.payload, `--> action.payload TABS_SUCCESS_SERVER_SIDE`);
       // console.log(action.payload.tabsData, `--> action.payload.tabsData`);
       // console.log(action.payload.nestedId, `--> action.payload.nestedId`);
-      return { ...state, loading: false, error: null, tabsData: [...action.payload.tabsData, {id: action.payload.nestedId}], nestedId: action.payload.nestedId, blockTitle: action.payload.blockTitle };
+      return { ...state, tabNumber: state.tabNumber, loading: false, error: null, tabsData: [...action.payload.tabsData, {id: action.payload.nestedId}], nestedId: action.payload.nestedId, blockTitle: action.payload.blockTitle };
     // case 'fetch_all_items':
     //   console.log(action.payload, `--> action.payload fetch_all_items`);
     //   return { ...state, fetchAllItems: action.payload };

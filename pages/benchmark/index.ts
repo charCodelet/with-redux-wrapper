@@ -7,6 +7,7 @@ import TextInput from './TextInput';
 import ThemeProvider from './ThemeProvider';
 import themes from './themes';
 import Global from './Global';
+import ListOfUnansweredItems from './ListOfUnansweredItems';
 import * as components from '@coreym/benchmark';
 
 export default {
@@ -18,6 +19,7 @@ export default {
   TextInput,
   Global,
   themes,
+  ListOfUnansweredItems,
   ThemeProvider,
   Math
 };

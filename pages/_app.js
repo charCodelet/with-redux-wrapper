@@ -7,15 +7,12 @@ import ToolbarRenderer from './Toolbar';
 import Head from 'next/head';
 import dynamic from "next/dynamic";
 
-// const GlobalProvider = dynamic(() => import('./../pages/benchmark/GlobalProvider'), { ssr: false });
-// const themes = dynamic(() => import('./../pages/benchmark/themes'), { ssr: false });
 const ScrollPanel = dynamic(() => import("./../pages/benchmark/ScrollPanel"), { ssr: false });
 const CalculatorServer = dynamic(() => import("./Calculator"), { ssr: false });
 
 const WrappedApp = ({ Component, pageProps }) => {
   const ref = useRef(null);
   const { theme } = useTypedSelector((state) => state.theme);
-  // console.log(theme)
   return (
     <> 
       <Head>
@@ -23,7 +20,7 @@ const WrappedApp = ({ Component, pageProps }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       </Head>
       <CalculatorServer />
-      <ScrollPanel ref={ref} hasIndicator height="100%" width="100%" overflow="hidden">
+      <ScrollPanel ref={ref} height="100%" width="100%" overflow="hidden">
         <GlobalProvider theme={themes[theme]}>
           <div style={{userSelect: 'none'}} ref={ref} id="scrollWrapper">
             <Box style={{ zIndex: 1, position: 'sticky', overflow: 'hidden' }}>

@@ -7,14 +7,11 @@ import itemsReducer from './reducers/itemsReducer';
 import itemsReducer2 from './reducers/itemsReducer2';
 import startReducer from './reducers/startReducer';
 import multipleSelect from './reducers/multipleSelectReducer';
-import singleSelect from './reducers/singleSelectReducer';
 import setThemeReducer from './reducers/setThemeReducer';
 import getScratchReducer from './reducers/getScratchReducer';
 import changeZoomReducer from './reducers/changeZoomReducer';
 import fetchCalculatorElementReducer from './reducers/fetchCalculatorElementReducer';
 import fetchAllReducer from './reducers/fetchAllReducer';
-import dropdownSelectReducer from './reducers/dropdownSelectReducer';
-import textInputValueReducer from './reducers/textInputValueReducer';
 
 const combinedReducer = combineReducers({
   tools: toolsReducer,
@@ -23,19 +20,16 @@ const combinedReducer = combineReducers({
   item2: itemsReducer2,
   start: startReducer,
   multipleSelectChoices: multipleSelect,
-  singleSelectChoices: singleSelect,
   theme: setThemeReducer,
   scratch: getScratchReducer,
-  dropdownSelectChoice: dropdownSelectReducer,
   zoom: changeZoomReducer,
   calculator: fetchCalculatorElementReducer,
   fetchAllItems: fetchAllReducer,
-  textInputRef: textInputValueReducer,
 });
 
 
 const reducer = (state, action) => {
-  // console.log(state, `--> state`);
+  // console.log(state, `--> state !!!`);
   // console.log(action, `--> action`);
   if (action.type === HYDRATE) {
     const nextState = {

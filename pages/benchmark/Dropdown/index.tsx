@@ -1,29 +1,27 @@
 import React, { ReactElement, useState } from 'react';
 import { Dropdown } from '@coreym/benchmark';
-// import { useTypedSelector } from '../../../hooks/useTypedSelector';
+import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { useActions } from '../../../hooks/useActions';
 import { Widget } from '../../../types/src/stateMachineTypes/Widget';
 
 export const DropdownConnector = (widget: Widget): ReactElement | null => {
   const [selected, setSelected] = useState('');
   const [open, setOpen] = useState(false);
-  const { dropdownSelect } = useActions();
+  const { tabs } = useTypedSelector((state) => state);
+  const { multipleSelect } = useActions();
   function handleClick() {
-    // console.log('click dropdown');
     setOpen(!open);
   }
   function handleClickOutside() {
     setOpen(false);
   }
-
   function handleSelect(value) {
     if (value !== null && value !== undefined) {
       setOpen(false);
       setSelected(value);
-      dropdownSelect('dropdown_select', value);
+      multipleSelect('dropdown_select', value, tabs.tabNumber);
     }
   }
-  // console.log(widget.props, `--> widget.props`);
   return (
     <Dropdown
       isOpen={open}

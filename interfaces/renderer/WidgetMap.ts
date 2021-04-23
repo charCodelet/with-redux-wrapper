@@ -24,7 +24,7 @@ export const WidgetMap = {
   Math: Components.Math,
   List: Components.List,
   ListItem: Components.ListItem,
-  // ListOfUnansweredItems: Components.ListOfUnansweredItems,
+  ListOfUnansweredItems: Components.ListOfUnansweredItems,
   // OpenTimeLeftDialogButton: 'opentimeleftdialogbutton', // 'Components.OpenTimeLeftDialogButton',
   Modal: Components.Modal,
   MultipleSelect: Components.MultipleSelect,

@@ -17,11 +17,12 @@ const ScrollPanel = React.forwardRef((props: any, forwardedRef: any): ReactEleme
   let panelInitHeight = 0;
   let scrollInitHeight = 0;
   useLayoutEffect(() => {
+    // console.log('useLayoutEffect');
     if (scrollRef?.current?.clientHeight && panelRef?.current?.clientHeight) {
       panelInitHeight = panelRef.current.clientHeight;
       scrollInitHeight = scrollRef.current.clientHeight;
-      // console.log('Panel Height: ', panelInitHeight);
-      // console.log('Scroll Height: ', scrollInitHeight);
+      console.log('Panel Height: ', panelInitHeight);
+      console.log('Scroll Height: ', scrollInitHeight);
       setOrigHeight(/*document.getElementById('scrollWrapper')*/ /*forwardedRef &&*/ forwardedRef?.current?.clientHeight);
       if (scrollInitHeight > panelInitHeight) {
         setIsOverflown(true);
@@ -29,11 +30,9 @@ const ScrollPanel = React.forwardRef((props: any, forwardedRef: any): ReactEleme
         setIsOverflown(false);
       } 
     }
-    // return function cleanup() {
-    //   setClick(0);
-    // };  
-  }, [/*forwardedRef && forwardedRef.current &&*/ forwardedRef?.current?.clientHeight/*document.getElementById('scrollWrapper') && document.getElementById('scrollWrapper').clientHeight*/]);
+  }, [forwardedRef?.current?.clientHeight]);
   useEffect(() => {
+    // console.log('useEffect');
     if (scrollHeight > panelHeight) {
       setIsOverflown(true);
     } else {
@@ -75,6 +74,9 @@ const ScrollPanel = React.forwardRef((props: any, forwardedRef: any): ReactEleme
       block: isBottom ? 'start' : 'end',
     });   
   }
+  // console.log(isBottom, `--> isBottom`);
+  // console.log(click, `--> click`);
+  // console.log(isOverflown, `--> isOverflown`);
   return (
     <ThemeProvider>
       <Box position="absolute" {...props}>
@@ -90,8 +92,8 @@ const ScrollPanel = React.forwardRef((props: any, forwardedRef: any): ReactEleme
         </Box>
         <Box
           sx={{
-            visibility: props.hasIndicator && isOverflown && click < 2 ? 'visible' : 'hidden',
-            opacity: props.hasIndicator && isOverflown && click < 2 ? '1' : '0',
+            visibility: /*props.hasIndicator &&*/ isOverflown && click < 2 ? 'visible' : 'hidden',
+            opacity: /*props.hasIndicator &&*/ isOverflown && click < 2 ? '1' : '0',
             transition: 'visibility 1000ms linear 0s, opacity 1000ms',
           }}
         >

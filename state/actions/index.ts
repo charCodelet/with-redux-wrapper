@@ -92,31 +92,22 @@ interface FetchItemErrorAction2 {
 
 interface MultipleSelectAction {
   type: ActionType.MULTIPLE_SELECT;
-  payload: string;
+  payload: {
+    optionId: string,
+    tabNumber: number
+  }
 }
 
 interface MultipleEliminateAction {
   type: ActionType.MULTIPLE_ELIMINATE;
-  payload: string;
+  payload: {
+    optionId: string,
+    tabNumber: number | string
+  }
 }
 
 interface MultipleClearAction {
   type: ActionType.MULTIPLE_CLEAR;
-  payload: string;
-}
-
-interface SingleSelectAction {
-  type: ActionType.SINGLE_SELECT;
-  payload: string;
-}
-
-interface  SingleEliminateAction {
-  type: ActionType.SINGLE_ELIMINATE;
-  payload: string;
-}
-
-interface  SingleClearAction {
-  type: ActionType.SINGLE_CLEAR;
   payload: string;
 }
 
@@ -147,12 +138,18 @@ interface FetchAllItemsAction {
 
 interface DropdownSelectAction {
   type: ActionType.DROPDOWN_SELECT;
-  payload: string;
+  payload: {
+    optionId: string,
+    tabNumber: number | string
+  }
 }
 
 interface TextInputValueAction {
-  type: ActionType.TEXT_INPUT_VALUE;
-  payload: any;
+  type: ActionType.TEXT_INPUT_VALUE,
+  payload: {
+    optionId: string,
+    tabNumber: number | string
+  }
 }
 
 export type Action =
@@ -177,9 +174,6 @@ export type Action =
   | MultipleSelectAction
   | MultipleEliminateAction
   | MultipleClearAction
-  | SingleSelectAction
-  | SingleEliminateAction
-  | SingleClearAction
   | SetThemeAction
   | GetScratchAction
   | ChangeZoomAction
