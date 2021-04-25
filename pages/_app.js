@@ -20,10 +20,10 @@ const WrappedApp = ({ Component, pageProps }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       </Head>
       <CalculatorServer />
-      <ScrollPanel ref={ref} height="100%" width="100%" overflow="hidden">
+      <ScrollPanel ref={ref} height="100%" width="100%" overflowY="auto" overflowX="hidden">
         <GlobalProvider theme={themes[theme]}>
           <div style={{userSelect: 'none'}} ref={ref} id="scrollWrapper">
-            <Box style={{ zIndex: 1, position: 'sticky', overflow: 'hidden' }}>
+            <Box id="bear" style={{ zIndex: 1, position: 'sticky', overflowY: 'auto', overflowX: 'hidden' }}>
               <ToolbarRenderer />
               <TabsRenderer /> 
             </Box>

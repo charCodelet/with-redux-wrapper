@@ -1,4 +1,10 @@
-// todo: use theming
+// // todo: use theming
+// export const stripStyle = {
+//   '::-webkit-scrollbar-thumb': {
+//     width: '20px !important', //for horizontal scrollbar
+//     height: '400px !important', //for vertical scrollbar
+//   }
+// };
 
 const upArrow = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path fill="#fff" d="M21.5 17.5l-9.5-9.5-9.5 9.5-2.5-2.5 12-12 12 12-2.5 2.5z"></path></svg>`;
 const upArrowDisabled = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"><path fill="#e1e1ef" d="M21.5 17.5l-9.5-9.5-9.5 9.5-2.5-2.5 12-12 12 12-2.5 2.5z"></path></svg>`;

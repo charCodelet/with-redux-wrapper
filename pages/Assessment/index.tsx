@@ -11,7 +11,6 @@ const  NewAssessment = (): ReactElement => {
   const itemContent2 = fetchAllItems.fetchAllItems[15/*fetchAllItems.fetchAllItems.length - 1*/]; 
   // console.log(itemContent.content, `--> itemContent.content`);
   // console.log(itemContent2, `--> itemContent2`)
-  
   return (
     <>
     <Flex

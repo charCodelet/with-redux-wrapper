@@ -28,6 +28,23 @@ const ToolbarRenderer = (): ReactElement | null => {
   const router = useRouter();
   const intervalRef = useRef(null);
 
+  // console.log(window.innerHeight, `--> innerHeight`);
+  // console.log(global.innerHeight, `--> innerHeight`);
+  // console.log(window.outerHeight, `--> outerHeight`);
+  // console.log(global.outerHeight, `--> outerHeight`);
+  // console.log(document.body.scrollHeight, `--> scrollHeight`);
+  // console.log(document.body.clientHeight, `--> clientHeight`);
+  
+  // if(document.getElementById('panelRef')) {
+  //   let atBottom = document.getElementById('panelRef').scrollHeight - Math.abs(document.getElementById('panelRef').scrollTop) === document.getElementById('panelRef').clientHeight;
+  //   console.log(document.getElementById('panelRef').scrollHeight, `--> document.getElementById('panelRef').scrollHeight`);
+  //   console.log(Math.abs(document.getElementById('panelRef').scrollTop), `--> document.getElementById('panelRef').scrollHeight`);
+  //   console.log(document.getElementById('panelRef').clientHeight, `--> document.getElementById('panelRef').clientHeight`);
+  //   console.log(atBottom, `--> atBottom`);
+  // }
+
+
+
   useLayoutEffect(() => {
     intervalRef.current = setInterval(decreaseNum, (1000 * 60 / 60).toFixed(2));
     return () => clearInterval(intervalRef.current);
