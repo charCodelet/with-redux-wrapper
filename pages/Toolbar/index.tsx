@@ -16,7 +16,7 @@ currY = 0,
 dot_flag = false;
 
 var x = "black";
-var y = 40;
+var y = 14; // 40;
 
 const ToolbarRenderer = (): ReactElement | null => {
   const { dialogShow } = useTypedSelector((state) => state.dialog);
@@ -36,6 +36,112 @@ const ToolbarRenderer = (): ReactElement | null => {
   const { tabs } = useTypedSelector((state) => state);
   let { zoom } = useTypedSelector((state) => state.zoom);
   const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog } = useActions(); // prettier-ignore
+
+
+  useEffect(() => {
+    canvas = document.getElementById('can');
+    ctx = canvas.getContext("2d");
+    canvas.style.display = "block";
+    canvas.width = window.innerWidth; //canvas.width; 
+    canvas.height = window.innerHeight; //canvas.height; 
+    x = 'black';
+    y = 14;
+    function draw() {
+      setHasDrawn(true);
+      ctx.beginPath();
+      ctx.moveTo(prevX, prevY);
+      ctx.lineTo(currX, currY);
+      ctx.strokeStyle = x; 
+      ctx.lineWidth = y;
+      ctx.stroke();
+      ctx.closePath();
+    }
+    var curriedFn = (res, e) => {
+      if (res == 'down') {
+        prevX = currX;
+        prevY = currY;
+        currX = e.clientX - canvas.offsetLeft;
+        currY = e.clientY - canvas.offsetTop;
+        flag = true;
+        dot_flag = true;
+        if (dot_flag) {
+          ctx.beginPath();   
+          ctx.fillStyle = x;
+          ctx.fillRect(currX, currY, 2, 2);
+          ctx.closePath();
+          dot_flag = false;
+        }
+      }
+      if (res == 'up' || res == "out") {
+        flag = false;
+      }
+      if (res == 'move') {
+        if (flag) {
+          prevX = currX;
+          prevY = currY;
+          currX = e.clientX - canvas.offsetLeft;
+          currY = e.clientY - canvas.offsetTop;
+          draw();
+          setHasDrawn(true);
+          ctx.beginPath();
+          ctx.moveTo(prevX, prevY);
+          ctx.lineTo(currX, currY);
+          ctx.strokeStyle = x; 
+          ctx.lineWidth = y;
+          ctx.stroke();
+          ctx.closePath();
+        }
+      }
+    }
+
+    if(scratch) {
+      console.log('if(',scratch);
+      var bindingMoveEvent = curriedFn.bind(this, 'move');
+      var bindingDownEvent = curriedFn.bind(this, 'down');
+      var bindingUpEvent = curriedFn.bind(this, 'up');
+      canvas.addEventListener("mousemove", bindingMoveEvent, false);
+      canvas.addEventListener("mousedown", bindingDownEvent, false);
+      canvas.addEventListener("mouseup", bindingUpEvent, false);
+      // canvas.addEventListener("mousemove", curriedFn('move'), true);
+      // canvas.addEventListener("mousedown", curriedFn('down'));
+      // canvas.addEventListener("mouseup", curriedFn('up'));
+    }
+   
+    return function cleanupListener() {
+      console.log('remove mousemove listeners...');
+      canvas.removeEventListener("mousemove", bindingMoveEvent, false);
+      canvas.removeEventListener("mousedown", bindingDownEvent, false);
+      canvas.removeEventListener("mouseup", bindingUpEvent, false);
+      // canvas.removeEventListener('mousemove', curriedFn('move'), true)
+      // canvas.removeEventListener('mousedown', curriedFn('down'), false)
+      // canvas.removeEventListener('mouseup', curriedFn('up'), false)
+    }
+  }, [scratch]);
+  
+  // useEffect(() => {
+  //   console.log('run when scratch clicked');
+  //   return () => {
+  //     console.log("cleanup scratch");
+  //   }
+  // }, [scratch]);
+  // useEffect(() => {
+  //   console.log('run when pencil clicked');
+  //   return () => {
+  //     console.log("cleanup pencil");
+  //   }
+  // }, [pencilActive]);
+  // useEffect(() => {
+  //   console.log('run when highlighter clicked');
+  //   return () => {
+  //     console.log("cleanup highlighter");
+  //   }
+  // }, [highlighterActive]);
+  // useEffect(() => {
+  //   console.log('run when eraser clicked');
+  //   return () => {
+  //     console.log("cleanup eraser");
+  //   }
+  // }, [eraserActive]);
 
   useEffect(() => {
     // console.log('useEffect called with no dependencies');
@@ -92,69 +198,91 @@ const ToolbarRenderer = (): ReactElement | null => {
     }
   };
   const onClickTheme = () => setTheme(theme);
+
+
+
+
+
+
+
+
+
+
   const onClickScratch = () => {
     getScratch(!scratch);
-    // if(!scratch) {
-      // console.log('if(!scratch)');
-    setPencilActive(); 
-    onClickPencil();
-    // } else {
-    //   console.log('else');
-    //   document.body.style.cursor = 'default';
-    //   // setPencilActive(); 
-    //   // onClickPencil();
-    // }
-  
+    // setPencilActive(); 
+    // onClickPencil();
   };
   const onClickClear = () => document.getElementById("can").style.display = "none";
   const onClickHighlighter = () => {
     document.body.style.cursor = "url('cursors/Cur_Highlighter_Scratch.cur'), auto"; 
     setNotSelf(true);
-    if(highlighterActive) return;
-    setHighlighterActive();
-    if(pencilActive) {
-      setPencilActive();
-    } else if(eraserActive) {
-      setEraserActive(); 
+    if(highlighterActive) {
+      console.log('if( [highlighterActive]',highlighterActive,`)`)
+      return;
     }
-    x = 'yellow';
+    else {
+      console.log('else( [!highlighterActive]',highlighterActive,`)`)
+      setHighlighterActive();
+      if(pencilActive) {
+        console.log('if( [pencilActive]',pencilActive,`)`)
+        setPencilActive();
+      } else if(eraserActive) {
+        console.log('else if( [eraserActive]',eraserActive,`)`)
+        setEraserActive(); 
+      }
+      x = 'yellow';
+    }
   }
   const onClickEraser = () => {
     document.body.style.cursor = "url('cursors/Cur_Erase_Scratch.cur'), auto"; 
     // canvas.style.pointerEvents = 'none';
     document.getElementById('pointerTest').style.pointerEvents = 'none';
     document.getElementById('pointerTest').style.zIndex = '2';
-    if(eraserActive) return;
-    setEraserActive();
-    if(highlighterActive) {
-      setHighlighterActive();
-    } else if(pencilActive) {
-      setPencilActive(); 
+    if(eraserActive) {
+      console.log('if( [eraserActive]',eraserActive,`)`)
+      return;
     }
-    if(x == 'black') {
-      x = 'white'
-    } else {
-      x = 'black';
+    else {
+      console.log('else( [!eraserActive]',eraserActive,`)`)
+      setEraserActive();
+      if(highlighterActive) {
+        console.log('if( [highlighterActive]',highlighterActive,`)`)
+        setHighlighterActive();
+      } else if(pencilActive) {
+        console.log('else if( [pencilActive]',pencilActive,`)`)
+        setPencilActive(); 
+      }
+      if(x == 'black') {
+        console.log('if( [x]',x,`== black)`)
+        x = 'white'
+      } else {
+        console.log('else( [x]',x,`!= black)`)
+        x = 'black';
+      }
+      x = 'white';
+      y = 14 // 40;
     }
-    x = 'white';
-    y = 40;
   }
   const onClickPencil = () => {
     document.body.style.cursor = "url('cursors/Cur_Draw_Scratch.cur'), auto"; 
+    // setNotSelf(true);
     if(pencilActive && scratch && !notSelf) {
-      console.log('if(',pencilActive,'&&',scratch,'&&',notSelf,')');
+      console.log('if( [pencilActive]',pencilActive,'&& [scratch]',scratch,'&& [notSelf]',notSelf,')');
         canvas.style.pointerEvents = 'none';
         document.body.style.cursor = 'default';
         return;
     }
     else if(pencilActive || notSelf) {
-      console.log('else if(',pencilActive,'!!',notSelf,')');
+      console.log('else if( [pencilActive]',pencilActive,'|| [notSelf]',notSelf,')');
       setPencilActive();
       x = 'black';
       console.log('return');
       if(highlighterActive) {
+        console.log('if( [highlighterActive]',highlighterActive,`)`)
         setHighlighterActive();
       } else if(eraserActive) {
+        console.log('else if( [eraserActive]',eraserActive,`)`)
         setEraserActive(); 
       }
       return;
@@ -162,15 +290,20 @@ const ToolbarRenderer = (): ReactElement | null => {
     else if(hasDrawn) {
       console.log('else if(hasDrawn)');
       canvas.style.pointerEvents = 'all';
+      console.log(pencilActive, `--> pencilActive`);
+      console.log(`\n\n\n`);
+      // document.body.style.cursor = 'default'; // new
       return;
     }
     else {
-      console.log('else(',pencilActive,',',scratch,',',notSelf,')');
+      console.log('else( [pencilActive]',pencilActive,', [scratch]',scratch,', [notSelf]',notSelf,')');
       document.body.style.cursor = "url('cursors/Cur_Draw_Scratch.cur'), auto"; 
       setPencilActive();
       if(highlighterActive) {
+        console.log('if( [highlighterActive]',highlighterActive,`)`)
         setHighlighterActive();
       } else if(eraserActive) {
+        console.log('else if( [eraserActive]',eraserActive,`)`)
         setEraserActive(); 
       }
     }
@@ -189,9 +322,8 @@ const ToolbarRenderer = (): ReactElement | null => {
     canvas.addEventListener("mouseup", function (e) {findxy('up', e)}, false);
     // canvas.addEventListener("mouseout", function (e) {findxy('out', e)}, false);
 
-
     function draw() {
-      // console.log(x, `----> x`);
+      console.log(x, `----> x`);
       setHasDrawn(true);
       ctx.beginPath();
       ctx.moveTo(prevX, prevY);
@@ -230,7 +362,18 @@ const ToolbarRenderer = (): ReactElement | null => {
         }
       }
     }
+
   };
+
+
+
+
+
+
+
+
+
+
   const onClickHelp = () => {
     if (router.pathname == '/') {
       router.push('/help');
