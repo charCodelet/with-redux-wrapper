@@ -12,7 +12,7 @@ class MyDocument extends Document {
           <link rel="stylesheet" type="text/css" href="ti-calculator/TI-30MV_HTML5_EMULATOR-2.0.0.65-prd/css/ti30mv-min.css" />
           <body>
             <Main/>
-            <NextScript />
+            <NextScript /> 
           </body>
         </Head>
       </Html>

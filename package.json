@@ -9,7 +9,13 @@
   "dependencies": {
     "@coreym/benchmark": "0.1.31-hotfix",
     "@emotion/react": "11.1.5",
+    "@emotion/styled": "11.3.0",
+    "@react-aria/dialog": "3.1.2",
+    "@react-aria/focus": "3.2.4",
+    "@react-aria/overlays": "3.6.2",
     "@react-aria/ssr": "3.0.1",
+    "@styled-system/css": "5.1.5",
+    "@styled-system/should-forward-prop": "5.1.5",
     "axios": "0.21.1",
     "cross-env": "7.0.3",
     "interactjs": "1.10.11",
@@ -19,9 +25,11 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
+    "react-roving-tabindex": "3.0.0",
     "redux": "4.0.5",
     "redux-devtools-extension": "2.13.8",
     "redux-thunk": "2.3.0",
+    "styled-system": "5.1.5",
     "swr": "0.5.5",
     "use-resize-observer": "7.0.0"
   },
@@ -29,6 +37,7 @@
   "devDependencies": {
     "@types/node": "14.14.37",
     "@types/react": "17.0.3",
+    "@types/react-dom": "17.0.3",
     "typescript": "4.2.4"
   }
 }

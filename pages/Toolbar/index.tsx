@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useLayoutEffect, useRef } from 'react';
+import React, { ReactElement, useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useActions';
@@ -19,6 +19,8 @@ var x = "black";
 var y = 40;
 
 const ToolbarRenderer = (): ReactElement | null => {
+  const { dialogShow } = useTypedSelector((state) => state.dialog);
+  const [stopTimer, setStopTimer] = useState(false);
   const [highlighterActive, setHighlighterActive] = useToggle();
   const [pencilActive, setPencilActive] = useToggle();
   const [eraserActive, setEraserActive] = useToggle();
@@ -27,49 +29,55 @@ const ToolbarRenderer = (): ReactElement | null => {
   const [num, setNum] = useState(1800 / 60);
   const router = useRouter();
   const intervalRef = useRef(null);
-
-  // console.log(window.innerHeight, `--> innerHeight`);
-  // console.log(global.innerHeight, `--> innerHeight`);
-  // console.log(window.outerHeight, `--> outerHeight`);
-  // console.log(global.outerHeight, `--> outerHeight`);
-  // console.log(document.body.scrollHeight, `--> scrollHeight`);
-  // console.log(document.body.clientHeight, `--> clientHeight`);
-  
-  // if(document.getElementById('panelRef')) {
-  //   let atBottom = document.getElementById('panelRef').scrollHeight - Math.abs(document.getElementById('panelRef').scrollTop) === document.getElementById('panelRef').clientHeight;
-  //   console.log(document.getElementById('panelRef').scrollHeight, `--> document.getElementById('panelRef').scrollHeight`);
-  //   console.log(Math.abs(document.getElementById('panelRef').scrollTop), `--> document.getElementById('panelRef').scrollHeight`);
-  //   console.log(document.getElementById('panelRef').clientHeight, `--> document.getElementById('panelRef').clientHeight`);
-  //   console.log(atBottom, `--> atBottom`);
-  // }
-
-
-
-  useLayoutEffect(() => {
-    intervalRef.current = setInterval(decreaseNum, (1000 * 60 / 60).toFixed(2));
-    return () => clearInterval(intervalRef.current);
-  }, []);
-  const decreaseNum = () => setNum((prev) => (prev - 1/60).toFixed(2));
-
-  // useEffect(() => {
-  //   intervalRef.current = setInterval(decreaseNum, (1000 * 60));
-  //   return () => clearInterval(intervalRef.current);
-  // }, []);
-  // const decreaseNum = () => setNum((prev) => (prev - 1));
-
-
   const { calculator } = useTypedSelector((state) => state.calculator);
   const { scratch } = useTypedSelector((state) => state.scratch);
   const { theme } = useTypedSelector((state) => state.theme);
   const { data } = useTypedSelector((state) => state.tools);
   const { tabs } = useTypedSelector((state) => state);
   let { zoom } = useTypedSelector((state) => state.zoom);
-  const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom } = useActions(); // prettier-ignore
+  const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog } = useActions(); // prettier-ignore
 
-  // useEffect(() => {
-  //  console.log('run because we toggled scratch...');
+  // try {
+  //   console.log(intervalRef.current, `--> intervalRef.current`);
+  // } catch(e) {
+  //   console.log(e.message)
+  // }
+  useEffect(() => {
+    if(stopTimer) {
+      console.log('if( [stopTimer]',stopTimer,')');
+        showDialog(!dialogShow);
+    } 
+    // return () => {
+    //   console.log('called when Timer done no dependencies??');
+    //   clearInterval(intervalRef.current);
+    // }
+  }, []);
   
-  // }, []);
+  useEffect(() => {
+    console.log('useEffect called with tabs as dependency')
+    intervalRef.current = setInterval(decreaseNum, (1000 * 60 / 60 / 60).toFixed(2));
+    return () => {
+      console.log('called when Timer done with tabs there??');
+      clearInterval(intervalRef.current);
+    }
+  }, [tabs]);
+
+  const decreaseNum = () => {
+    setNum(prev => {
+      if(prev == 27) {
+        console.log('if(',prev,' == 27)');
+        console.log(prev, `--> prev`);
+        setStopTimer(true);
+        clearInterval(intervalRef.current);
+        setTimeout(() => {
+          showDialog(dialogShow);
+        })
+        return 30; // (1000 * 60 / 60).toFixed(2)
+      }
+      return (prev - 1/60).toFixed(2);
+    });
+  }
+
 
   const { id, toolbar, tools } = data;
   const progressFormula = (tabs.tabsData.length > 0) ? (100 / tabs.tabsData.length) * (tabs.tabNumber === 0 ? 1 : tabs.tabNumber + 1) : 0 // prettier-ignore

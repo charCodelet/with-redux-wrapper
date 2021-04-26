@@ -116,7 +116,7 @@ interface  SetThemeAction {
   payload: string;
 }
 
-interface  GetScratchAction {
+interface GetScratchAction {
   type: ActionType.GET_SCRATCH;
   payload: boolean;
 }
@@ -152,6 +152,11 @@ interface TextInputValueAction {
   }
 }
 
+interface DialogAction {
+  type: ActionType.DIALOG_SHOW;
+  payload: boolean;
+}
+
 export type Action =
   | FetchAllItemsAction 
   | FetchStartAction
@@ -181,4 +186,5 @@ export type Action =
   | TabsSuccessServerSideAction
   | DropdownSelectAction
   | TextInputValueAction
+  | DialogAction
  

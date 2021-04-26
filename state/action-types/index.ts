@@ -27,4 +27,5 @@ export enum ActionType {
   FETCH_CALCULATOR_ELEMENT = 'fetch_calculator_element',
   DROPDOWN_SELECT = 'dropdown_select',
   TEXT_INPUT_VALUE = 'text_input_value',
+  DIALOG_SHOW = 'dialog_show',
 }

@@ -12,6 +12,7 @@ import getScratchReducer from './reducers/getScratchReducer';
 import changeZoomReducer from './reducers/changeZoomReducer';
 import fetchCalculatorElementReducer from './reducers/fetchCalculatorElementReducer';
 import fetchAllReducer from './reducers/fetchAllReducer';
+import dialogReducer from './reducers/dialogReducer';
 
 const combinedReducer = combineReducers({
   tools: toolsReducer,
@@ -25,6 +26,7 @@ const combinedReducer = combineReducers({
   zoom: changeZoomReducer,
   calculator: fetchCalculatorElementReducer,
   fetchAllItems: fetchAllReducer,
+  dialog: dialogReducer,
 });
 
 

@@ -281,6 +281,16 @@ return (dispatch: Dispatch<Action>) => {
   };
 };
 
+export const showDialog = (dialog: boolean) => {
+  // eslint-disable-next-line
+return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.DIALOG_SHOW,
+      payload: dialog,
+    });
+  };
+};
+
 // eslint-disable-next-line
 export const fetchCalculatorElement = (element: any) => {
   // eslint-disable-next-line
