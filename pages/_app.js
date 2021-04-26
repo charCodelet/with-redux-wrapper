@@ -4,24 +4,25 @@ import { wrapper } from '../state/store'
 // import Component2 from "./Component2";
 // import Together from './Together';
 // import { ScrollPanel } from './../pages/benchmark/ScrollPanel'
-import { /*GlobalProvider,*/ themes, Box } from '@coreym/benchmark';
-// import { GlobalProvider } from './../pages/benchmark/GlobalProvider'
-// import { themes } from './../pages/benchmark/themes'
-// import Box from './../pages/benchmark/Box'
+// import { /*GlobalProvider, themes, Box*/ } from '@coreym/benchmark';
+import GlobalProvider from './../pages/benchmark/GlobalProvider'
+import themes from './../pages/benchmark/themes';
+import {Box} from './../pages/benchmark/Base'
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import TabsRenderer from './TabsRenderer';
 import ToolbarRenderer from './Toolbar';
 import Head from 'next/head';
 import dynamic from "next/dynamic";
 
+
+// const GlobalProvider = dynamic(() => import("./../pages/benchmark/GlobalProvider"), { ssr: false });
+// const themes = dynamic(() => import("./../pages/benchmark/themes"), { ssr: false });
 const Together = dynamic(() => import("./Together"), { ssr: false });
-const GlobalProvider = dynamic(() => import("./../pages/benchmark/GlobalProvider"), { ssr: false });
+// const GlobalProvider = dynamic(() => import("./../pages/benchmark/GlobalProvider"), { ssr: false });
 const ScrollPanel = dynamic(() => import("./../pages/benchmark/ScrollPanel"), { ssr: false });
 const CalculatorServer = dynamic(() => import("./Calculator"), { ssr: false });
-// const ModalProvider = dynamic(() => import("./modalContext"), { ssr: false });
-// const Component2 = dynamic(() => import("./Component2"), { ssr: false });
 
-
+console.log(themes, `--> themes`);
 const WrappedApp = ({ Component, pageProps }) => {
   const ref = useRef(null);
   const { theme } = useTypedSelector((state) => state.theme);

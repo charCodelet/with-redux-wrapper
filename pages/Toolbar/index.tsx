@@ -37,43 +37,36 @@ const ToolbarRenderer = (): ReactElement | null => {
   let { zoom } = useTypedSelector((state) => state.zoom);
   const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog } = useActions(); // prettier-ignore
 
-  // try {
-  //   console.log(intervalRef.current, `--> intervalRef.current`);
-  // } catch(e) {
-  //   console.log(e.message)
-  // }
   useEffect(() => {
+    // console.log('useEffect called with no dependencies');
     if(stopTimer) {
       console.log('if( [stopTimer]',stopTimer,')');
         showDialog(!dialogShow);
     } 
-    // return () => {
-    //   console.log('called when Timer done no dependencies??');
-    //   clearInterval(intervalRef.current);
-    // }
   }, []);
-  
   useEffect(() => {
-    console.log('useEffect called with tabs as dependency')
-    intervalRef.current = setInterval(decreaseNum, (1000 * 60 / 60 / 60).toFixed(2));
+    // console.log('useEffect called with tabs as dependency');
+    intervalRef.current = setInterval(decreaseNum, (1000 * 60 / 60).toFixed(2));
     return () => {
-      console.log('called when Timer done with tabs there??');
+      // console.log('clearing interval for timer');
       clearInterval(intervalRef.current);
+      setNum(30);
     }
   }, [tabs]);
-
   const decreaseNum = () => {
+    // console.log('decreaseNum called');
     setNum(prev => {
-      if(prev == 27) {
-        console.log('if(',prev,' == 27)');
-        console.log(prev, `--> prev`);
+      if(prev == /*27*/0) {
+        // console.log('if(',prev,' == 27)');
         setStopTimer(true);
-        clearInterval(intervalRef.current);
         setTimeout(() => {
+          // console.log('create asynchronous function so we can stop rendering the toolbar BEFORE we update the modal...')
           showDialog(dialogShow);
-        })
-        return 30; // (1000 * 60 / 60).toFixed(2)
+        });
+        clearInterval(intervalRef.current);
+        return 0; 
       }
+      // console.log('else(',prev,'==',(prev - 1/60).toFixed(2))
       return (prev - 1/60).toFixed(2);
     });
   }

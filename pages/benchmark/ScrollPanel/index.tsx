@@ -1,6 +1,7 @@
 import React, { ReactElement, useRef, useState, useEffect, useLayoutEffect } from 'react';
 import useResizeObserver from 'use-resize-observer';
-import { ThemeProvider, Box, ScrollButton } from '@coreym/benchmark';
+import { /*ThemeProvider,*/ Box, ScrollButton } from '@coreym/benchmark';
+import ThemeProvider from '../ThemeProvider';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import * as styles from './ScrollPanels.styles';
 
