@@ -1,20 +1,24 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Dialog from './../../pages/benchmark/Dialog'
-import { ModalContext } from "../modalContext";
+import React, { ReactElement } from 'react';
+import Dialog from '../benchmark/Dialog';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useActions } from '../../hooks/useActions';
 
-const Modal = () => {
-  console.log('click modal');
-  
-  let { modalContent, handleModal, modal } = React.useContext(ModalContext);
-  if (modal) {
-    return ReactDOM.createPortal(
+
+const Modal = (): ReactElement => {
+  const { dialogShow } = useTypedSelector((state: { dialog: any; }) => state.dialog);
+  const { showDialog } = useActions();
+  const onClose = () => showDialog(!dialogShow);
+  return (
+    <Dialog 
+      title="Click outside to close"
+      isOpen={dialogShow}
+      onClose={onClose}  
+      isDismissable={true}
+    >
       <div
         style={{
-          fontFamily: "Calibri, Arial, Helvetica, sans-serif",
-          position: 'absolute',
-          width: '300px',
-          height: '300px',   
+          fontSize: '24px',
+          fontFamily: "Calibri, Arial, Helvetica, sans-serif", 
           left: '50%',
           top: '50%',
           marginLeft: '-150px',
@@ -22,26 +26,14 @@ const Modal = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          bottom: '0',
-          // left: '0',
-          // position: 'fixed',
-          right: '0',
-          // top: '90rem',
+          bottom: '0',       
+          right: '0',      
           zIndex: 1000,
-          // height: '100%',
           padding: '0',
-          margin: '0',
-          
-        
-        
-        
-        
+          margin: '0',      
         }}
-        // className="fixed top-0 left-0 h-screen w-full flex items-center justify-center"
-        // style={{ background: "rgba(0,0,0,0.8)" }}
       >
         <div 
-        // className="bg-white relative p-5 shadow-lg rounded flex flex-col items-start text-lg text-gray-800"
           style={{
             maxWidth: '28em',
             background: 'inherit',
@@ -112,14 +104,14 @@ const Modal = () => {
             }}    
           >
             <div 
-              // style={{
-              //   width: '21%',
-              //   marginLeft: 'auto',
-              //   marginRight: '5%'
-              // }}
+              style={{
+                width: '21%',
+                marginLeft: 'auto',
+                marginRight: '5%'
+              }}
             >
               <button 
-                onClick={() => handleModal()}
+                onClick={onClose}
                 style={{
                   height: '100%',
                   background: '#0068d1',
@@ -143,18 +135,16 @@ const Modal = () => {
                   transition: 'background .2s,border .2s,box-shadow .2s,color .2s',
                   userSelect: 'none',
                   verticalAlign: 'middle'
-                }}
-              
+                }}             
               >OK</button>
             </div>
           </div>
         </div>
-          {/* <p>{modalContent}</p> */}
       </div>
-    </div>,
-    document.querySelector("#modal-root")
-    );
-  } else return null;
+    </div>
+    </Dialog>
+  );
 };
 
 export default Modal;
+

@@ -12,6 +12,7 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
   store.dispatch({type: 'tools_props_success', payload: toolsJson});
   let blocks = await fetch('http://localhost:3010/blocks');
   let blocksJson = await blocks.json();
+  console.log(blocksJson, `--> blocksJson`);
   let nestedIdsMap = blocksJson[0].itemHeaders.map(v => v.nestedItemIds);
   let nestedIds = nestedIdsMap.filter(v => v);
   // console.log(nestedIds, `--> nestedIds`);

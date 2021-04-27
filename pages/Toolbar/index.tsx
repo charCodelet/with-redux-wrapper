@@ -21,10 +21,10 @@ var y = 14; // 40;
 const ToolbarRenderer = (): ReactElement | null => {
   const { dialogShow } = useTypedSelector((state) => state.dialog);
   const [stopTimer, setStopTimer] = useState(false);
+  const [clearCanvas, setClearCanvas] = useState(false);
   const [highlighterActive, setHighlighterActive] = useToggle();
   const [pencilActive, setPencilActive] = useToggle();
   const [eraserActive, setEraserActive] = useToggle();
-  const [notSelf, setNotSelf] = useState(false);
   const [hasDrawn, setHasDrawn] = useState(false);
   const [num, setNum] = useState(1800 / 60);
   const router = useRouter();
@@ -37,111 +37,223 @@ const ToolbarRenderer = (): ReactElement | null => {
   let { zoom } = useTypedSelector((state) => state.zoom);
   const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog } = useActions(); // prettier-ignore
 
-
-  useEffect(() => {
-    canvas = document.getElementById('can');
-    ctx = canvas.getContext("2d");
-    canvas.style.display = "block";
-    canvas.width = window.innerWidth; //canvas.width; 
-    canvas.height = window.innerHeight; //canvas.height; 
-    x = 'black';
-    y = 14;
-    function draw() {
-      setHasDrawn(true);
-      ctx.beginPath();
-      ctx.moveTo(prevX, prevY);
-      ctx.lineTo(currX, currY);
-      ctx.strokeStyle = x; 
-      ctx.lineWidth = y;
-      ctx.stroke();
-      ctx.closePath();
+  function draw() {
+    setHasDrawn(true)
+    ctx.beginPath();
+    ctx.moveTo(prevX, prevY);
+    ctx.lineTo(currX, currY);
+    ctx.strokeStyle = x; 
+    ctx.lineWidth = y;
+    ctx.stroke();
+    ctx.closePath();
+  }
+  var curriedFn = (res, e) => {
+    if (res == 'down') {
+      prevX = currX;
+      prevY = currY;
+      currX = e.clientX - canvas.offsetLeft;
+      currY = e.clientY - canvas.offsetTop;
+      flag = true;
+      dot_flag = true;
+      if (dot_flag) {
+        ctx.beginPath();   
+        ctx.fillStyle = x;
+        ctx.fillRect(currX, currY, 2, 2);
+        ctx.closePath();
+        dot_flag = false;
+      }
     }
-    var curriedFn = (res, e) => {
-      if (res == 'down') {
+    if (res == 'up' || res == "out") {
+      flag = false;
+    }
+    if (res == 'move') {
+      if (flag) {
         prevX = currX;
         prevY = currY;
         currX = e.clientX - canvas.offsetLeft;
         currY = e.clientY - canvas.offsetTop;
-        flag = true;
-        dot_flag = true;
-        if (dot_flag) {
-          ctx.beginPath();   
-          ctx.fillStyle = x;
-          ctx.fillRect(currX, currY, 2, 2);
-          ctx.closePath();
-          dot_flag = false;
-        }
-      }
-      if (res == 'up' || res == "out") {
-        flag = false;
-      }
-      if (res == 'move') {
-        if (flag) {
-          prevX = currX;
-          prevY = currY;
-          currX = e.clientX - canvas.offsetLeft;
-          currY = e.clientY - canvas.offsetTop;
-          draw();
-          setHasDrawn(true);
-          ctx.beginPath();
-          ctx.moveTo(prevX, prevY);
-          ctx.lineTo(currX, currY);
-          ctx.strokeStyle = x; 
-          ctx.lineWidth = y;
-          ctx.stroke();
-          ctx.closePath();
-        }
+        draw();
+        ctx.beginPath();
+        ctx.moveTo(prevX, prevY);
+        ctx.lineTo(currX, currY);
+        ctx.strokeStyle = x; 
+        ctx.lineWidth = y;
+        ctx.stroke();
+        ctx.closePath();
       }
     }
+  }
+  
+  
+  var bindingMoveEvent = curriedFn.bind(this, 'move');
+  var bindingDownEvent = curriedFn.bind(this, 'down');
+  var bindingUpEvent = curriedFn.bind(this, 'up');
+  useEffect(() => {
+
+    
+
+    console.log(clearCanvas, `--> clearCanvas`);
+
+    if(!scratch && !clearCanvas) {
+      console.log('if([!scratch]',scratch,'&& [!clearCanvas]',clearCanvas,')');
+      try {      
+        canvas.style.pointerEvents = 'none';
+      } catch(e) {
+        console.log(e.message)
+      }
+      return;
+    } 
+
+    if(hasDrawn && !clearCanvas) {
+      console.log('if(hasDrawn && !clearCanvas)');
+      canvas.style.pointerEvents = 'all';
+      return;
+    }
+
+    console.log("This should be called once");
+
+    canvas = document.getElementById('can');
+    ctx = canvas.getContext("2d");
+    canvas.style.display = "block";
+    canvas.width = window.innerWidth; 
+    canvas.height = window.innerHeight;
+    x = 'black';
+    y = 14;
 
     if(scratch) {
-      console.log('if(',scratch);
-      var bindingMoveEvent = curriedFn.bind(this, 'move');
-      var bindingDownEvent = curriedFn.bind(this, 'down');
-      var bindingUpEvent = curriedFn.bind(this, 'up');
+      console.log('if( [scratch]',scratch,')');
+      
+      // var bindingMoveEvent = curriedFn.bind(this, 'move');
+      // var bindingDownEvent = curriedFn.bind(this, 'down');
+      // var bindingUpEvent = curriedFn.bind(this, 'up');
+
+      console.log('add mouse listeners...');
+      canvas.style.pointerEvents = 'all';
       canvas.addEventListener("mousemove", bindingMoveEvent, false);
       canvas.addEventListener("mousedown", bindingDownEvent, false);
       canvas.addEventListener("mouseup", bindingUpEvent, false);
-      // canvas.addEventListener("mousemove", curriedFn('move'), true);
-      // canvas.addEventListener("mousedown", curriedFn('down'));
-      // canvas.addEventListener("mouseup", curriedFn('up'));
+      if(highlighterActive) {
+        // setHighlighterActive();
+        x = 'yellow';
+      }
+      else if(eraserActive) {
+        // setEraserActive(); 
+        if(x == 'black') x = 'white'
+        else x = 'black';
+        x = 'white';
+        y = 14
+      }
+      else setPencilActive();
     }
-   
+    else {
+      if(highlighterActive) setHighlighterActive();
+      if(eraserActive) setEraserActive(); 
+    }
     return function cleanupListener() {
-      console.log('remove mousemove listeners...');
-      canvas.removeEventListener("mousemove", bindingMoveEvent, false);
-      canvas.removeEventListener("mousedown", bindingDownEvent, false);
-      canvas.removeEventListener("mouseup", bindingUpEvent, false);
-      // canvas.removeEventListener('mousemove', curriedFn('move'), true)
-      // canvas.removeEventListener('mousedown', curriedFn('down'), false)
-      // canvas.removeEventListener('mouseup', curriedFn('up'), false)
+      // console.log('remove mouse listeners...'); 
+      // canvas.removeEventListener("mousemove", bindingMoveEvent, false);
+      // canvas.removeEventListener("mousedown", bindingDownEvent, false);
+      // canvas.removeEventListener("mouseup", bindingUpEvent, false); 
     }
-  }, [scratch]);
+  }, [scratch, tabs, clearCanvas]);
   
-  // useEffect(() => {
-  //   console.log('run when scratch clicked');
-  //   return () => {
-  //     console.log("cleanup scratch");
-  //   }
-  // }, [scratch]);
-  // useEffect(() => {
-  //   console.log('run when pencil clicked');
-  //   return () => {
-  //     console.log("cleanup pencil");
-  //   }
-  // }, [pencilActive]);
-  // useEffect(() => {
-  //   console.log('run when highlighter clicked');
-  //   return () => {
-  //     console.log("cleanup highlighter");
-  //   }
-  // }, [highlighterActive]);
-  // useEffect(() => {
-  //   console.log('run when eraser clicked');
-  //   return () => {
-  //     console.log("cleanup eraser");
-  //   }
-  // }, [eraserActive]);
+  useEffect(() => {
+    if(pencilActive) {
+      console.log('run when pencil clicked');
+      x = 'black';
+    } 
+    return () => {
+      console.log("cleanup pencil");
+    }
+  }, [pencilActive]);
+
+  useEffect(() => {
+    if(highlighterActive) {
+      console.log('run when highlighter clicked');
+      x = 'yellow';
+    } 
+    return () => {
+      console.log("cleanup highlighter");
+    }
+  }, [highlighterActive]);
+  
+  useEffect(() => {
+    if(eraserActive) {
+      console.log('run when eraser clicked');
+      if(x == 'black') x = 'white'
+      else x = 'black';
+      x = 'white';
+      y = 14 
+    } 
+    return () => {
+      console.log("cleanup eraser");
+    }
+  }, [eraserActive]);
+
+ 
+
+  const onClickScratch = () => {
+    getScratch(!scratch);
+    setClearCanvas(false);
+    if(!scratch) document.body.style.cursor = "url('cursors/Cur_Draw_Scratch.cur'), auto";
+    else document.body.style.cursor = 'default'
+  }
+  const onClickClear = () => {
+    console.log('onClickClear');
+    setClearCanvas(true);
+    console.log(highlighterActive, `--> highlighterActive`);
+    console.log(pencilActive, `--> pencilActive`);
+    console.log(eraserActive, `--> eraserActive`);
+    // if(highlighterActive) setHighlighterActive();
+    // if(pencilActive) setPencilActive();
+    // if(eraserActive) setEraserActive();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+  }
+
+ 
+
+  const onClickHighlighter = () => {
+    console.log('highlighter clicked');
+    document.body.style.cursor = "url('cursors/Cur_Highlighter_Scratch.cur'), auto";
+    if(pencilActive) setPencilActive();
+    if(eraserActive) setEraserActive();
+    setHighlighterActive();
+  }
+  const onClickEraser = () => {
+    console.log('eraser clicked');
+    document.body.style.cursor = "url('cursors/Cur_Erase_Scratch.cur'), auto"; 
+    document.getElementById('pointerTest').style.pointerEvents = 'none';
+    document.getElementById('pointerTest').style.zIndex = '2';
+    if(highlighterActive) setHighlighterActive();
+    if(pencilActive) setPencilActive();
+    setEraserActive();
+   
+  }
+  const onClickPencil = () => {
+    console.log('pencil clicked');
+    document.body.style.cursor = "url('cursors/Cur_Draw_Scratch.cur'), auto";
+    if(highlighterActive) setHighlighterActive();
+    if(eraserActive) setEraserActive();
+    setPencilActive();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     // console.log('useEffect called with no dependencies');
@@ -162,7 +274,7 @@ const ToolbarRenderer = (): ReactElement | null => {
   const decreaseNum = () => {
     // console.log('decreaseNum called');
     setNum(prev => {
-      if(prev == /*27*/0) {
+      if(prev == /*29.94*/ /*27*/ 0) {
         // console.log('if(',prev,' == 27)');
         setStopTimer(true);
         setTimeout(() => {
@@ -200,180 +312,6 @@ const ToolbarRenderer = (): ReactElement | null => {
   const onClickTheme = () => setTheme(theme);
 
 
-
-
-
-
-
-
-
-
-  const onClickScratch = () => {
-    getScratch(!scratch);
-    // setPencilActive(); 
-    // onClickPencil();
-  };
-  const onClickClear = () => document.getElementById("can").style.display = "none";
-  const onClickHighlighter = () => {
-    document.body.style.cursor = "url('cursors/Cur_Highlighter_Scratch.cur'), auto"; 
-    setNotSelf(true);
-    if(highlighterActive) {
-      console.log('if( [highlighterActive]',highlighterActive,`)`)
-      return;
-    }
-    else {
-      console.log('else( [!highlighterActive]',highlighterActive,`)`)
-      setHighlighterActive();
-      if(pencilActive) {
-        console.log('if( [pencilActive]',pencilActive,`)`)
-        setPencilActive();
-      } else if(eraserActive) {
-        console.log('else if( [eraserActive]',eraserActive,`)`)
-        setEraserActive(); 
-      }
-      x = 'yellow';
-    }
-  }
-  const onClickEraser = () => {
-    document.body.style.cursor = "url('cursors/Cur_Erase_Scratch.cur'), auto"; 
-    // canvas.style.pointerEvents = 'none';
-    document.getElementById('pointerTest').style.pointerEvents = 'none';
-    document.getElementById('pointerTest').style.zIndex = '2';
-    if(eraserActive) {
-      console.log('if( [eraserActive]',eraserActive,`)`)
-      return;
-    }
-    else {
-      console.log('else( [!eraserActive]',eraserActive,`)`)
-      setEraserActive();
-      if(highlighterActive) {
-        console.log('if( [highlighterActive]',highlighterActive,`)`)
-        setHighlighterActive();
-      } else if(pencilActive) {
-        console.log('else if( [pencilActive]',pencilActive,`)`)
-        setPencilActive(); 
-      }
-      if(x == 'black') {
-        console.log('if( [x]',x,`== black)`)
-        x = 'white'
-      } else {
-        console.log('else( [x]',x,`!= black)`)
-        x = 'black';
-      }
-      x = 'white';
-      y = 14 // 40;
-    }
-  }
-  const onClickPencil = () => {
-    document.body.style.cursor = "url('cursors/Cur_Draw_Scratch.cur'), auto"; 
-    // setNotSelf(true);
-    if(pencilActive && scratch && !notSelf) {
-      console.log('if( [pencilActive]',pencilActive,'&& [scratch]',scratch,'&& [notSelf]',notSelf,')');
-        canvas.style.pointerEvents = 'none';
-        document.body.style.cursor = 'default';
-        return;
-    }
-    else if(pencilActive || notSelf) {
-      console.log('else if( [pencilActive]',pencilActive,'|| [notSelf]',notSelf,')');
-      setPencilActive();
-      x = 'black';
-      console.log('return');
-      if(highlighterActive) {
-        console.log('if( [highlighterActive]',highlighterActive,`)`)
-        setHighlighterActive();
-      } else if(eraserActive) {
-        console.log('else if( [eraserActive]',eraserActive,`)`)
-        setEraserActive(); 
-      }
-      return;
-    } 
-    else if(hasDrawn) {
-      console.log('else if(hasDrawn)');
-      canvas.style.pointerEvents = 'all';
-      console.log(pencilActive, `--> pencilActive`);
-      console.log(`\n\n\n`);
-      // document.body.style.cursor = 'default'; // new
-      return;
-    }
-    else {
-      console.log('else( [pencilActive]',pencilActive,', [scratch]',scratch,', [notSelf]',notSelf,')');
-      document.body.style.cursor = "url('cursors/Cur_Draw_Scratch.cur'), auto"; 
-      setPencilActive();
-      if(highlighterActive) {
-        console.log('if( [highlighterActive]',highlighterActive,`)`)
-        setHighlighterActive();
-      } else if(eraserActive) {
-        console.log('else if( [eraserActive]',eraserActive,`)`)
-        setEraserActive(); 
-      }
-    }
-    
-    canvas = document.getElementById('can');
-    ctx = canvas.getContext("2d");
-    canvas.style.display = "block";
-    canvas.width = window.innerWidth; //canvas.width; 
-    canvas.height = window.innerHeight; //canvas.height; 
-    x = 'black';
-    y = 14;
-   
-
-    canvas.addEventListener("mousemove", function (e) {findxy('move', e)}, false);
-    canvas.addEventListener("mousedown", function (e) {findxy('down', e)}, false);
-    canvas.addEventListener("mouseup", function (e) {findxy('up', e)}, false);
-    // canvas.addEventListener("mouseout", function (e) {findxy('out', e)}, false);
-
-    function draw() {
-      console.log(x, `----> x`);
-      setHasDrawn(true);
-      ctx.beginPath();
-      ctx.moveTo(prevX, prevY);
-      ctx.lineTo(currX, currY);
-      ctx.strokeStyle = x; 
-      ctx.lineWidth = y;
-      ctx.stroke();
-      ctx.closePath();
-    }
-    function findxy(res, e) {
-      if (res == 'down') {
-        prevX = currX;
-        prevY = currY;
-        currX = e.clientX - canvas.offsetLeft;
-        currY = e.clientY - canvas.offsetTop;
-        flag = true;
-        dot_flag = true;
-        if (dot_flag) {
-          ctx.beginPath();   
-          ctx.fillStyle = x;
-          ctx.fillRect(currX, currY, 2, 2);
-          ctx.closePath();
-          dot_flag = false;
-        }
-      }
-      if (res == 'up' || res == "out") {
-        flag = false;
-      }
-      if (res == 'move') {
-        if (flag) {
-          prevX = currX;
-          prevY = currY;
-          currX = e.clientX - canvas.offsetLeft;
-          currY = e.clientY - canvas.offsetTop;
-          draw();
-        }
-      }
-    }
-
-  };
-
-
-
-
-
-
-
-
-
-
   const onClickHelp = () => {
     if (router.pathname == '/') {
       router.push('/help');
@@ -386,6 +324,14 @@ const ToolbarRenderer = (): ReactElement | null => {
     getTabNumber(tabs.tabNumber + 1);
     getBlockNumber(tabs.tabsData[tabs.tabNumber + 1].id);
     multipleSelect('multiple_clear', (tabs.tabNumber + 1).toString());
+    canvas.removeEventListener("mousemove", bindingMoveEvent, false);
+    canvas.removeEventListener("mousedown", bindingDownEvent, false);
+    canvas.removeEventListener("mouseup", bindingUpEvent, false); 
+    setClearCanvas(true);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // getScratch(false);
+    // console.log('and now i need to close the scratchpad and make sure the cursor is changed...');
+    // console.log('NO! remember...we actually have to block out the next and prev buttons UNTIL we close the scratchpad...assume it should be the same with tabs...');
   };
   const prevItem = () => {
     getTabNumber(tabs.tabNumber - 1);
@@ -443,7 +389,7 @@ const ToolbarRenderer = (): ReactElement | null => {
         isCalculatorDisabled={!tools?.calculator?.enabled}
         isTimerDisabled={!tools?.timer?.enabled}
         isPrevDisabled={tabs.tabNumber === 0}
-        isNextDisabled={tabs.tabNumber === tabs.data.length - 1}
+        isNextDisabled={tabs.tabNumber === tabs.data.length - 1 || scratch}
         isHelpActive={tools?.help?.activated}
         isTTSActive={tools?.bilingual?.activated}
         isMathKeyboardActive={tools?.mathKeyboard?.activated}
