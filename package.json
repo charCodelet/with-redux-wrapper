@@ -7,6 +7,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "27.1.0",
+    "@ckeditor/ckeditor5-react": "3.0.2",
     "@coreym/benchmark": "0.1.31-hotfix",
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.3.0",
@@ -16,6 +18,7 @@
     "@react-aria/ssr": "3.0.1",
     "@styled-system/css": "5.1.5",
     "@styled-system/should-forward-prop": "5.1.5",
+    "@wiris/mathtype-ckeditor5": "7.26.0",
     "axios": "0.21.1",
     "cross-env": "7.0.3",
     "interactjs": "1.10.11",

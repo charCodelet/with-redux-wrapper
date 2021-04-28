@@ -1,17 +1,21 @@
 import React, { ReactElement } from 'react';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+
 
 const help = (): ReactElement => {
+  const { tabs } = useTypedSelector((state: any) => state);
+  console.log(tabs, `--> tabs`);
   return (
-    <section style={{/*backgroundColor: 'pink',*/ display: 'flex', flexDirection: 'column', lineHeight: '2em', margin: '0 10vw', fontSize: '20px'}}>
-      <div className="helpContent" /*style={{backgroundColor: 'gray'}}*/>You have opened Help. To go back, tap the Help button again.</div>
-      <section /*style={{backgroundColor: 'aqua'}}*/>
+    <section style={{display: 'flex', flexDirection: 'column', lineHeight: '2em', margin: '0 10vw', fontSize: '20px'}}>
+      <div className="helpContent" >You have opened Help. To go back, tap the Help button again.</div>
+      <section >
         <div className="helpContent">
           <b>Directions:</b>
         </div>
         <div className="helpContent">
           <div className="direction_content">
             <div className="paragraph">
-              This section has 21 civics questions. You have 30 minutes to complete this section.
+              This section has {tabs.tabsData.length - 2} questions. You have 30 minutes to complete this section.
             </div>
             <div className="paragraph"> If you finish before time is up, you may review your work. </div>
           </div>
@@ -439,7 +443,7 @@ const help = (): ReactElement => {
                 <b>Hide Choice</b>
               </span>
               <div className="clear helpImage">
-                <button className="mc-eliminate-choice mc-eliminateShow-choice" tabIndex="-1"></button>
+                <button className="mc-eliminate-choice mc-eliminateShow-choice" tabIndex={-1}></button>
               </div>
             </td>
             <td style={{textAlign: 'left', verticalAlign: 'top', padding: '0 20px'}}>
@@ -469,7 +473,7 @@ const help = (): ReactElement => {
                 <b>Clear Answer</b>
               </span>
               <div style={{textAlign: 'center'}}>
-                <input type="button" className="reset_button" style={{cursor: 'default'}} tabIndex="-1" value="Clear Answer" />
+                <input type="button" className="reset_button" style={{cursor: 'default'}} tabIndex={-1} value="Clear Answer" />
               </div>
             </td>
             <td style={{textAlign: 'left', verticalAlign: 'top', padding: '0 20px'}}>
@@ -486,14 +490,14 @@ const help = (): ReactElement => {
               <div className="clear tool helpImage scrolling-indicator">
                 <div id="help-moreBtn" className="more-container ttsMoreTop">
                   <span className="moreSpan">More</span>
-                  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="42px" height="25px" viewBox="0 0 42 25" enable-background="new 0 0 42 25" xmlSpace="preserve">
-                    <polyline fill="none" stroke-width="7" stroke-linecap="round" stroke-miterlimit="10" points="4,4 21,20 38,4 "></polyline>
+                  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="42px" height="25px" viewBox="0 0 42 25" enableBackground="new 0 0 42 25" xmlSpace="preserve">
+                    <polyline fill="none" strokeWidth="7" strokeLinecap="round" strokeMiterlimit="10" points="4,4 21,20 38,4 "></polyline>
                   </svg>
                 </div>
                 &nbsp;&nbsp;&nbsp;
                 <div id="help-topBtn" className="top-container ttsMoreTop">
-                  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="42px" height="25px" viewBox="0 0 42 25" enable-background="new 0 0 42 25" xmlSpace="preserve">
-                    <polyline fill="none" stroke-width="7" stroke-linecap="round" stroke-miterlimit="10" points="4,4 21,20 38,4 "></polyline>
+                  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="42px" height="25px" viewBox="0 0 42 25" enableBackground="new 0 0 42 25" xmlSpace="preserve">
+                    <polyline fill="none" strokeWidth="7" strokeLinecap="round" strokeMiterlimit="10" points="4,4 21,20 38,4 "></polyline>
                   </svg>
                   <span className="topSpan">Top</span>
                 </div>

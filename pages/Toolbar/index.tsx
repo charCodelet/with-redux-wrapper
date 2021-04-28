@@ -4,6 +4,7 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useActions';
 import { Toolbar } from '@coreym/benchmark';
 import { useToggle } from '../benchmark/util/hooks';
+import Editor from '../Editor';
 
 // eslint-disable-next-line
 
@@ -19,6 +20,7 @@ var x = "black";
 var y = 14; // 40;
 
 const ToolbarRenderer = (): ReactElement | null => {
+  const [mathKey, setMathKey] = useState(false);
   const { dialogShow } = useTypedSelector((state) => state.dialog);
   const [stopTimer, setStopTimer] = useState(false);
   const [clearCanvas, setClearCanvas] = useState(false);
@@ -274,7 +276,7 @@ const ToolbarRenderer = (): ReactElement | null => {
   const decreaseNum = () => {
     // console.log('decreaseNum called');
     setNum(prev => {
-      if(prev == /*29.94*/ /*27*/ 0) {
+      if(prev == 29.94 /*27*/ /*0*/) {
         // console.log('if(',prev,' == 27)');
         setStopTimer(true);
         setTimeout(() => {
@@ -288,7 +290,7 @@ const ToolbarRenderer = (): ReactElement | null => {
       return (prev - 1/60).toFixed(2);
     });
   }
-
+ 
 
   const { id, toolbar, tools } = data;
   const progressFormula = (tabs.tabsData.length > 0) ? (100 / tabs.tabsData.length) * (tabs.tabNumber === 0 ? 1 : tabs.tabNumber + 1) : 0 // prettier-ignore
@@ -303,10 +305,11 @@ const ToolbarRenderer = (): ReactElement | null => {
     changeZoom(zoom + 0.1);
   };
   const onClickCalculator = () => {
-    if (calculator.current.style.visibility === 'hidden') {
-      calculator.current.style.visibility = 'visible';
+    console.log(calculator, `--> calculator`);
+    if (/*calculator.current*/document.getElementById('calculatorDiv').style.visibility === 'hidden') {
+      /*calculator.current*/document.getElementById('calculatorDiv').style.visibility = 'visible';
     } else {
-      calculator.current.style.visibility = 'hidden';
+      /*calculator.current*/document.getElementById('calculatorDiv').style.visibility = 'hidden';
     }
   };
   const onClickTheme = () => setTheme(theme);
@@ -319,16 +322,37 @@ const ToolbarRenderer = (): ReactElement | null => {
       router.push('/');
     }
   };
+  const onClickMathKeyboard = () => {
+    console.log("math key");
+    setMathKey(!mathKey);
+  }
+  useEffect(() => {
+    let editor = com.wiris.jsEditor.JsEditor.newInstance({language: "en"});
+    if(document.getElementById('editorContainer').style.color == 'red') {
+      document.getElementById('editorContainer').remove();
+      return;
+    }
+    if(mathKey) {
+      editor.insertInto(document.getElementById("editorContainer"));
+      document.getElementById('editorContainer').style.color = 'red';   
+    }
+  }, [mathKey]);
   const nextItem = () => {
     console.log(tabs.tabsData[tabs.tabNumber + 1], `--> tabs`);
     getTabNumber(tabs.tabNumber + 1);
     getBlockNumber(tabs.tabsData[tabs.tabNumber + 1].id);
     multipleSelect('multiple_clear', (tabs.tabNumber + 1).toString());
-    canvas.removeEventListener("mousemove", bindingMoveEvent, false);
-    canvas.removeEventListener("mousedown", bindingDownEvent, false);
-    canvas.removeEventListener("mouseup", bindingUpEvent, false); 
-    setClearCanvas(true);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    try {
+      canvas.removeEventListener("mousemove", bindingMoveEvent, false);
+      canvas.removeEventListener("mousedown", bindingDownEvent, false);
+      canvas.removeEventListener("mouseup", bindingUpEvent, false); 
+      setClearCanvas(true);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    } catch(e) {
+      console.log(e.message)
+    }
+    
+    
     // getScratch(false);
     // console.log('and now i need to close the scratchpad and make sure the cursor is changed...');
     // console.log('NO! remember...we actually have to block out the next and prev buttons UNTIL we close the scratchpad...assume it should be the same with tabs...');
@@ -361,7 +385,7 @@ const ToolbarRenderer = (): ReactElement | null => {
         isZoomOutDisabled={zoom == 1.0}
         isLangDisabled={!tools?.bilingual?.enabled}
         isTTSDisabled={!tools?.readAloud?.enabled}
-        isScratchDisabled={!tools?.scratchwork?.enabled}
+        isScratchDisabled={!tools?.scratchwork?.enabled || router.pathname == '/help'}
         isEraserDisabled={false}
         isHighlighterDisabled={false}
         isPencilDisabled={false}
@@ -385,25 +409,23 @@ const ToolbarRenderer = (): ReactElement | null => {
 
 
         isClearDisabled={false}
-        isMathKeyboardDisabled={!tools?.mathKeyboard?.enabled}
-        isCalculatorDisabled={!tools?.calculator?.enabled}
+        isMathKeyboardDisabled={tools?.mathKeyboard?.enabled}
+        isCalculatorDisabled={!tools?.calculator?.enabled || router.pathname == '/help'}
         isTimerDisabled={!tools?.timer?.enabled}
         isPrevDisabled={tabs.tabNumber === 0}
         isNextDisabled={tabs.tabNumber === tabs.data.length - 1 || scratch}
-        isHelpActive={tools?.help?.activated}
+        isHelpActive={/*tools?.help?.activated*/router.pathname == '/help'}
         isTTSActive={tools?.bilingual?.activated}
         isMathKeyboardActive={tools?.mathKeyboard?.activated}
         isCalculatorActive={tools?.calculator?.activated}
         isScratchActive={scratch}
-       
-        
         isTimerActive={true}
-        hasMathKeyboard={tools?.mathKeyboard?.visible} // hide & show buttons
+        hasMathKeyboard={!tools?.mathKeyboard?.visible} // hide & show buttons
         hasCalculator={tools?.calculator?.visible}
         hasTTS={tools?.readAloud?.visible}
         hasTimer={tools?.timer?.visible}
         hasProgress={tools?.progress?.visible}
-       
+        onClickMathKeyboard={onClickMathKeyboard}
         onClickCalculator={onClickCalculator}
         onClickHelp={onClickHelp}
         onClickTheme={onClickTheme}

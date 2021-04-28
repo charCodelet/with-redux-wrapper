@@ -11,6 +11,7 @@ import themes from './themes';
 import Global from './Global';
 import Dialog from './Dialog';
 import ListOfUnansweredItems from './ListOfUnansweredItems';
+import Zones from './Zones';
 import * as components from '@coreym/benchmark';
 
 export default {
@@ -28,5 +29,6 @@ export default {
   themes,
   ListOfUnansweredItems,
   ThemeProvider,
-  Math
+  Math,
+  Zones,
 };

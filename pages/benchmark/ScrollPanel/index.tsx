@@ -88,7 +88,7 @@ const ScrollPanel = React.forwardRef((props: any, forwardedRef: any): ReactEleme
         <Box
           onScroll={handleScroll}
           overflowY="auto"
-          overflowX="hidden"
+          overflowX="auto"
           height="100%"
           sx={styles.scrollpanel}
           ref={panelRef}

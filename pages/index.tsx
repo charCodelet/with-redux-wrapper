@@ -7,6 +7,9 @@ import { wrapper } from '../state/store';
 
 
 export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+  let start = await fetch('http://localhost:3010/tools/VH447212');
+  let startJson = await start.json();
+  console.log(startJson, `--> startJson`);
   let tools = await fetch('http://localhost:3010/tools/VH447212');
   let toolsJson = await tools.json();
   store.dispatch({type: 'tools_props_success', payload: toolsJson});
@@ -37,7 +40,7 @@ const App: React.FC = (): ReactElement => {
   // console.log(zoom.toFixed(2), `--> zoom.toFixed(2)`);
   return ( 
     // <SSRProvider>     
-      <section id="pointerTest" style={{ /*overflowY: 'hidden',*/ position: 'relative', transform: `scale(${zoom.toFixed(2)})` /*translate(${zoom.toFixed(2)}rem)`*/}}>
+      <section id="pointerTest" style={{ userSelect: 'none', /*overflowY: 'hidden',*/ position: 'relative', transform: `scale(${zoom.toFixed(2)})` /*translate(${zoom.toFixed(2)}rem)`*/}}>
         <AssessmentRenderer /> 
       </section>   
   //  </SSRProvider>
