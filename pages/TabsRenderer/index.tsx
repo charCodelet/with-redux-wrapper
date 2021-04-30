@@ -19,7 +19,7 @@ const TabsRenderer = (): ReactElement | null => {
     getTabNumber(optionId);
     multipleSelect('multiple_clear', (tabs.tabNumber + 1).toString());
   };
-  console.log(scratch, `--> scratch`)
+  // console.log(scratch, `--> scratch`)
   return (
     tabs.data && /*!scratch &&*/ (
       <Tabs align={'right'} style={{display: 'block'}} onChange={handleSelect}>

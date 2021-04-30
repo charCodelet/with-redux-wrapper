@@ -281,6 +281,16 @@ return (dispatch: Dispatch<Action>) => {
   };
 };
 
+export const setKeyboard = (setKey: boolean) => {
+  // eslint-disable-next-line
+return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SET_KEYBOARD,
+      payload: setKey,
+    });
+  };
+};
+
 export const showDialog = (dialog: boolean) => {
   // eslint-disable-next-line
 return (dispatch: Dispatch<Action>) => {

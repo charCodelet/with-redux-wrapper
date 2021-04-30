@@ -37,7 +37,7 @@ const ToolbarRenderer = (): ReactElement | null => {
   const { data } = useTypedSelector((state) => state.tools);
   const { tabs } = useTypedSelector((state) => state);
   let { zoom } = useTypedSelector((state) => state.zoom);
-  const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog } = useActions(); // prettier-ignore
+  const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog, setKeyboard } = useActions(); // prettier-ignore
 
   function draw() {
     setHasDrawn(true)
@@ -94,14 +94,14 @@ const ToolbarRenderer = (): ReactElement | null => {
 
     
 
-    console.log(clearCanvas, `--> clearCanvas`);
+    // console.log(clearCanvas, `--> clearCanvas`);
 
     if(!scratch && !clearCanvas) {
-      console.log('if([!scratch]',scratch,'&& [!clearCanvas]',clearCanvas,')');
+      // console.log('if([!scratch]',scratch,'&& [!clearCanvas]',clearCanvas,')');
       try {      
         canvas.style.pointerEvents = 'none';
       } catch(e) {
-        console.log(e.message)
+        // console.log(e.message)
       }
       return;
     } 
@@ -276,7 +276,7 @@ const ToolbarRenderer = (): ReactElement | null => {
   const decreaseNum = () => {
     // console.log('decreaseNum called');
     setNum(prev => {
-      if(prev == 29.94 /*27*/ /*0*/) {
+      if(prev == /*29.94*/ /*27*/ 0) {
         // console.log('if(',prev,' == 27)');
         setStopTimer(true);
         setTimeout(() => {
@@ -325,17 +325,20 @@ const ToolbarRenderer = (): ReactElement | null => {
   const onClickMathKeyboard = () => {
     console.log("math key");
     setMathKey(!mathKey);
+    setKeyboard(!mathKey);
   }
   useEffect(() => {
-    let editor = com.wiris.jsEditor.JsEditor.newInstance({language: "en"});
-    if(document.getElementById('editorContainer').style.color == 'red') {
-      document.getElementById('editorContainer').remove();
-      return;
-    }
-    if(mathKey) {
-      editor.insertInto(document.getElementById("editorContainer"));
-      document.getElementById('editorContainer').style.color = 'red';   
-    }
+    // let editor = com.wiris.jsEditor.JsEditor.newInstance({language: "en"});
+    // if(document.getElementById('editorContainer').style.color == 'red') {
+    //   document.getElementById('editorContainer').remove();
+    //   return;
+    // }
+    // if(mathKey) {
+    //   editor.insertInto(document.getElementById("editorContainer"));
+    //   // document.getElementById('editorContainer').style.color = 'red';   
+    //   editor.setMathML("<html><math><mfrac><mn>23432432432423432432432424243</mn><mi>x</mi></mfrac></math></html>");
+    //   editor.getMathML()
+    // }
   }, [mathKey]);
   const nextItem = () => {
     console.log(tabs.tabsData[tabs.tabNumber + 1], `--> tabs`);

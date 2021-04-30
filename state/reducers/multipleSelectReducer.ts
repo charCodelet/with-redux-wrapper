@@ -57,7 +57,7 @@ const multipleSelectReducer = (state: RepositoriesState = initialState, action: 
           eliminated: state.globalState.eliminated,          
         }
       }
-      // console.log(textInputEntered, `--> textInputEntered`);
+      console.log(textInputEntered, `--> textInputEntered`);
       return textInputEntered;
     case ActionType.MULTIPLE_SELECT: 
       const multSelect = { 

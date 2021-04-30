@@ -1,0 +1,63 @@
+﻿select.zoomberger option:checked {
+    background-image: url('../icons/thesaurus-search.png') !important;
+    background-repeat: no-repeat;
+    background-size: 10px;
+    background-position: right;
+}
+
+select.zoomberger option:hover {
+    background-image: url('../icons/thesaurus-search-hover.png') !important;
+    background-repeat: no-repeat;
+    background-size: 10px;
+    background-position: right;
+}
+
+select.zoomberger option:checked:hover {
+    background-image: url('../icons/thesaurus-search-white.png') !important;
+    background-repeat: no-repeat;
+    background-size: 10px;
+    background-position: right;
+}
+
+select.zoomberger option:hover {
+    background-image: url('../icons/thesaurus-search-hover.png') !important;
+    background-repeat: no-repeat;
+    background-size: 10px;
+    background-position: right;
+}
+
+
+/*ComboBox*/
+
+.select-editable {
+    position: relative;
+    /*background-color:white;
+     border:solid grey 1px;
+     width:120px;
+     height:18px;*/
+}
+
+.select-editable select {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /*font-size:14px;*/
+    border: none;
+    width: 120px;
+    margin: 0;
+}
+
+.select-editable input {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100px;
+    padding: 1px;
+    /*font-size:12px;*/
+    border: none;
+}
+
+.select-editable select:focus,
+.select-editable input:focus {
+    outline: none;
+}

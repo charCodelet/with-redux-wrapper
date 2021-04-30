@@ -157,6 +157,11 @@ interface DialogAction {
   payload: boolean;
 }
 
+interface SetKeyboardAction {
+  type: ActionType.SET_KEYBOARD;
+  payload: boolean;
+}
+
 export type Action =
   | FetchAllItemsAction 
   | FetchStartAction
@@ -187,4 +192,5 @@ export type Action =
   | DropdownSelectAction
   | TextInputValueAction
   | DialogAction
+  | SetKeyboardAction
  

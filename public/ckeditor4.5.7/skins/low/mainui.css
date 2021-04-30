@@ -1,0 +1,369 @@
+/*
+Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+
+
+/*
+mainui.css (part of editor.css)
+=================================
+
+This file styles the basic structure of the CKEditor user interface - the box
+that holds everything.
+
+CKEditor offers two main editing modes. The main UI blocks that compose these
+modes are:
+
+	For "Theme UI" mode, the one most generally used:
+
+	+-- .cke_chrome ----------------------+
+	|+-- .cke_inner ---------------------+|
+	|| +-- .cke_top -------------------+ ||
+	|| |                               | ||
+	|| +-------------------------------+ ||
+	|| +-- .cke_contents --------------+ ||
+	|| |                               | ||
+	|| +-------------------------------+ ||
+	|| +-- .cke_bottom ----------------+ ||
+	|| |                               | ||
+	|| +-------------------------------+ ||
+	|+-----------------------------------+|
+	+-------------------------------------+
+
+	For "Inline Editing" mode:
+
+	+-- .cke_chrome .cke_float------------+
+	|+-- .cke_inner ---------------------+|
+	|| +-- .cke_top -------------------+ ||
+	|| |                               | ||
+	|| +-------------------------------+ ||
+	|+-----------------------------------+|
+	+-------------------------------------+
+
+Special outer level classes used in this file:
+
+	.cke_hc: Available when the editor is rendered on "High Contrast".
+
+*/
+
+
+/* The outer boundary of the interface. */
+
+.cke_chrome {
+    /* This is <span>, so transform it into a block.*/
+    display: block;
+    border: none;
+    padding: 0;
+    -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+}
+
+
+/* The inner boundary of the interface. */
+
+.cke_inner {
+    /* This is <span>, so transform it into a block.*/
+    display: block;
+    -webkit-touch-callout: none;
+    background: #f5f5dc;
+    /*background-image: url('images/toolbar.png');
+    background-repeat: repeat-x;*/
+    padding: 0;
+}
+
+
+/* Added to the outer boundary of the UI when in inline editing,
+   when the UI is floating. */
+
+.cke_float {
+    /* Make white the space between the outer and the inner borders. */
+    border: none;
+}
+
+.cke_float .cke_inner {
+    /* As we don't have blocks following top (toolbar) we suppress the padding
+	   as the toolbar defines its own margin. */
+    padding-bottom: 0;
+}
+
+
+/* Make the main spaces enlarge to hold potentially floated content. */
+
+.cke_top,
+.cke_contents,
+.cke_bottom {
+    /* These are <span>s, so transform them into blocks.*/
+    display: block;
+    /* Ideally this should be "auto", but it shows scrollbars in IE7. */
+    overflow: hidden;
+}
+
+.cke_contents {
+    height: calc(93vh);
+}
+
+.cke_top {
+    /*border: 1px solid #b2b2b2;*/
+    /*border-bottom: 1px solid #b6b6b6;*/
+    padding: 12px 8px 12px 66px;
+    margin-left: 60px;
+    /* width: 350%; */
+    /* Allow breaking toolbars when in a narrow editor. (#9947) */
+    white-space: normal;
+    /*-moz-box-shadow: 0 1px 0 #fff inset;;
+	-webkit-box-shadow: 0 1px 0 #fff inset;
+	box-shadow: 0 1px 0 #fff inset;*/
+    background: #efefd7;
+    min-width: 730px;
+    /*background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5dc), to(#c7c7a9));
+	background-image: -moz-linear-gradient(top, #f5f5dc, #c7c7a9);
+	background-image: -webkit-linear-gradient(top, #f5f5dc, #c7c7a9);
+	background-image: -o-linear-gradient(top, #f5f5dc, #c7c7a9);
+	background-image: -ms-linear-gradient(top, #f5f5dc, #c7c7a9);
+	background-image: linear-gradient(top, #f5f5dc, #c7c7a9);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f5f5f5', endColorstr='#c7c7a9');*/
+}
+
+.cke_float .cke_top {
+    border: 1px solid #b6b6b6;
+    border-bottom-color: #999;
+}
+
+.cke_bottom {
+    padding: 6px 8px 2px;
+    position: relative;
+    border-top: 1px solid #bfbfbf;
+    -moz-box-shadow: 0 1px 0 #fff inset;
+    -webkit-box-shadow: 0 1px 0 #fff inset;
+    box-shadow: 0 1px 0 #fff inset;
+    background: #c7c7a9;
+    background-image: -webkit-gradient( linear, left top, left bottom, from(#ebebeb), to(#c7c7a9));
+    background-image: -moz-linear-gradient(top, #ebebeb, #c7c7a9);
+    background-image: -webkit-linear-gradient(top, #ebebeb, #c7c7a9);
+    background-image: -o-linear-gradient(top, #ebebeb, #c7c7a9);
+    background-image: -ms-linear-gradient(top, #ebebeb, #c7c7a9);
+    background-image: linear-gradient(top, #ebebeb, #c7c7a9);
+    filter: progid: DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ebebeb', endColorstr='#c7c7a9');
+}
+
+
+/* On iOS we need to manually enable scrolling in the contents block. (#9945) */
+
+.cke_browser_ios .cke_contents {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* The resizer is the small UI element that is rendered at the bottom right
+   part of the editor. It makes is possible to resize the editor UI. */
+
+.cke_resizer {
+    /* To avoid using images for the resizer, we create a small triangle,
+	   using some CSS magic. */
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    border-width: 10px 10px 0 0;
+    border-color: transparent #666 transparent transparent;
+    border-style: dashed solid dashed dashed;
+    font-size: 0;
+    vertical-align: bottom;
+    margin-top: 6px;
+    /* 	A margin in case of no other element in the same container
+		to keep a distance to the bottom edge. */
+    margin-bottom: 2px;
+    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.cke_hc .cke_resizer {
+    font-size: 15px;
+    width: auto;
+    height: auto;
+    border-width: 0;
+}
+
+.cke_resizer_ltr {
+    cursor: se-resize;
+    float: right;
+    margin-right: -4px;
+}
+
+
+/* This class is added in RTL mode. This is a special case for the resizer
+   (usually the .cke_rtl class is used), because it may not necessarily be in
+   RTL mode if the main UI is RTL. It depends instead on the context where the
+   editor is inserted on. */
+
+.cke_resizer_rtl {
+    border-width: 10px 0 0 10px;
+    border-color: transparent transparent transparent #a5a5a5;
+    border-style: dashed dashed dashed solid;
+    cursor: sw-resize;
+    float: left;
+    margin-left: -4px;
+    right: auto;
+}
+
+
+/* The editing area (where users type) can be rendered as an editable <div>
+   element (e.g. divarea plugin). In that case, this is the class applied to
+   that element. */
+
+.cke_wysiwyg_div {
+    display: block;
+    height: 100%;
+    overflow: auto;
+    padding: 0 8px;
+    outline-style: none;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.cke_wysiwyg_frame {
+    margin-top: 0;
+    border-top: 1px solid #d5d5d5;
+}
+
+.max-width-iframe-write-split {
+    max-width: 100%;
+}
+
+.max-width-iframe-write-only {
+    min-width: 59.49vw;
+    max-width: 101vw;
+}
+
+
+/* SP4 - Zoom levels*/
+
+@media screen and (min-width: 2224px) and (max-width: 2864px),
+screen and (min-width: 1581px) and (max-width: 1582px),
+screen and (min-width: 1226px) and (max-width: 1227px),
+screen and (min-width: 847px) and (max-width: 848px) {
+    .cke_top {
+        min-width: 690px;
+    }
+}
+
+
+/* SP3  - Zoom levels*/
+
+@media screen and (min-width: 2149px) and (max-width: 2223px),
+screen and (min-width: 1565px) and (max-width: 1566px),
+screen and (min-width: 1230px) and (max-width: 1231px),
+screen and (min-width: 862px) and (max-width: 863px) {
+    .cke_top {
+        min-width: 723px;
+    }
+}
+
+
+/*@media screen and (min-width: 2100px) {
+    .cke_top {
+        height: 135px !important;
+		transition: height .3s ease-in-out 0s, padding .3s ease-in;
+    }
+    .cke_toolbox .cke_combo__editmenu {
+        border-right: 2px groove;
+        transition: width .1s ease-in-out 0s, padding .1s ease-in-out 0s, border-right .3s ease-in-out .5s;
+    }
+    .cke_toolbox .cke_combo__formatmenu {
+        border-right: 2px groove;
+        transition: width .1s ease-in-out 0s, padding .1s ease-in-out 0s, border-right .3s ease-in-out .5s;
+    }
+    .cke_toolbox .cke_toolbar:nth-child(4) {
+        border-right: 2px groove;
+        opacity: 1;
+		visibility: visible;
+		transition: opacity .3s ease-in-out .5s, visibility 0s;
+    }
+    .cke_toolbox .cke_toolbar:nth-child(5) {
+        border-right: 2px groove;
+        opacity: 1;
+		visibility: visible;
+		transition: opacity .3s ease-in-out .5s, visibility 0s;
+    }
+    .cke_toolbox .cke_toolbar:nth-child(6) {
+        border-right: 2px groove;
+        opacity: 1;
+		visibility: visible;
+		transition: opacity .3s ease-in-out .5s, visibility 0s;
+    }
+    .cke_toolbox .cke_toolbar:nth-child(7) {
+        opacity: 1;
+		visibility: visible;
+		transition: opacity .3s ease-in-out .5s, visibility 0s;
+    }
+    .cke_toolbox .cke_toolbar:nth-child(8) {
+        opacity: 1;
+		visibility: visible;
+		transition: opacity .3s ease-in-out .5s, visibility 0s;
+    }
+    .cke_toolbox .cke_toolbar {
+        opacity: 1;
+		visibility: visible;
+		transition: opacity .2s ease-in-out .5s, visibility 0s;
+    }
+}
+
+@media screen and (max-width: 2099px) {
+    .cke_toolbox .cke_toolbar:nth-child(4) {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s .3s, visibility 0s;
+    }
+
+    .cke_toolbox .cke_toolbar:nth-child(5) {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s .3s, visibility 0s;
+    }
+
+    .cke_toolbox .cke_toolbar:nth-child(6) {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s .3s, visibility 0s;
+    }
+
+    .cke_toolbox .cke_toolbar:nth-child(7) {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s .3s, visibility 0s;
+    }
+
+    .cke_toolbox .cke_toolbar:nth-child(8) {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s .3s, visibility 0s;
+    }
+
+    .cke_toolbox .cke_combo__toolsmenu {
+        width: 100px !important;
+        transition: width 0s ease-in-out 0s, border-right .3s ease-in-out 0s;
+    }
+
+    .cke_toolbox .cke_combo__formatmenu {
+        border-right: none;
+        width: 100px !important;
+        transition: width 0s ease-in-out 0s, border-right .3s ease-in-out 0s;
+    }
+
+    .cke_toolbox .cke_combo__editmenu {
+        border-right: none;
+        width: 100px !important;
+        transition: width .1s ease-in-out 0s, border-right .3s ease-in-out 0s;
+    }
+
+    .cke_top {
+        height: 66px !important;
+        transition: height .3s ease-in-out .3s, padding .3s ease-in;
+    }
+}*/

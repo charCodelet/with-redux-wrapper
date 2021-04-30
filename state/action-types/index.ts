@@ -28,4 +28,5 @@ export enum ActionType {
   DROPDOWN_SELECT = 'dropdown_select',
   TEXT_INPUT_VALUE = 'text_input_value',
   DIALOG_SHOW = 'dialog_show',
+  SET_KEYBOARD = 'set_keyboard',
 }
