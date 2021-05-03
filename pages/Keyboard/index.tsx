@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useActions';
 
@@ -8,31 +8,38 @@ const Keyboard = (): ReactElement => {
   const { isKeyboardSet } = useTypedSelector((state) => state.isKeyboardSet);
   const { multipleSelect } = useActions();
   const { tabs, multipleSelectChoices } = useTypedSelector((state) => state);
-  var triggerEvent = function triggerEvent(el, type) {
-    alert(33)
-    var e = document.createEvent('HTMLEvents');
-    e.initEvent(type, false, true);
-    el.dispatchEvent(e);
-  };
 
-  const handleTrigger = () => {
-    alert(99)
-    var someLink = document.querySelector("button[title='Root']");
-    triggerEvent(someLink, 'click');
+  // var triggerEvent = function triggerEvent(el, type) {
+  //   var e = document.createEvent('HTMLEvents');
+  //   e.initEvent(type, false, true);
+  //   el.dispatchEvent(e);
+  // };
+
+  // const handleTrigger = () => {
+  //   var someLink = document.querySelector("button[title='Fraction (Ctrl+/)']"   /*"button[title='Less-than or equal to']"*/  /*"button[title='Root']"*/);
+  //   triggerEvent(someLink, 'click');
+  // }
+  // let reduxText = multipleSelectChoices.entered[tabs.tabNumber];
+  const handleWirisNumber = (optionId) => {
+    if(optionId.includes('undefined')) {
+      optionId = optionId.slice(9);
+    }
+    let d1 = document.querySelector('.wrs_container');
+    d1.insertAdjacentHTML('beforebegin', `<span class="wrs_notItalic wrs_notBold wrs_font_inherit" style="color: rgb(0, 0, 0); position: absolute; left: 0px; top: 2px; z-index: 2; font-size: 16px;">${optionId}</span>`);
+    // multipleSelect('text_input_value', optionId, tabs.tabNumber);
   }
+
   const handleNumber = (optionId) => {
-    console.log(optionId, `--> optionId!!!!!!!!!!!!!!!!!`);
-    // var someLink = document.querySelector("#yabba");
-    // triggerEvent(someLink, 'click');
-    // let reduxText = multipleSelectChoices.entered[tabs.tabNumber];
-    // console.log(reduxText, `--> reduxText asdfsafdsafdsafdsafdsafdsafdsafdsfsdafsda`)
-    var input = document.querySelector('#yabba');
+    if(optionId.includes('undefined')) {
+      optionId = optionId.slice(9);
+    }
+    console.log(optionId, `--> optionId`);
+    var input = document.querySelector('.wrs_container'); // '.wrs_formulaDisplay' /*'#yabba'*/
     var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
     nativeInputValueSetter.call(input, optionId);
     var ev2 = new Event('change', { bubbles: true});
     input.dispatchEvent(ev2);
-
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!multipleSelect('text_input_value',",optionId,",",tabs.tabNumber,")")
+    console.log("multipleSelect('text_input_value',",optionId,",",tabs.tabNumber,")")
     multipleSelect('text_input_value', optionId, tabs.tabNumber);
   }
   
@@ -60,7 +67,7 @@ const Keyboard = (): ReactElement => {
               key={v} 
               src={`http://localhost:4000/keyboard/${v}.png`} 
               id={`${v}`} 
-              onClick={() => handleNumber(multipleSelectChoices.entered[tabs.tabNumber] + v)}
+              onClick={() => handleWirisNumber(v) /*() => handleNumber(multipleSelectChoices.entered[tabs.tabNumber] + v)*/}
             />
           )
         })}
@@ -72,7 +79,7 @@ const Keyboard = (): ReactElement => {
               style={{width: '5%'}} 
               key={v} 
               src={`http://localhost:4000/keyboard/${v}.png`} 
-              onClick={handleTrigger}           
+              onClick={/*handleTrigger*/() => handleWirisNumber(multipleSelectChoices.entered[tabs.tabNumber] + v)}           
             />
           )
         })}

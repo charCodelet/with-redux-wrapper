@@ -322,23 +322,20 @@ const ToolbarRenderer = (): ReactElement | null => {
       router.push('/');
     }
   };
-  const onClickMathKeyboard = () => {
+  const onClickMathKeyboard = async () => {
     console.log("math key");
     setMathKey(!mathKey);
     setKeyboard(!mathKey);
   }
   useEffect(() => {
-    // let editor = com.wiris.jsEditor.JsEditor.newInstance({language: "en"});
-    // if(document.getElementById('editorContainer').style.color == 'red') {
-    //   document.getElementById('editorContainer').remove();
-    //   return;
-    // }
-    // if(mathKey) {
-    //   editor.insertInto(document.getElementById("editorContainer"));
-    //   // document.getElementById('editorContainer').style.color = 'red';   
-    //   editor.setMathML("<html><math><mfrac><mn>23432432432423432432432424243</mn><mi>x</mi></mfrac></math></html>");
-    //   editor.getMathML()
-    // }
+    let editor = com.wiris.jsEditor.JsEditor.newInstance({language: "en"});
+    if(document.getElementById('editorContainer').style.color == 'red') {
+      document.getElementById('editorContainer').remove();
+      return;
+    }
+    if(mathKey) {
+      editor.insertInto(document.getElementById("editorContainer"));
+    }
   }, [mathKey]);
   const nextItem = () => {
     console.log(tabs.tabsData[tabs.tabNumber + 1], `--> tabs`);

@@ -1,23 +1,30 @@
-import React from 'react';
-import dynamic from "next/dynamic";
+import React, { useEffect } from 'react';
+// import parse from "html-react-parser";
+// import { wrapper } from '../../../state/store';
+// import katex from 'katex';
+// import dynamic from "next/dynamic";
+// import MathJax from 'react-mathjax-preview'
 // import MathComponent from './MathComponent';
-// mathjax-react breaks SSR by accessing the 'window'
-// object. We work around this by lazy loading the
-// dependency.
-//
-// React.lazy only works with default exports,
-// so we re-export the named "MathComponent" we need as a
-// default in the MathComponent.tsx file.
-// const MathComponent = React.lazy(() => import('./MathComponent'));
-const MathComponent = dynamic(() => import("./MathComponent"), { ssr: false });
+const MathComponent = React.lazy(() => import('./MathComponent'));
+// const MathComponent = dynamic(() => import("./MathComponent"), { ssr: false });
 
-export default function Math({ children }) {
+export default function Math({children}) {
+  // children = katex.renderToString(`${children}`, {
+  //   throwOnError: true,
+  //   output: 'mathml'
+  // });
+  // console.log(children, `--> children`);
+
+  // useEffect(() => {
+  //   children = katex.renderToString(`${children}`, {
+  //     throwOnError: true,
+  //     output: 'mathml'
+  //   });
+  // },[])
+  // return <MathJax math={children}/>
   return (
-    // Do not show anything in the fallback area as this is
-    // not the primary use-case for using React.lazy &
-    // Suspense
     <React.Suspense fallback={<div>Loading...</div>}>
       <MathComponent mathml={`${children}`} display={false} />
     </React.Suspense>
-  );
+  )
 }

@@ -4,14 +4,12 @@ import { useActions } from '../../hooks/useActions';
 import interact from 'interactjs';
 
 declare const window: any;
-const Calculator = (): ReactElement => {
+const Calculator = (props: any): ReactElement => {
   const { fetchCalculatorElement } = useActions();
-  // eslint-disable-next-line
-  const TI30XSDefaultConfiguration: any = {
+  const TIConfiguration: any = {
     elementId: 'calculatorDiv',
-    ROMLocation: '../../ti-calculator/TI-30MV_HTML5_EMULATOR-2.0.0.65-prd/roms/ti30mv.h84state',
-    FaceplateLocation: '../../ti-calculator/TI-30MV_HTML5_EMULATOR-2.0.0.65-prd/images/TI30XS_touch.svg',
-    FaceplateMobileLocation: '../../ti-calculator/TI-30MV_HTML5_EMULATOR-2.0.0.65-prd/images/TI30XS_touch.svg',
+    ROMLocation: `../../ti-calculator/TI-${props.model}_HTML5_EMULATOR-2.0.0.65-prd/roms/ti${props.model3}.h84state`,
+    FaceplateLocation: `../../ti-calculator/TI-${props.model}_HTML5_EMULATOR-2.0.0.65-prd/images/TI${props.model2}_touch.svg`,
     KeyMappingFile: '',
     KeyHistBufferLength: '100000',
     DisplayMode: 'Classic',
@@ -19,7 +17,9 @@ const Calculator = (): ReactElement => {
   };
   const ref = useRef(null);
   useEffect(() => {
-    window.TI30.prototype.constructor(TI30XSDefaultConfiguration);
+    console.log(props.model, `--> props.model`)
+    if(props.model == '30MV') window.TI30.prototype.constructor(TIConfiguration);
+    else window.TI108.prototype.constructor(TIConfiguration);
     fetchCalculatorElement(ref);
   }, []);
   interact('.calculatorDiv').draggable({
