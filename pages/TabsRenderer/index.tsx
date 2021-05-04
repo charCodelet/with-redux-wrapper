@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useRouter } from 'next/router';
 import { Tabs, TabList, Tab } from '@coreym/benchmark';
@@ -11,6 +11,12 @@ const TabsRenderer = (): ReactElement | null => {
   const { tabs } = useTypedSelector((state: any) => state);
   const { scratch } = useTypedSelector((state) => state.scratch);
   const { getTabNumber, getBlockNumber, multipleSelect } = useActions();
+  // const { mathSSR } = useTypedSelector((state) => state);
+  // useEffect(() => {
+  //   if((tabs.tabNumber + 1) == 3) {
+  //     console.log(mathSSR, `--> mathSSR`);
+  //   }
+  // },[tabs])
   const handleSelect = (optionId: number) => {
     // console.log(tabs, `--> tabs`);
     // document.getElementById("can").remove();

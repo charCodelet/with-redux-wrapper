@@ -107,7 +107,7 @@ const multipleSelectReducer = (state: RepositoriesState = initialState, action: 
       };
       // console.log(multClear.globalState.eliminated, `--> eliminated`);
       // console.log(multClear.globalState.selected, `--> selected`);
-      console.log(multClear, `--> multClear`);
+      // console.log(multClear, `--> multClear`);
       return multClear;
     default:
       return state;

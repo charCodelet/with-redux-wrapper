@@ -17,7 +17,7 @@ const CalculatorServer = dynamic(() => import("./Calculator"), { ssr: false });
 // const Editor = dynamic(() => import("./Editor"), { ssr: false });
 
 const WrappedApp = ({ Component, pageProps }) => {
-  console.log(pageProps, `--> pageProps`);
+  // console.log(pageProps, `--> pageProps`);
   const router = useRouter();
   // console.log(router.pathname, `--> router.pathname`);
   const { theme } = useTypedSelector((state) => state.theme);
@@ -31,6 +31,7 @@ const WrappedApp = ({ Component, pageProps }) => {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.5/dist/katex.min.css" integrity="sha384-L+Gq2Cso/Y2x8fX4wausgiZT8z0QPZz7OqPuz4YqAycQJyrJT9NRLpjFBD6zlOia" crossorigin="anonymous"/>
         <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.5/dist/katex.min.js" integrity="sha384-z64WtjpyrKFsxox9eI4SI8eM9toXdoYeWb5Qh+8PO+eG54Bv9BZqf9xNhlcLf/sA" crossorigin="anonymous"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.5/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+        <script src="mathml2latex-browser.js"></script>
       </Head>
       {/* <CalculatorServer model='30MV' model2='30XS' model3='30mv'/> */}
       <CalculatorServer model='108' model2='108' model3='108'/>

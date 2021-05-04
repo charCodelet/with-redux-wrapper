@@ -17,7 +17,7 @@ const Calculator = (props: any): ReactElement => {
   };
   const ref = useRef(null);
   useEffect(() => {
-    console.log(props.model, `--> props.model`)
+    // console.log(props.model, `--> props.model`)
     if(props.model == '30MV') window.TI30.prototype.constructor(TIConfiguration);
     else window.TI108.prototype.constructor(TIConfiguration);
     fetchCalculatorElement(ref);

@@ -11,7 +11,7 @@ import { wrapper } from '../state/store';
 
 export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
   const Mathml2latex = require('mathml-to-latex');
-
+  console.log(Mathml2latex, `--Mathml2latex`)
   // let tester = {
   //   props: {
   //     loadedProduct: katex.renderToString("c = \\pm\\sqrt{a^2 + b^2}", {
@@ -43,35 +43,30 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
   let datum;
   await Promise.all(requests).then(responses => responses).then(async responses => Promise.all(responses.map(r => r.json())).then(async data => { // Promise.all waits until all jobs are resolved
     console.log(data, `--> data`);
-    // datum = data[2].content.children[0].children[0].children[1].children[0].children[0].children[0];
+    datum = data[3].content.children[0].children[0].children[0].children[1].children[0].children[0];
     // datum = data[2].content.children[0].children[0].children[0].children[0].children[1].children[0];
-    datum = data[2].content.children[0].children[0].children[1].children[0].children[2].children[0];//.children[2];
+    // datum = data[2].content.children[0].children[0].children[1].children[0].children[2].children[0];//.children[2];
     console.log(datum, `----> datum`);
     store.dispatch({type: 'fetch_all_items', payload: data });
   })); 
   // console.log(datum, `--> datum`);
   datum = Mathml2latex.convert(datum);
-  return {
+  let ssrMathRef = {
     props: {
-      loadedProduct: katex.renderToString(`${datum}`, {
-        throwOnError: true,  
-        // output: 'mathml'  
-      }),
+      loadedProduct: katex.renderToString(`${datum}`, {throwOnError: true/*, output: "mathml"*/}),
     }
   }
+  store.dispatch({type: 'ssr-math', payload: ssrMathRef.props.loadedProduct });
+  return ssrMathRef;
 })
 
 const App: React.FC = (props: any): ReactElement => {
   const { zoom } = useTypedSelector((state) => state.zoom);
   const { loadedProduct } = props;
-  // alert('wow! the translate done fucked everything up yall!')
-  // console.log(window.innerHeight, `--> window.innerHeight`);
-  // console.log(zoom, `--> zoom`);
-  // console.log(zoom.toFixed(2), `--> zoom.toFixed(2)`);
   return ( 
     <SSRProvider>
-      <div dangerouslySetInnerHTML={{ __html: loadedProduct }}></div>       
-      <section id="pointerTest" style={{ userSelect: 'none', /*overflowY: 'hidden',*/ position: 'relative', transform: `scale(${zoom.toFixed(2)})` /*translate(${zoom.toFixed(2)}rem)`*/}}>
+      {/* <div dangerouslySetInnerHTML={{ __html: loadedProduct }}></div>        */}
+      <section id="pointerTest" style={{ userSelect: 'none', /*overflowY: 'hidden',*/ position: 'relative', transform: `scale(${zoom.toFixed(2)})`}}>
         <AssessmentRenderer /> 
       </section>   
     </SSRProvider>
@@ -80,5 +75,3 @@ const App: React.FC = (props: any): ReactElement => {
 
 export default App;
 
-// ${zoom.toFixed(2)}
-/*"c = \\pm\\sqrt{a^2 + b^2}"*/

@@ -14,6 +14,7 @@ import fetchCalculatorElementReducer from './reducers/fetchCalculatorElementRedu
 import fetchAllReducer from './reducers/fetchAllReducer';
 import dialogReducer from './reducers/dialogReducer';
 import keyboardReducer from './reducers/keyBoardReducer';
+import mathReducer from './reducers/mathReducer';
 
 const combinedReducer = combineReducers({
   tools: toolsReducer,
@@ -29,6 +30,7 @@ const combinedReducer = combineReducers({
   fetchAllItems: fetchAllReducer,
   dialog: dialogReducer,
   isKeyboardSet: keyboardReducer,
+  mathSSR: mathReducer,
 });
 
 

@@ -162,6 +162,11 @@ interface SetKeyboardAction {
   payload: boolean;
 }
 
+interface SetSSRMathAction {
+  type: ActionType.SSR_MATH;
+  payload: string;
+}
+
 export type Action =
   | FetchAllItemsAction 
   | FetchStartAction
@@ -193,4 +198,5 @@ export type Action =
   | TextInputValueAction
   | DialogAction
   | SetKeyboardAction
+  | SetSSRMathAction
  

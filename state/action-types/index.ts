@@ -29,4 +29,5 @@ export enum ActionType {
   TEXT_INPUT_VALUE = 'text_input_value',
   DIALOG_SHOW = 'dialog_show',
   SET_KEYBOARD = 'set_keyboard',
+  SSR_MATH = 'ssr-math',
 }
