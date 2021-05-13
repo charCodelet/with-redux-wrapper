@@ -1,0 +1,114 @@
+{
+  "accession": "VH447209",
+  "id": "VH447209",
+  "type": "",
+  "content": {
+    "element": "Box",
+    "props": {},
+    "children": [
+      {
+        "id": "VH447209_1",
+        "element": "Box",
+        "props": {},
+        "children": [
+          {
+            "id": "VH447209_2",
+            "element": "Box",
+            "props": {},
+            "children": [
+              {
+                "id": "VH447209_3",
+                "element": "Paragraph",
+                "props": {},
+                "children": [
+                  {
+                    "id": "VH447209_4",
+                    "element": "Text",
+                    "props": {},
+                    "children": [
+                      "Question ",
+                      {
+                        "id": "VH447209_5",
+                        "element": "Text",
+                        "props": {},
+                        "children": ["!@#ItemTabNumber0"]
+                      },
+                      " refers to the following video from a 2012 presidential debate between Mitt Romney and President Barack Obama."
+                    ]
+                  },
+                  {
+                    "id": "VH447209_6",
+                    "element": "Text",
+                    "props": {},
+                    "children": [
+                      "Questions ",
+                      {
+                        "id": "VH447209_7",
+                        "element": "Text",
+                        "props": {},
+                        "children": ["0"]
+                      },
+                      " and ",
+                      {
+                        "id": "VH447209_8",
+                        "element": "Text",
+                        "props": {},
+                        "children": ["!@#LastItemTabNumber"]
+                      },
+                      " refer to the following video from a 2012 presidential debate between Mitt Romney and President Barack Obama."
+                    ]
+                  },
+                  {
+                    "id": "VH447209_9",
+                    "element": "Text",
+                    "props": {},
+                    "children": [
+                      "Questions ",
+                      {
+                        "id": "VH447209_10",
+                        "element": "Text",
+                        "props": {},
+                        "children": ["0"]
+                      },
+                      " - ",
+                      {
+                        "id": "VH447209_11",
+                        "element": "Text",
+                        "props": {},
+                        "children": ["!@#LastItemTabNumber"]
+                      },
+                      " refer to the following video from a 2012 presidential debate between Mitt Romney and President Barack Obama."
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "VH447209_12",
+                "element": "Box",
+                "props": {},
+                "children": [
+                  {
+                    "id": "VH447209_13",
+                    "element": "Paragraph",
+                    "props": {},
+                    "children": [
+                      "In the 2012 presidential debate between Mitt Romney and President Barack Obama, the candidates ",
+                      {
+                        "id": "VH447209_14",
+                        "element": "Text",
+                        "props": { "substitution": "were-asked--to" },
+                        "children": ["were asked to"]
+                      },
+                      " explain what they believe the purpose of government to be."
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "id": "VH447209_0"
+  }
+}

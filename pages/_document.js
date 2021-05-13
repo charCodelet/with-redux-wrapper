@@ -10,7 +10,8 @@ class MyDocument extends Document {
           <script src="ti-calculator/TI-108_HTML5_EMULATOR-2.0.0.65-prd/js/ti108-min.js"></script>
           <link rel="stylesheet" type="text/css" href="ti-calculator/TI-108_HTML5_EMULATOR-2.0.0.65-prd/css/ti108-min.css" />
           <link rel="stylesheet" type="text/css" href="ti-calculator/TI-30MV_HTML5_EMULATOR-2.0.0.65-prd/css/ti30mv-min.css" />     
-          <script src="https://www.wiris.net/demo/editor/editor" /> 
+          {/* <script src="https://www.wiris.net/demo/editor/editor" />  */}
+          <script src="editor.js" /> 
           <body>
             <Main/>
             <NextScript /> 

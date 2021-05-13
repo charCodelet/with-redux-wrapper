@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { ReactElement, useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useActions';
@@ -18,9 +18,11 @@ dot_flag = false;
 
 var x = "black";
 var y = 14; // 40;
+let nodes = [];
 
 const ToolbarRenderer = (): ReactElement | null => {
   const [mathKey, setMathKey] = useState(false);
+  const [textOn, setTextOn] = useState(false);
   const { dialogShow } = useTypedSelector((state) => state.dialog);
   const [stopTimer, setStopTimer] = useState(false);
   const [clearCanvas, setClearCanvas] = useState(false);
@@ -85,7 +87,6 @@ const ToolbarRenderer = (): ReactElement | null => {
       }
     }
   }
-  
   
   var bindingMoveEvent = curriedFn.bind(this, 'move');
   var bindingDownEvent = curriedFn.bind(this, 'down');
@@ -327,16 +328,64 @@ const ToolbarRenderer = (): ReactElement | null => {
     setMathKey(!mathKey);
     setKeyboard(!mathKey);
   }
+  var synth = window.speechSynthesis;
+  let div = document.getElementById("scrollRef");
+  let filter = function(node) {
+  return node.tagName.toLowerCase() == "p" ? 
+    NodeFilter.FILTER_ACCEPT :
+    NodeFilter.FILTER_SKIP;
+  };  
+
+  const controller = new AbortController();
+ 
   useEffect(() => {
-    let editor = com.wiris.jsEditor.JsEditor.newInstance({language: "en"});
-    if(document.getElementById('editorContainer').style.color == 'red') {
-      document.getElementById('editorContainer').remove();
-      return;
+    const startTalk = (v) => {
+      synth.speak(new SpeechSynthesisUtterance(v.innerText))
     }
-    if(mathKey) {
-      editor.insertInto(document.getElementById("editorContainer"));
+    if(textOn) {   
+      let iterator = document.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, filter, false);            
+      let node = iterator.nextNode();
+      while (node !== null) {    
+        nodes.push(node)
+        node.style.border = "1px solid black";
+        node.style.cursor = "pointer"
+        node = iterator.nextNode();       
+      }
+      nodes.forEach(function(v) {
+        v.addEventListener('click', () => startTalk(v),{ signal: controller.signal })
+      })
+    } 
+    else {
+      nodes.forEach(v => {
+        v.style.border = "none";
+        v.style.cursor = "default";       
+      });
+      synth.cancel();
     }
-  }, [mathKey]);
+    return (() => {
+      console.log('done');
+      controller.abort();
+    })
+  }, [textOn])
+
+  const onClickTTS = (text) => {
+
+    // console.log(textOn, `--> textOn before`);
+
+    // setTextOn((text) => !text)
+    setTextOn(!text)
+    
+    // console.log(textOn, `--> textOn after`);
+   
+    
+  }
+  // useEffect(() => {
+  //   let editor = com.wiris.jsEditor.JsEditor.newInstance({language: "en"});
+
+  //   if(mathKey) {
+  //     editor.insertInto(document.getElementById("editorContainer"));
+  //   }
+  // }, [mathKey]);
   const nextItem = () => {
     console.log(tabs.tabsData[tabs.tabNumber + 1], `--> tabs`);
     getTabNumber(tabs.tabNumber + 1);
@@ -415,7 +464,7 @@ const ToolbarRenderer = (): ReactElement | null => {
         isPrevDisabled={tabs.tabNumber === 0}
         isNextDisabled={tabs.tabNumber === tabs.data.length - 1 || scratch}
         isHelpActive={/*tools?.help?.activated*/router.pathname == '/help'}
-        isTTSActive={tools?.bilingual?.activated}
+        isTTSActive={/*tools?.bilingual?.activated*/ textOn}
         isMathKeyboardActive={tools?.mathKeyboard?.activated}
         isCalculatorActive={tools?.calculator?.activated}
         isScratchActive={scratch}
@@ -425,6 +474,7 @@ const ToolbarRenderer = (): ReactElement | null => {
         hasTTS={tools?.readAloud?.visible}
         hasTimer={tools?.timer?.visible}
         hasProgress={tools?.progress?.visible}
+        onClickTTS={() => onClickTTS(textOn)}
         onClickMathKeyboard={onClickMathKeyboard}
         onClickCalculator={onClickCalculator}
         onClickHelp={onClickHelp}

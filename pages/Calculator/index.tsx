@@ -21,6 +21,9 @@ const Calculator = (props: any): ReactElement => {
     if(props.model == '30MV') window.TI30.prototype.constructor(TIConfiguration);
     else window.TI108.prototype.constructor(TIConfiguration);
     fetchCalculatorElement(ref);
+    return () => {
+      console.log("need to kill the calculator...weird stuff happens after I click on help...I think it is doing a new instance or something...")
+    }
   }, []);
   interact('.calculatorDiv').draggable({
       restrict: {
@@ -28,13 +31,13 @@ const Calculator = (props: any): ReactElement => {
         elementRect: { left: 0, top: 0, right: 1, bottom: 1 }
       },
       onmove: (event) => { 
-      const target = event.target; 
-      const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx; 
-      const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-      target.style.webkitTransform = target.style.transform = `translate(${x}px, ${y}px)`;
-      target.setAttribute('data-x', '' + x); 
-      target.setAttribute('data-y', '' + y); 
-    }
+        const target = event.target; 
+        const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx; 
+        const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+        target.style.webkitTransform = target.style.transform = `translate(${x}px, ${y}px)`;
+        target.setAttribute('data-x', '' + x); 
+        target.setAttribute('data-y', '' + y); 
+      }
   }); 
   return <div className='calculatorDiv' ref={ref} id='calculatorDiv' style={{position: "absolute", width: "210px", height: "316px", visibility: "hidden"}}></div> 
 };
