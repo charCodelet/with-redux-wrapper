@@ -5,8 +5,9 @@
     "dev": "cross-env next -p 4000",
     "build": "next build",
     "start": "next start",
-    "devConcur": "concurrently \"cross-env NODE_OPTIONS='--inspect' next -p 4000\" \"cd mock-json-server && yarn start\" \"start http://localhost:4000\"",
-    "devConcur2": "concurrently \"cd mock-json-server && yarn start\" \"cross-env NODE_OPTIONS='--inspect' next -p 4000\" \"start http://localhost:4000\""
+    "devConcur": "concurrently \"cross-env NODE_OPTIONS='--inspect' next -p 4000\" \"start http://localhost:4000\"",
+    "devConcur2": "concurrently \"cross-env NODE_OPTIONS='--inspect' next -p 4000\" \"cd mock-json-server && yarn start\" \"start http://localhost:4000\"",
+    "devConcur3": "concurrently \"cd mock-json-server && yarn start\" \"cross-env NODE_OPTIONS='--inspect' next -p 4000\" \"start http://localhost:4000\""
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "27.1.0",
