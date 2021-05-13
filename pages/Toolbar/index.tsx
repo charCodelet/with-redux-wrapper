@@ -39,7 +39,7 @@ const ToolbarRenderer = (): ReactElement | null => {
   const { data } = useTypedSelector((state) => state.tools);
   const { tabs } = useTypedSelector((state) => state);
   let { zoom } = useTypedSelector((state) => state.zoom);
-  const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog, setKeyboard } = useActions(); // prettier-ignore
+  const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog, setKeyboard, setMathKeyboard } = useActions(); // prettier-ignore
 
   function draw() {
     setHasDrawn(true)
@@ -380,11 +380,11 @@ const ToolbarRenderer = (): ReactElement | null => {
     
   }
   // useEffect(() => {
-  //   let editor = com.wiris.jsEditor.JsEditor.newInstance({language: "en"});
+    // let editor = com.wiris.jsEditor.JsEditor.newInstance({language: "en"});
 
-  //   if(mathKey) {
-  //     editor.insertInto(document.getElementById("editorContainer"));
-  //   }
+    // if(mathKey) {
+    //   editor.insertInto(document.getElementById("editorContainer"));
+    // }
   // }, [mathKey]);
   const nextItem = () => {
     console.log(tabs.tabsData[tabs.tabNumber + 1], `--> tabs`);

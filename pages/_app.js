@@ -44,7 +44,18 @@ const WrappedApp = ({ Component, pageProps }) => {
           </Box>
           <Component {...pageProps} />
           <canvas id="can" style={{display: "none", position: "absolute", top: '0'/*, border: "2px solid"*/}}/>
-          <div id="editorContainer"></div>
+          <div 
+            id="editorContainer"
+            style={{
+              position: 'absolute',
+              transform: 'translate(128px, -95px)',
+              // top: '300px',
+              // left: '128px',
+              width: '62%',
+              height: '64px',
+            }} 
+          >  
+          </div>
           <Keyboard />
         </GlobalProvider>
       </ScrollPanel> 
