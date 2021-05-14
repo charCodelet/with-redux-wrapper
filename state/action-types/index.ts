@@ -30,4 +30,5 @@ export enum ActionType {
   DIALOG_SHOW = 'dialog_show',
   SET_KEYBOARD = 'set_keyboard',
   SSR_MATH = 'ssr-math',
+  STORE_WIRIS = 'store_wiris',
 }

@@ -252,12 +252,13 @@ export const dropdownSelect = (action: string, value?: string) => {
 };
 
 export const setTheme = (theme: string) => {
-  // eslint-disable-next-line
-return (dispatch: Dispatch<Action>) => {
+return async (dispatch: Dispatch<Action>, getState: () => any) => {
+  console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${getState().tabs.blockNumber}} Change Theme ${getState().theme.theme})}`);
     dispatch({
       type: ActionType.SET_THEME,
       payload: theme,
     });
+    console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${getState().tabs.blockNumber}} Change Theme ${getState().theme.theme})}`);
   };
 };
 
@@ -302,13 +303,18 @@ return (dispatch: Dispatch<Action>) => {
 };
 
 // eslint-disable-next-line
-export const fetchCalculatorElement = (element: any) => {
+export const fetchCalculatorElement = (element: any, model: string, observable?: boolean) => {
   // eslint-disable-next-line
-return (dispatch: Dispatch<Action>) => {
-    dispatch({
-      type: ActionType.FETCH_CALCULATOR_ELEMENT,
-      payload: element,
-    });
+return (dispatch: Dispatch<Action>, getState: () => any) => {
+  dispatch({
+    type: ActionType.FETCH_CALCULATOR_ELEMENT,
+    payload: {
+      element,
+      model
+    }
+  });
+  console.log(getState(), `--> getState()`);
+  if(observable) console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${getState().tabs.blockNumber}} Open Calculator TI${getState().calculator.calculatorModel})}`);
   };
 };
 
@@ -324,3 +330,14 @@ export const textInputValue = (text: string | number) => {
   };
 };
 
+// eslint-disable-next-line
+export const storeWiris = (wiris: any) => {
+  // console.log(text, `--> text`);
+  // eslint-disable-next-line
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.STORE_WIRIS,
+      payload: wiris,
+    });
+  };
+};

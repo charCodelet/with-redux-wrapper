@@ -20,7 +20,7 @@ const Calculator = (props: any): ReactElement => {
     // console.log(props.model, `--> props.model`)
     if(props.model == '30MV') window.TI30.prototype.constructor(TIConfiguration);
     else window.TI108.prototype.constructor(TIConfiguration);
-    fetchCalculatorElement(ref);
+    fetchCalculatorElement(ref, props.model);
     return () => {
       console.log("need to kill the calculator...weird stuff happens after I click on help...I think it is doing a new instance or something...")
     }

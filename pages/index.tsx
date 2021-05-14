@@ -7,6 +7,8 @@ import path from 'path';
 import jsonata from 'jsonata';
 // import fs from 'fs';
 import fs from 'fs/promises';
+import https from 'https';
+import zlib from 'zlib';
 // var promises_1 = require("fs").promises;
 // import useSWR from "swr";
 import { wrapper } from '../state/store';
@@ -26,6 +28,47 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
   
   // await doServerSideTransformation(); 
 
+  let start = await fetch('http://localhost:3010/start');
+  let startJson = await start.json();
+  // console.log(startJson, `--> startJson`);
+
+  let students = await fetch('http://localhost:3010/students');
+  let studentsJson = await students.json();
+  // console.log(studentsJson, `--> studentsJson`);
+
+//   function getGzipped(url, callback) {
+//     // buffer to store the streamed decompression
+//     var buffer = [];
+
+//     https.get(url, function(res) {
+//         // pipe the response into the gunzip to decompress
+//         var gunzip = zlib.createGunzip();            
+//         res.pipe(gunzip);
+
+//         gunzip.on('data', function(data) {
+//             // decompression chunk ready, add it to the buffer
+//             console.log(data.toString(), `--> data to string`)
+//             buffer.push(data.toString())
+
+//         }).on("end", function() {
+//             // response and decompression complete, join the buffer and return
+//             callback(null, buffer.join("")); 
+
+//         }).on("error", function(e) {
+//           console.log('error')
+//             callback(e);
+//         })
+//     }).on('error', function(e) {
+//         callback(e)
+//     });
+// }
+
+// getGzipped('https://npd-review.naep.ed.gov/api/eiv/item/VH504849', function(err, data) {
+//   if(err) console.log(err)
+//   console.log(data, `--> data`);
+// });
+
+
 
   // let myTab = await store.getState().tabs.tabNumber;
   // let start = await fetch('http://localhost:3010/tools/VH447212');
@@ -35,6 +78,7 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
   store.dispatch({type: 'tools_props_success', payload: toolsJson});
   let blocks = await fetch('http://localhost:3010/blocks');
   let blocksJson = await blocks.json();
+  // console.log(blocksJson, `--> blocksJson`);
   let nestedIdsMap = blocksJson[0].itemHeaders.map(v => v.nestedItemIds);
   let nestedIds = nestedIdsMap.filter(v => v);
   let uniqueChars = [...new Set(nestedIds.flat())];

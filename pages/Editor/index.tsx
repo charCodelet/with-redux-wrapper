@@ -1,27 +1,28 @@
-import React, { ReactElement } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
-// import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
-// import MathType from '@wiris/mathtype-ckeditor5/src/plugin'; // we do not need this anymore since it is part of our new build in ckeditor...
+import React, { ReactElement, useEffect } from 'react';
+import { useActions } from '../../hooks/useActions';
 
 const Editor = (): ReactElement => {
-  ClassicEditor.create( document.querySelector('#editor'), {toolbar: ['MathType', 'bold', 'italic']}).catch((error: any) => console.log(error));
+  const { storeWiris } = useActions(); // prettier-ignore
+  useEffect(() => {
+    let editor = com.wiris.jsEditor.JsEditor.newInstance({language: "en"});
+    editor.insertInto(document.getElementById("editorContainer"));
+    storeWiris(editor);
+  },[])
   return (
     <>
-      <CKEditor
-        editor={ClassicEditor}
-        onReady={(editor: any) => console.log('Editor is ready to use!', editor)}
-        onChange={(event: any, editor: {getData: () => any}) => {
-          console.log(editor.getData());
-          // console.log({event, editor}, editor.getData())}
-        }}
-        onBlur={(_event: any, editor: any) => console.log('Blur.', editor)}
-        onFocus={( _event: any, editor: any) => console.log('Focus.', editor)}
-      />
+       <div 
+          id="editorContainer"
+          style={{
+            position: 'absolute',
+            visibility: 'hidden',
+            zIndex: 0,
+            width: '62%',
+            height: '64px',
+          }} 
+        >  
+        </div>
     </>
   );
 };
 
 export default Editor;
-

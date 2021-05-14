@@ -33,13 +33,13 @@ const ToolbarRenderer = (): ReactElement | null => {
   const [num, setNum] = useState(1800 / 60);
   const router = useRouter();
   const intervalRef = useRef(null);
-  const { calculator } = useTypedSelector((state) => state.calculator);
+  const { calculator, calculatorModel } = useTypedSelector((state) => state);
   const { scratch } = useTypedSelector((state) => state.scratch);
   const { theme } = useTypedSelector((state) => state.theme);
   const { data } = useTypedSelector((state) => state.tools);
   const { tabs } = useTypedSelector((state) => state);
   let { zoom } = useTypedSelector((state) => state.zoom);
-  const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog, setKeyboard, setMathKeyboard } = useActions(); // prettier-ignore
+  const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog, setKeyboard, setMathKeyboard, fetchCalculatorElement } = useActions(); // prettier-ignore
 
   function draw() {
     setHasDrawn(true)
@@ -198,8 +198,14 @@ const ToolbarRenderer = (): ReactElement | null => {
   const onClickScratch = () => {
     getScratch(!scratch);
     setClearCanvas(false);
-    if(!scratch) document.body.style.cursor = "url('cursors/Cur_Draw_Scratch.cur'), auto";
-    else document.body.style.cursor = 'default'
+    if(!scratch) {
+      document.body.style.cursor = "url('cursors/Cur_Draw_Scratch.cur'), auto";
+      console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber:"${tabs.blockNumber}} Open Scratchpad)}`);
+    }
+    else {
+      document.body.style.cursor = 'default';
+      console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber:"${tabs.blockNumber}} Close Scratchpad)}`);
+    }
   }
   const onClickClear = () => {
     console.log('onClickClear');
@@ -306,16 +312,16 @@ const ToolbarRenderer = (): ReactElement | null => {
     changeZoom(zoom + 0.1);
   };
   const onClickCalculator = () => {
-    console.log(calculator, `--> calculator`);
+    fetchCalculatorElement(calculator, calculator.calculatorModel, true)
     if (/*calculator.current*/document.getElementById('calculatorDiv').style.visibility === 'hidden') {
       /*calculator.current*/document.getElementById('calculatorDiv').style.visibility = 'visible';
     } else {
       /*calculator.current*/document.getElementById('calculatorDiv').style.visibility = 'hidden';
     }
   };
-  const onClickTheme = () => setTheme(theme);
-
-
+  const onClickTheme = () => {
+    setTheme(theme);
+  }
   const onClickHelp = () => {
     if (router.pathname == '/') {
       router.push('/help');

@@ -1,17 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { TextInput } from '@coreym/benchmark';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { useActions } from '../../../hooks/useActions';
 import { Widget } from '../../../types/src/stateMachineTypes/Widget';
-import MathMl2LaTeX from 'mathml2latex';
-import katex from 'katex';
-// import dynamic from 'next/dynamic';
-// import Editor from '../../Editor';
-
-// const Editor = dynamic(() => import("../../Editor"), { ssr: false });
-// import { CKEditor } from '@ckeditor/ckeditor5-react';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export const TextInputConnector = (widget: Widget): ReactElement | null => {
   const [text, setText] = useState<String | Number>('');
@@ -19,20 +10,26 @@ export const TextInputConnector = (widget: Widget): ReactElement | null => {
   const { multipleSelect } = useActions();
   let reduxText = multipleSelectChoices.entered[tabs.tabNumber];
 
-
+  useEffect(() => {
+    let xTop = document.getElementById("yabba").getBoundingClientRect().x;
+    let yTop = document.getElementById("yabba").getBoundingClientRect().y;
+    document.getElementById('editorContainer').style.transform = `translate(${xTop}px, ${yTop}px)`;
+    document.getElementById('editorContainer').style.zIndex = 1;
+    document.getElementById('editorContainer').style.visibility = 'visible';
+    document.getElementById('editorContainer').style.backgroundColor = '#ebfbe5';
+    document.getElementById('editorContainer').style.outline = '1px dashed #008117';
+    document.getElementById('editorContainer').style.outlineOffset = '-3px';
+    document.getElementsByClassName('wrs_formulaDisplay')[0].style.backgroundColor = "transparent";
+  },[])
+  
   const handleSelect = (optionId: string) => {
-    console.log('CHANGE EVENT')
-    // console.log(optionId, `--> optionId in textinput`)
-    // console.log(intervalRef?.current, `--> intervalRef.current`)
-    // optionId = "1&#x2044;2"
     console.log("multipleSelect('text_input_value',",optionId,",",tabs.tabNumber,")")
     multipleSelect('text_input_value', optionId, tabs.tabNumber);
     // setText(optionId); 
   };
   return (
       <div>
-        <div id="here" style={{position: "absolute"}}></div>
-        <TextInput id='yabba' onChange={handleSelect} value={/*reduxText*/''} /*type={'search'}*/ >
+        <TextInput id='yabba' onChange={handleSelect} value={/*reduxText*/''} type={'search'} >
           {widget.children}
         </TextInput>  
       </div>

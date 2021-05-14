@@ -128,7 +128,10 @@ interface ChangeZoomAction {
 
 interface FetchCalculatorAction {
   type: ActionType.FETCH_CALCULATOR_ELEMENT;
-  payload: any;
+  payload: {
+    element: any,
+    model: any,
+  }
 }
 
 interface FetchAllItemsAction {
@@ -167,6 +170,12 @@ interface SetSSRMathAction {
   payload: string;
 }
 
+interface StoreWirisAction {
+  type: ActionType.STORE_WIRIS;
+  payload: any;
+}
+
+
 export type Action =
   | FetchAllItemsAction 
   | FetchStartAction
@@ -199,4 +208,5 @@ export type Action =
   | DialogAction
   | SetKeyboardAction
   | SetSSRMathAction
+  | StoreWirisAction
  

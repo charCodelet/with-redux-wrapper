@@ -15,6 +15,7 @@ import fetchAllReducer from './reducers/fetchAllReducer';
 import dialogReducer from './reducers/dialogReducer';
 import keyboardReducer from './reducers/keyBoardReducer';
 import mathReducer from './reducers/mathReducer';
+import storeWirisReducer from './reducers/storeWirisReducer';
 
 const combinedReducer = combineReducers({
   tools: toolsReducer,
@@ -31,6 +32,7 @@ const combinedReducer = combineReducers({
   dialog: dialogReducer,
   isKeyboardSet: keyboardReducer,
   mathSSR: mathReducer,
+  getWiris: storeWirisReducer,
 });
 
 

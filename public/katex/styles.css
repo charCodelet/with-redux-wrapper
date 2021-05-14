@@ -23,11 +23,20 @@
   height: inherit;
 }
 
-/* .wrs_formulaDisplay {
-  height: 64px !important;
-} */
+.wrs_editor .wrs_formulaDisplayWrapper > .wrs_formulaDisplay {
+  /* height: 64px !important; */
+  background-color: 'transparent !important';
+}
+
+.wrs_editor.wrs_withHand:not(.wrs_handDisabled):not(.wrs_toolbarHidden) .wrs_formulaDisplayWrapper {
+  margin-right: 0 !important;
+}
 
 .wrs_handContainer + input {
+  display: none !important;
+}
+
+.wrs_underlineCaret.wrs_dark {
   display: none !important;
 }
 
