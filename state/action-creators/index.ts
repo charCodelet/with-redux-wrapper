@@ -274,11 +274,14 @@ return (dispatch: Dispatch<Action>) => {
 
 export const changeZoom = (zoom: number) => {
   // eslint-disable-next-line
-return (dispatch: Dispatch<Action>) => {
+return (dispatch: Dispatch<Action>, getState: () => any) => {
+  // console.log(getState(), `--> getState()`);
+  // console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${getState().tabs.blockNumber}} Change Zoom ${getState().zoom.zoom})}`);
     dispatch({
       type: ActionType.CHANGE_ZOOM,
       payload: zoom,
     });
+    console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${getState().tabs.blockNumber}} Change Zoom ${getState().zoom.zoom})}`);
   };
 };
 
@@ -313,10 +316,15 @@ return (dispatch: Dispatch<Action>, getState: () => any) => {
       model
     }
   });
-  console.log(getState(), `--> getState()`);
+  // console.log(getState(), `--> getState()`);
   if(observable) console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${getState().tabs.blockNumber}} Open Calculator TI${getState().calculator.calculatorModel})}`);
   };
 };
+
+
+
+
+
 
 // eslint-disable-next-line
 export const textInputValue = (text: string | number) => {

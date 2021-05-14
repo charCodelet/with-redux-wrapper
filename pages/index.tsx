@@ -2,31 +2,12 @@ import React, { ReactElement } from 'react';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import AssessmentRenderer from './Assessment';
 import path from 'path';
-// import fs from 'fs/promises';
-// import { readFile } from 'fs/promises';
-import jsonata from 'jsonata';
-// import fs from 'fs';
 import fs from 'fs/promises';
 import https from 'https';
 import zlib from 'zlib';
-// var promises_1 = require("fs").promises;
-// import useSWR from "swr";
 import { wrapper } from '../state/store';
 
 export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
-  console.log("When do you run???");
-  const doServerSideTransformation = async () => {
-    const filePath = path.join(process.cwd(), 'mock-json-server','db.json'); 
-    const data = await fs.readFile(filePath, 'utf8');
-    var expression = jsonata("$replace('ssssssss', '!@#ItemTabNumber0')");
-    // var expression = jsonata("$replace('!@#ItemTabNumber0', 'ssssssss')");
-    // var expression = jsonata("$replace('posgdfbvvcnhgjfddxzgfhd', 'vcbvcvcbvc')");
-    var result = expression.evaluate(data);  
-    fs.writeFile(filePath, result, 'utf8');
-    console.log("after write...");
-  }
-  
-  // await doServerSideTransformation(); 
 
   let start = await fetch('http://localhost:3010/start');
   let startJson = await start.json();
@@ -69,7 +50,6 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
 // });
 
 
-
   // let myTab = await store.getState().tabs.tabNumber;
   // let start = await fetch('http://localhost:3010/tools/VH447212');
   // let startJson = await start.json();
@@ -84,9 +64,7 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
   let uniqueChars = [...new Set(nestedIds.flat())];
   let blockTitle = blocksJson[0].title;
   nestedIds = uniqueChars[0];
-// console.log(nestedIds, `--> nestedIds`)
-
-  
+  // console.log(nestedIds, `--> nestedIds`)
 
   store.dispatch({type: 'tabs_success_server_side', payload: {tabsData: blocksJson[0].itemHeaders, nestedId: nestedIds, blockTitle: blockTitle}});
   let urls = await store.getState().tabs.tabsData.map((datum: { id: string; }) => `http://localhost:3010/item/${datum.id}`); // return { props: store.dispatch({type: 'tabs_success', payload: blocksJson[0].itemHeaders}) }
@@ -97,16 +75,12 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
   })); 
 })
 
-
-
 const App: React.FC = (): ReactElement => {
   const { zoom } = useTypedSelector((state) => state.zoom);
   return ( 
-    <>
-      <section id="pointerTest" style={{ userSelect: 'none', position: 'relative', transform: `scale(${zoom.toFixed(2)})`}}>
-        <AssessmentRenderer /> 
-      </section>   
-    </>
+    <section id="pointerTest" style={{ userSelect: 'none', position: 'relative', transform: `scale(${zoom.toFixed(2)})`}}>
+      <AssessmentRenderer /> 
+    </section>   
   )
 }  
 

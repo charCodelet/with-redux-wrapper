@@ -1,45 +1,23 @@
 .wrs_editor .wrs_toolbar, .wrs_editor .wrs_toolbar table {
   display: none !important;
-  /* transform: translateY(-9999px) !important;  */
-  /* font-weight: bold;
-  font-size: 11px;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none; */
 }
-/* .wrs_formulaDisplayWrapper {
-
-} */
 .wrs_editor.wrs_withHand.wrs_animated {
-  /* position: absolute !important; */
-  /* transform: translate(128px, -95px) !important; */
-  /* top: 300px;
-  left: 128px;
-  width: 62% !important;
-  height: 64px !important; */
+  height: 64px !important;
   min-height: inherit;
   height: inherit;
 }
-
 .wrs_editor .wrs_formulaDisplayWrapper > .wrs_formulaDisplay {
-  /* height: 64px !important; */
   background-color: 'transparent !important';
 }
-
 .wrs_editor.wrs_withHand:not(.wrs_handDisabled):not(.wrs_toolbarHidden) .wrs_formulaDisplayWrapper {
   margin-right: 0 !important;
 }
-
 .wrs_handContainer + input {
   display: none !important;
 }
-
 .wrs_underlineCaret.wrs_dark {
   display: none !important;
 }
-
 /* stylelint-disable font-family-no-missing-generic-family-keyword */
 @font-face {
   font-family: 'KaTeX_AMS';

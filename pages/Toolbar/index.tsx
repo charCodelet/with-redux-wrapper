@@ -312,13 +312,21 @@ const ToolbarRenderer = (): ReactElement | null => {
     changeZoom(zoom + 0.1);
   };
   const onClickCalculator = () => {
-    fetchCalculatorElement(calculator, calculator.calculatorModel, true)
-    if (/*calculator.current*/document.getElementById('calculatorDiv').style.visibility === 'hidden') {
-      /*calculator.current*/document.getElementById('calculatorDiv').style.visibility = 'visible';
+    fetchCalculatorElement(calculator, calculator.calculatorModel, true);
+    if (calculator.calculator.current.style.visibility === 'hidden') {
+      calculator.calculator.current.style.visibility = 'visible';
     } else {
-      /*calculator.current*/document.getElementById('calculatorDiv').style.visibility = 'hidden';
+      calculator.calculator.current.style.visibility = 'hidden';
     }
   };
+  // const onClickCalculator = () => {
+  //   // fetchCalculatorElement(calculator, calculator.calculatorModel, true);
+  //   if (document.getElementById('calculatorDiv').style.visibility === 'hidden') {
+  //     document.getElementById('calculatorDiv').style.visibility = 'visible';
+  //   } else {
+  //     document.getElementById('calculatorDiv').style.visibility = 'hidden';
+  //   }
+  // };
   const onClickTheme = () => {
     setTheme(theme);
   }
@@ -330,7 +338,7 @@ const ToolbarRenderer = (): ReactElement | null => {
     }
   };
   const onClickMathKeyboard = async () => {
-    console.log("math key");
+    // console.log("math key");
     setMathKey(!mathKey);
     setKeyboard(!mathKey);
   }
@@ -345,7 +353,7 @@ const ToolbarRenderer = (): ReactElement | null => {
   const controller = new AbortController();
  
   useEffect(() => {
-    const startTalk = (v) => {
+    const startTalk = (v: { innerText: string; }) => {
       synth.speak(new SpeechSynthesisUtterance(v.innerText))
     }
     if(textOn) {   
@@ -369,29 +377,15 @@ const ToolbarRenderer = (): ReactElement | null => {
       synth.cancel();
     }
     return (() => {
-      console.log('done');
+      // console.log('done');
       controller.abort();
     })
   }, [textOn])
 
   const onClickTTS = (text) => {
-
-    // console.log(textOn, `--> textOn before`);
-
-    // setTextOn((text) => !text)
+    console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.blockNumber}} TextToSpeech TextToSpeech Mode ${!text == true ? 'On' : 'Off'}`);
     setTextOn(!text)
-    
-    // console.log(textOn, `--> textOn after`);
-   
-    
   }
-  // useEffect(() => {
-    // let editor = com.wiris.jsEditor.JsEditor.newInstance({language: "en"});
-
-    // if(mathKey) {
-    //   editor.insertInto(document.getElementById("editorContainer"));
-    // }
-  // }, [mathKey]);
   const nextItem = () => {
     console.log(tabs.tabsData[tabs.tabNumber + 1], `--> tabs`);
     getTabNumber(tabs.tabNumber + 1);
