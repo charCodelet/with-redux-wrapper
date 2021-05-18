@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 
-const help = (): ReactElement => {
+const Help = (): ReactElement => {
   const { tabs } = useTypedSelector((state: any) => state);
   console.log(tabs, `--> tabs`);
   return (
@@ -516,4 +516,4 @@ const help = (): ReactElement => {
   );
 };
 
-export default help;
+export default Help;

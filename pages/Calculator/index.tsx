@@ -23,25 +23,22 @@ const Calculator = (props: any): ReactElement => {
     // return () => {
     //   console.log("need to kill the calculator...weird stuff happens after I click on help...I think it is doing a new instance or something...")
     // }
-  }, []);
+  }, [ref]);
   interact('.calculatorDiv').draggable({
       restrict: {
         // restriction: 'parent', // this makes it so you can only go in the x direction...
-        // elementRect: { left: 0, top: 0, right: 1, bottom: 1 }
-        elementRect: { left: 0, top: 0, right: 0, bottom: 0 }
+        elementRect: { left: 0, top: 0, right: 1, bottom: 1 }
       },
       onmove: (event) => { 
-        // event.preventDefault();
-        // event.stopPropagation();
         const target = event.target; 
-        // console.log(target, `--> target`);
-        const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx; 
-        const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-        console.log(x+` --> x`)
-        console.log(y+` --> y`)
-        console.log(event.pageX+' --> event.pageX');
-        console.log(event.pageY+' --> event.pageY')
-        target.style.webkitTransform = `translate(${x}px, ${y}px)`;
+        let parseX = parseFloat(target.getAttribute('data-x') || 0);
+        let parseY = parseFloat(target.getAttribute('data-y') || 0);
+        const x = (event.dx/4) + parseX; 
+        const y = (event.dy/4) + parseY
+        let all = document.getElementById('calculatorDiv').getBoundingClientRect();
+        let xRect = document.getElementById('calculatorDiv').getBoundingClientRect().x;
+        let widthRect = document.getElementById('calculatorDiv').getBoundingClientRect().width;
+        target.style.transform = `translate(${x}px, ${y}px)`;
         target.setAttribute('data-x', '' + x); 
         target.setAttribute('data-y', '' + y); 
       }

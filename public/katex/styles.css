@@ -1,13 +1,44 @@
+#calculatorDiv > svg g:nth-child(-n+2) {
+  cursor: pointer;
+}
+
+#TI108_CALC_CASE {
+  cursor: move !important;
+}
+#editorContainer {
+  /* height: inherit;
+  min-height: inherit; */
+}
+polygon.ti_redKey_art_primary {
+  cursor: pointer !important;
+}
+input.wrs_focusElement {
+  height: 300px !important;
+  /* z-index: -22 !important; */
+}
 .wrs_editor .wrs_toolbar, .wrs_editor .wrs_toolbar table {
   display: none !important;
 }
 .wrs_editor.wrs_withHand.wrs_animated {
+  /* height: 64px !important;*/
+  /* min-height: 80px !important;
+  height: 80px !important; */
+}
+/* .wrs_editor.wrs_withHand {
   height: 64px !important;
-  min-height: inherit;
-  height: inherit;
+  min-height: inherit !important;
+  height: inherit !important;
+} */
+.wrs_editor {
+  min-height: 0px !important;
+  /* height: inherit !important; */
 }
 .wrs_editor .wrs_formulaDisplayWrapper > .wrs_formulaDisplay {
   background-color: 'transparent !important';
+  /* display: none !important; */
+  /* z-index: -100 !important; */
+  /* background: red !important; */
+  height: 78px !important;
 }
 .wrs_editor.wrs_withHand:not(.wrs_handDisabled):not(.wrs_toolbarHidden) .wrs_formulaDisplayWrapper {
   margin-right: 0 !important;
@@ -18,6 +49,7 @@
 .wrs_underlineCaret.wrs_dark {
   display: none !important;
 }
+
 /* stylelint-disable font-family-no-missing-generic-family-keyword */
 @font-face {
   font-family: 'KaTeX_AMS';

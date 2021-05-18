@@ -14,25 +14,25 @@ export const TextInputConnector = (widget: Widget): ReactElement | null => {
     let xTop = document.getElementById("yabba").getBoundingClientRect().x;
     let yTop = document.getElementById("yabba").getBoundingClientRect().y;
     document.getElementById('editorContainer').style.transform = `translate(${xTop}px, ${yTop}px)`;
-    document.getElementById('editorContainer').style.zIndex = 1;
+    document.getElementById('editorContainer').style.zIndex = '1';
     document.getElementById('editorContainer').style.visibility = 'visible';
     document.getElementById('editorContainer').style.backgroundColor = '#ebfbe5';
     document.getElementById('editorContainer').style.outline = '1px dashed #008117';
     document.getElementById('editorContainer').style.outlineOffset = '-3px';
     document.getElementsByClassName('wrs_formulaDisplay')[0].style.backgroundColor = "transparent";
+    return () => {
+      document.getElementById('editorContainer').style.zIndex = '0';
+    }
   },[])
   
   const handleSelect = (optionId: string) => {
     console.log("multipleSelect('text_input_value',",optionId,",",tabs.tabNumber,")")
-    multipleSelect('text_input_value', optionId, tabs.tabNumber);
-    // setText(optionId); 
+    multipleSelect('text_input_value', optionId, tabs.tabNumber); 
   };
   return (
-      <div>
-        <TextInput id='yabba' onChange={handleSelect} value={/*reduxText*/''} type={'search'} >
+        <TextInput id='yabba' onChange={handleSelect} type={'search'} >
           {widget.children}
         </TextInput>  
-      </div>
   );
 };
 

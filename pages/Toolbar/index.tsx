@@ -1,14 +1,10 @@
 import React, { ReactElement, useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/router';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useActions';
 import { Toolbar } from '@coreym/benchmark';
 import { useToggle } from '../benchmark/util/hooks';
-import Editor from '../Editor';
 
 // eslint-disable-next-line
-
-
 var canvas, ctx, flag = false,
 prevX = 0,
 currX = 0,
@@ -17,7 +13,7 @@ currY = 0,
 dot_flag = false;
 
 var x = "black";
-var y = 14; // 40;
+var y = 14; 
 let nodes = [];
 
 const ToolbarRenderer = (): ReactElement | null => {
@@ -31,15 +27,15 @@ const ToolbarRenderer = (): ReactElement | null => {
   const [eraserActive, setEraserActive] = useToggle();
   const [hasDrawn, setHasDrawn] = useState(false);
   const [num, setNum] = useState(1800 / 60);
-  const router = useRouter();
   const intervalRef = useRef(null);
-  const { calculator, calculatorModel } = useTypedSelector((state) => state);
+  const { calculator } = useTypedSelector((state) => state);
   const { scratch } = useTypedSelector((state) => state.scratch);
   const { theme } = useTypedSelector((state) => state.theme);
   const { data } = useTypedSelector((state) => state.tools);
   const { tabs } = useTypedSelector((state) => state);
   let { zoom } = useTypedSelector((state) => state.zoom);
-  const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog, setKeyboard, setMathKeyboard, fetchCalculatorElement } = useActions(); // prettier-ignore
+  const { hasVisited } = useTypedSelector((state: any) => state.hasVisited);
+  const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog, setKeyboard, fetchCalculatorElement, hasVisitedHelp } = useActions(); // prettier-ignore
 
   function draw() {
     setHasDrawn(true)
@@ -271,15 +267,15 @@ const ToolbarRenderer = (): ReactElement | null => {
         showDialog(!dialogShow);
     } 
   }, []);
-  useEffect(() => {
-    // console.log('useEffect called with tabs as dependency');
-    intervalRef.current = setInterval(decreaseNum, (1000 * 60 / 60).toFixed(2));
-    return () => {
-      // console.log('clearing interval for timer');
-      clearInterval(intervalRef.current);
-      setNum(30);
-    }
-  }, [tabs]);
+  // useEffect(() => {
+  //   // console.log('useEffect called with tabs as dependency');
+  //   intervalRef.current = setInterval(decreaseNum, (1000 * 60 / 60).toFixed(2));
+  //   return () => {
+  //     // console.log('clearing interval for timer');
+  //     clearInterval(intervalRef.current);
+  //     setNum(30);
+  //   }
+  // }, [tabs]);
   const decreaseNum = () => {
     // console.log('decreaseNum called');
     setNum(prev => {
@@ -312,12 +308,15 @@ const ToolbarRenderer = (): ReactElement | null => {
     changeZoom(zoom + 0.1);
   };
   const onClickCalculator = () => {
-    fetchCalculatorElement(calculator, calculator.calculatorModel, true);
+    fetchCalculatorElement(calculator.calculator, calculator.calculatorModel, true);
+    console.log(calculator.calculator.current, `--> calculator.calculator.current`)
     if (calculator.calculator.current.style.visibility === 'hidden') {
+      console.log(calculator.calculator.current, `--> calculator.calculator.current`)
       calculator.calculator.current.style.visibility = 'visible';
     } else {
       calculator.calculator.current.style.visibility = 'hidden';
     }
+    
   };
   // const onClickCalculator = () => {
   //   // fetchCalculatorElement(calculator, calculator.calculatorModel, true);
@@ -331,17 +330,18 @@ const ToolbarRenderer = (): ReactElement | null => {
     setTheme(theme);
   }
   const onClickHelp = () => {
-    if (router.pathname == '/') {
-      router.push('/help');
+    if (!hasVisited) {
+      hasVisitedHelp(true);
     } else {
-      router.push('/');
+      hasVisitedHelp(false);
     }
   };
   const onClickMathKeyboard = async () => {
-    // console.log("math key");
+    console.log(mathKey, `--> mathKey`);
     setMathKey(!mathKey);
     setKeyboard(!mathKey);
   }
+  
   var synth = window.speechSynthesis;
   let div = document.getElementById("scrollRef");
   let filter = function(node) {
@@ -391,6 +391,10 @@ const ToolbarRenderer = (): ReactElement | null => {
     getTabNumber(tabs.tabNumber + 1);
     getBlockNumber(tabs.tabsData[tabs.tabNumber + 1].id);
     multipleSelect('multiple_clear', (tabs.tabNumber + 1).toString());
+    if(mathKey) {
+      setKeyboard(!mathKey);
+      setMathKey(!mathKey);
+    }
     try {
       canvas.removeEventListener("mousemove", bindingMoveEvent, false);
       canvas.removeEventListener("mousedown", bindingDownEvent, false);
@@ -410,6 +414,10 @@ const ToolbarRenderer = (): ReactElement | null => {
     getTabNumber(tabs.tabNumber - 1);
     getBlockNumber(tabs.tabsData[tabs.tabNumber - 1].id);
     multipleSelect('multiple_clear', (tabs.tabNumber - 1).toString());
+    if(mathKey) {
+      setKeyboard(!mathKey);
+      setMathKey(!mathKey);
+    }
   };
   // console.log(tabs, `--> tabs toolbar`);
   // console.log(tools, `--> tools toolbar`);
@@ -428,13 +436,13 @@ const ToolbarRenderer = (): ReactElement | null => {
         progress={progressFormula}
         timeLeft={`${num} minutes`}
         isDisabled={!toolbar?.enabled}
-        isHelpDisabled={tools?.help?.enabled}
+        isHelpDisabled={!tools?.help?.enabled}
         isThemeDisabled={!tools?.theme?.enabled}
         isZoomInDisabled={/*!tools?.zoomIn?.enabled*/zoom == 1.3}
         isZoomOutDisabled={zoom == 1.0}
         isLangDisabled={!tools?.bilingual?.enabled}
         isTTSDisabled={!tools?.readAloud?.enabled}
-        isScratchDisabled={!tools?.scratchwork?.enabled || router.pathname == '/help'}
+        isScratchDisabled={!tools?.scratchwork?.enabled || hasVisited}
         isEraserDisabled={false}
         isHighlighterDisabled={false}
         isPencilDisabled={false}
@@ -459,11 +467,11 @@ const ToolbarRenderer = (): ReactElement | null => {
 
         isClearDisabled={false}
         isMathKeyboardDisabled={tools?.mathKeyboard?.enabled}
-        isCalculatorDisabled={!tools?.calculator?.enabled || router.pathname == '/help'}
+        isCalculatorDisabled={!tools?.calculator?.enabled || hasVisited}
         isTimerDisabled={!tools?.timer?.enabled}
         isPrevDisabled={tabs.tabNumber === 0}
         isNextDisabled={tabs.tabNumber === tabs.data.length - 1 || scratch}
-        isHelpActive={/*tools?.help?.activated*/router.pathname == '/help'}
+        isHelpActive={/*tools?.help?.activated*/hasVisited}
         isTTSActive={/*tools?.bilingual?.activated*/ textOn}
         isMathKeyboardActive={tools?.mathKeyboard?.activated}
         isCalculatorActive={tools?.calculator?.activated}

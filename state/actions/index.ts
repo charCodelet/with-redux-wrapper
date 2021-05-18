@@ -174,6 +174,11 @@ interface StoreWirisAction {
   type: ActionType.STORE_WIRIS;
   payload: any;
 }
+interface StoreHasVisitedAction {
+  type: ActionType.HAS_VISITED;
+  payload: boolean;
+}
+
 
 
 export type Action =
@@ -209,4 +214,5 @@ export type Action =
   | SetKeyboardAction
   | SetSSRMathAction
   | StoreWirisAction
+  | StoreHasVisitedAction
  

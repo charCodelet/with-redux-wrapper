@@ -34878,6 +34878,7 @@
       return this;
     },
     vAF1: function (maxHeight) {
+      console.log(maxHeight, `--> maxHeight`)
       return this.v9F1(maxHeight, com.wiris.e1_E2.vgE1);
     },
     vBF1: function () {

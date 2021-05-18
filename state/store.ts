@@ -1,4 +1,5 @@
 import { createStore , applyMiddleware, combineReducers } from 'redux'
+import { ActionType } from './action-types';
 import { HYDRATE, createWrapper } from 'next-redux-wrapper'
 import thunk from 'redux-thunk';
 import tabsReducer from './reducers/tabsReducer';
@@ -16,6 +17,7 @@ import dialogReducer from './reducers/dialogReducer';
 import keyboardReducer from './reducers/keyBoardReducer';
 import mathReducer from './reducers/mathReducer';
 import storeWirisReducer from './reducers/storeWirisReducer';
+import hasVisitedHelpReducer from'./reducers/hasVisitedHelpReducer';
 
 const combinedReducer = combineReducers({
   tools: toolsReducer,
@@ -33,12 +35,11 @@ const combinedReducer = combineReducers({
   isKeyboardSet: keyboardReducer,
   mathSSR: mathReducer,
   getWiris: storeWirisReducer,
+  hasVisited: hasVisitedHelpReducer,
 });
 
 
 const reducer = (state, action) => {
-  // console.log(state, `--> state !!!`);
-  // console.log(action, `--> action`);
   if (action.type === HYDRATE) {
     const nextState = {
       ...state, // use previous state
@@ -54,4 +55,4 @@ const initStore = () => {
   return createStore(reducer, {}, applyMiddleware(thunk))
 }
 
-export const wrapper = createWrapper(initStore)
+export const wrapper = createWrapper(initStore);

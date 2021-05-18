@@ -45,19 +45,30 @@ const multipleSelectReducer = (state: RepositoriesState = initialState, action: 
       const textInputEntered = {
         ...state, 
         entered: {
-          [action.payload.tabNumber]: action.payload.optionId
+          // ...state.entered[action.payload.tabNumber],
+          ...state.entered,
+          [action.payload.tabNumber]: (state.entered[action.payload.tabNumber] || '') + action.payload.optionId
         },
         globalState: {
-          ...state.globalState, 
           entered: {
-            ...state.globalState.entered,
-            [action.payload.tabNumber]: action.payload.optionId
-          },
-          selected: state.globalState.selected,        
-          eliminated: state.globalState.eliminated,          
+            ...state.entered,//[action.payload.tabNumber], 
+            [action.payload.tabNumber]: (state.entered[action.payload.tabNumber] || '') + action.payload.optionId
+          }
+          // ...state.entered, 
+          // entered: state.entered,
+          // entered: {
+          //   ...state.entered[action.payload.tabNumber],
+          //   // [action.payload.tabNumber]: action.payload.optionId
+          // },
+          // entered: state.globalState.entered,
+          // selected: state.globalState.selected,        
+          // eliminated: state.globalState.eliminated,          
         }
       }
-      console.log(textInputEntered, `--> textInputEntered`);
+      // console.log(textInputEntered.entered[action.payload.tabNumber], `--> textInputEntered.entered`);
+      // console.log(textInputEntered.globalState.entered[action.payload.tabNumber], `--> textInputEntered.globalState.entered[action.payload.tabNumber]`);
+      // console.log(textInputEntered.entered[action.payload.tabNumber], `--> textInputEntered.entered[action.payload.tabNumber]`);
+      // console.log(state.entered[action.payload.tabNumber] + action.payload.optionId, `--> state.entered[action.payload.tabNumber] + action.payload.optionId`);
       return textInputEntered;
     case ActionType.MULTIPLE_SELECT: 
       const multSelect = { 

@@ -162,7 +162,8 @@ export const multipleSelect = (action: string, optionId?: string, tabNumber?: nu
         // console.log(getState().multipleSelectChoices);
       }; 
     case 'text_input_value':
-      return (dispatch: Dispatch<Action>/*, getState: () => any*/) => {
+      return (dispatch: Dispatch<Action>, getState: () => any) => {
+        console.log(getState().multipleSelectChoices.entered, `--> getState().multipleSelectChoices.entered [BEFORE]`);
         dispatch({
           type: ActionType.TEXT_INPUT_VALUE,
           payload: {
@@ -170,7 +171,8 @@ export const multipleSelect = (action: string, optionId?: string, tabNumber?: nu
             tabNumber
           }
         });
-        // console.log(getState().multipleSelectChoices);
+        console.log(getState().multipleSelectChoices.entered, `--> getState().multipleSelectChoices.entered [AFTER]`);
+        // console.log(getState().multipleSelectChoices, `--> getState().multipleSelectChoices`)
       }; 
     case 'multiple_select':
       // eslint-disable-next-line
@@ -330,7 +332,8 @@ return (dispatch: Dispatch<Action>, getState: () => any) => {
 export const textInputValue = (text: string | number) => {
   // console.log(text, `--> text`);
   // eslint-disable-next-line
-  return (dispatch: Dispatch<Action>) => {
+  return (dispatch: Dispatch<Action>, getState: () => any) => {
+    console.log(getState(), `--> getState()`);
     dispatch({
       type: ActionType.TEXT_INPUT_VALUE,
       payload: text,
@@ -346,6 +349,18 @@ export const storeWiris = (wiris: any) => {
     dispatch({
       type: ActionType.STORE_WIRIS,
       payload: wiris,
+    });
+  };
+};
+
+// eslint-disable-next-line
+export const hasVisitedHelp = (hasVisited: boolean) => {
+  console.log(hasVisited, `--> hasVisited`);
+  // eslint-disable-next-line
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.HAS_VISITED,
+      payload: hasVisited,
     });
   };
 };
