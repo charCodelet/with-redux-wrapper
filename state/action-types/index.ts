@@ -33,4 +33,6 @@ export enum ActionType {
   STORE_WIRIS = 'store_wiris',
   HAS_VISITED = 'has_visited',
   COLLECT_MOUSE_MOVEMENTS = 'collect_mouse_movements',
+  SAVE_CANVAS = 'save_canvas',
+  SAVE_KEYBOARD = 'save_keyboard',
 }

@@ -181,10 +181,6 @@ interface StoreHasVisitedAction {
 
 interface CollectMouseMovementsAction {
   type: ActionType.COLLECT_MOUSE_MOVEMENTS,
-  // payload: {
-  //   moveX: string,
-  //   moveY: string,
-  // }
   payload: { 
     moveXY: {
       moveX: string,
@@ -193,6 +189,17 @@ interface CollectMouseMovementsAction {
     coordinates: string,
   }
 }
+
+interface saveCanvasAction {
+  type: ActionType.SAVE_CANVAS,
+  payload: any
+}
+
+interface saveKeyboardAction {
+  type: ActionType.SAVE_KEYBOARD,
+  payload: any
+}
+
 
 export type Action =
   | FetchAllItemsAction 
@@ -229,4 +236,5 @@ export type Action =
   | StoreWirisAction
   | StoreHasVisitedAction
   | CollectMouseMovementsAction
- 
+  | saveCanvasAction
+  | saveKeyboardAction

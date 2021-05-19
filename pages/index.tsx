@@ -3,9 +3,6 @@ import { useTypedSelector } from '../hooks/useTypedSelector';
 import AssessmentRenderer from './Assessment';
 import { wrapper } from '../state/store';
 
-
-
-// export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
 export const getServerSideProps = wrapper.getServerSideProps((store) => async() => {
 
   // console.log('is there a way to prevent this from running when we transition from /help to /...because that is what is resetting the tabs...');

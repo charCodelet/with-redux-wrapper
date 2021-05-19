@@ -19,20 +19,25 @@ const Editor = dynamic(() => import("./Editor"), { ssr: false });
 const WrappedApp = ({ Component, pageProps }) => {
   const { theme } = useTypedSelector((state) => state.theme);
   const { tabs } = useTypedSelector((state) => state);
-  const { collectMouseMovements } = useActions(); // prettier-ignore
+  const { collectMouseMovements } = useActions(); 
   const handleMouseMove = ({pageX, pageY}) => {
     // console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.blockNumber}} Mouse X: ${pageX}, Mouse Y: ${pageY})}`);
-    // console.log(`Mouse X: ${pageX}, Mouse Y: ${pageY}`)
-    collectMouseMovements('[' + pageX, pageY + ']\n');
-    // collectMouseMovements(pageX, pageY);
-
+    // collectMouseMovements('[' + pageX, pageY + ']\n');
+    // console.log("i htink if we kill this upon hitting a toolbar function, we will be good...")
+  }
+  const handleMouseLeave = () => {
+    // console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.blockNumber}} Mouse X: ${pageX}, Mouse Y: ${pageY})}`);
+    // collectMouseMovements('[' + pageX, pageY + ']\n');
+    // console.log("i htink if we kill this upon hitting a toolbar function, we will be good...")
   }
 
   return (
-    <main onMouseMove={handleMouseMove}> 
+    <main 
+      // onMouseMove={handleMouseMove}
+      // onMouseLeave={handleMouseLeave}
+      > 
       <SSRProvider>
-        {/* <CalculatorServer model='30MV' model2='30XS' model3='30mv'/> */}
-        <CalculatorServer model='108' model2='108' model3='108'/>  
+        <CalculatorServer model='108' model2='108' model3='108'/> {/* <CalculatorServer model='30MV' model2='30XS' model3='30mv'/> */}
         <Modal />
         <Editor />  
         <ScrollPanel height="100%" width="100%" overflowY="auto" overflowX="hidden">

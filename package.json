@@ -23,6 +23,7 @@
     "@react-aria/ssr": "3.0.1",
     "@styled-system/css": "5.1.5",
     "@styled-system/should-forward-prop": "5.1.5",
+    "@types/react-redux": "7.1.16",
     "@wiris/mathtype-ckeditor4": "7.26.0",
     "@wiris/mathtype-ckeditor5": "7.26.0",
     "@zeit/next-less": "1.0.1",

@@ -319,8 +319,7 @@ return (dispatch: Dispatch<Action>, getState: () => any) => {
       model
     }
   });
-  // console.log(getState(), `--> getState()`);
-  if(observable) console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${getState().tabs.blockNumber}} Open Calculator TI${getState().calculator.calculatorModel})}`);
+  // if(observable) console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${getState().tabs.blockNumber}} Open Calculator TI${getState().calculator.calculatorModel})}`);
   };
 };
 
@@ -383,3 +382,24 @@ export const collectMouseMovements = (x: string, y: string) => {
   };
 };
 
+// eslint-disable-next-line
+export const saveCanvas = (canvas: any) => {
+  // eslint-disable-next-line
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SAVE_CANVAS,
+      payload: canvas     
+    });
+  };
+};
+
+// eslint-disable-next-line
+export const saveKeyboard = (keyboard: any) => {
+  // eslint-disable-next-line
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.SAVE_KEYBOARD,
+      payload: keyboard     
+    });
+  };
+};

@@ -3,7 +3,6 @@ import Dialog from '../benchmark/Dialog';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useActions';
 
-
 const Modal = (): ReactElement => {
   const { dialogShow } = useTypedSelector((state: { dialog: any; }) => state.dialog);
   const { showDialog } = useActions();

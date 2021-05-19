@@ -1,5 +1,4 @@
 import { createStore , applyMiddleware, combineReducers } from 'redux'
-import { ActionType } from './action-types';
 import { HYDRATE, createWrapper } from 'next-redux-wrapper'
 import thunk from 'redux-thunk';
 import tabsReducer from './reducers/tabsReducer';
@@ -19,6 +18,8 @@ import mathReducer from './reducers/mathReducer';
 import storeWirisReducer from './reducers/storeWirisReducer';
 import hasVisitedHelpReducer from'./reducers/hasVisitedHelpReducer';
 import mouseMovementsReducer from './reducers/mouseMovementsReducer';
+import saveCanvasReducer from './reducers/saveCanvasReducer';
+import saveKeyboardReducer from './reducers/saveKeyboardReducer';
 
 const combinedReducer = combineReducers({
   tools: toolsReducer,
@@ -38,6 +39,8 @@ const combinedReducer = combineReducers({
   getWiris: storeWirisReducer,
   hasVisited: hasVisitedHelpReducer,
   mouseMovements: mouseMovementsReducer,
+  saveCanvas: saveCanvasReducer,
+  saveKeyboard: saveKeyboardReducer,
 });
 
 
@@ -58,3 +61,5 @@ const initStore = () => {
 }
 
 export const wrapper = createWrapper(initStore);
+
+export type RootState = ReturnType<typeof combinedReducer>;

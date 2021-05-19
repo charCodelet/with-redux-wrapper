@@ -5,23 +5,25 @@ import { useActions } from '../../hooks/useActions';
 
 const TabsRenderer = (): ReactElement | null => {
   const { tabs } = useTypedSelector((state: any) => state);
+  const { getCanvas } = useTypedSelector((state: any) => state.saveCanvas);
   const { hasVisited } = useTypedSelector((state: any) => state.hasVisited);
+  const { isKeyboardSet } = useTypedSelector((state: any) => state.isKeyboardSet);
   const { scratch } = useTypedSelector((state) => state.scratch);
   const { getTabNumber, getBlockNumber, multipleSelect, setKeyboard } = useActions();
 
   const handleSelect = (optionId: number) => {
-    document.getElementById('can').getContext('2d').clearRect(0, 0, 800, 800);
+    // console.log(getCanvas, `--> getCanvas`);
+    // console.log(document.getElementById('can'), `--> document.getElementById('can')`);
+    // document.getElementById('can').getContext('2d').clearRect(0, 0, 800, 800); // should prolly be put into redux...do not like references to document.xx for element selections...
+    getCanvas.getContext('2d').clearRect(0, 0, 800, 800); 
     getBlockNumber(tabs.tabsData[optionId].id);
     getTabNumber(optionId);
     multipleSelect('multiple_clear', (tabs.tabNumber + 1).toString());
-    
-    setKeyboard(false);
+    if(isKeyboardSet) setKeyboard(!isKeyboardSet);
   };
-  // console.log(tabs.tabNumber, `--> tabs.tabNumber`);
-  // tabs.tabNumber = 8;
   return (
     tabs.data &&  (
-      <Tabs align={'right'} style={{display: 'block'}} onChange={handleSelect}>
+      <Tabs align={'right'} onChange={handleSelect}>
         <TabList sx={{opacity: hasVisited || scratch ? '.5' : '1'}}>
           {tabs.tabsData.slice(0, 15).map((v: any, i: number) => <Tab 
           isDisabled={hasVisited || scratch ? true : false} 
