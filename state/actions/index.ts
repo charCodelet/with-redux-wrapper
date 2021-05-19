@@ -179,7 +179,20 @@ interface StoreHasVisitedAction {
   payload: boolean;
 }
 
-
+interface CollectMouseMovementsAction {
+  type: ActionType.COLLECT_MOUSE_MOVEMENTS,
+  // payload: {
+  //   moveX: string,
+  //   moveY: string,
+  // }
+  payload: { 
+    moveXY: {
+      moveX: string,
+      moveY: string,
+    }
+    coordinates: string,
+  }
+}
 
 export type Action =
   | FetchAllItemsAction 
@@ -215,4 +228,5 @@ export type Action =
   | SetSSRMathAction
   | StoreWirisAction
   | StoreHasVisitedAction
+  | CollectMouseMovementsAction
  

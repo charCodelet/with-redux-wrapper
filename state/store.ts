@@ -18,6 +18,7 @@ import keyboardReducer from './reducers/keyBoardReducer';
 import mathReducer from './reducers/mathReducer';
 import storeWirisReducer from './reducers/storeWirisReducer';
 import hasVisitedHelpReducer from'./reducers/hasVisitedHelpReducer';
+import mouseMovementsReducer from './reducers/mouseMovementsReducer';
 
 const combinedReducer = combineReducers({
   tools: toolsReducer,
@@ -36,6 +37,7 @@ const combinedReducer = combineReducers({
   mathSSR: mathReducer,
   getWiris: storeWirisReducer,
   hasVisited: hasVisitedHelpReducer,
+  mouseMovements: mouseMovementsReducer,
 });
 
 

@@ -5,6 +5,7 @@ import { Box } from './benchmark/Base'
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import TabsRenderer from './TabsRenderer';
 import ToolbarRenderer from './Toolbar';
+import { useActions } from '../hooks/useActions';
 import dynamic from 'next/dynamic';
 import Modal from './Modal';
 import Keyboard from './Keyboard';
@@ -18,10 +19,17 @@ const Editor = dynamic(() => import("./Editor"), { ssr: false });
 const WrappedApp = ({ Component, pageProps }) => {
   const { theme } = useTypedSelector((state) => state.theme);
   const { tabs } = useTypedSelector((state) => state);
-  const handleMouseMove = ({pageX, pageY}) => console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.blockNumber}} Mouse X: ${pageX}, Mouse Y: ${pageY})}`);
+  const { collectMouseMovements } = useActions(); // prettier-ignore
+  const handleMouseMove = ({pageX, pageY}) => {
+    // console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.blockNumber}} Mouse X: ${pageX}, Mouse Y: ${pageY})}`);
+    // console.log(`Mouse X: ${pageX}, Mouse Y: ${pageY}`)
+    collectMouseMovements('[' + pageX, pageY + ']\n');
+    // collectMouseMovements(pageX, pageY);
+
+  }
 
   return (
-    <main /*onMouseMove={handleMouseMove}*/> 
+    <main onMouseMove={handleMouseMove}> 
       <SSRProvider>
         {/* <CalculatorServer model='30MV' model2='30XS' model3='30mv'/> */}
         <CalculatorServer model='108' model2='108' model3='108'/>  

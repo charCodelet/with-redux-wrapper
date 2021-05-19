@@ -26,7 +26,6 @@ const initialState = {
 };
 
 const tabsReducer = (state: RepositoriesState = initialState, action: Action): RepositoriesState => {
-  // console.log(state, `---------------> state [TABS_REDUCER]`);
   switch (action.type) {
     case ActionType.TABS_FETCH:
       return { ...state, loading: true, error: null, data: [] };

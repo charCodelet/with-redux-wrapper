@@ -128,7 +128,8 @@ export const fetchTabs = (term: string) => {
 
 export const getTabNumber = (tab: number) => {
   // eslint-disable-next-line
-return (dispatch: Dispatch<Action>) => {
+return (dispatch: Dispatch<Action>, getState: () => any) => {
+  console.log(getState().multipleSelectChoices, `--> getState().multipleSelectChoices`);
     dispatch({
       type: ActionType.TAB_NUMBER,
       payload: tab,
@@ -364,3 +365,21 @@ export const hasVisitedHelp = (hasVisited: boolean) => {
     });
   };
 };
+
+// eslint-disable-next-line
+export const collectMouseMovements = (x: string, y: string) => {
+  // eslint-disable-next-line
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.COLLECT_MOUSE_MOVEMENTS,
+      payload: { 
+        moveXY: {
+          moveX: x,
+          moveY: y,
+        },
+        coordinates: `${x}, ${y}`,
+      }
+    });
+  };
+};
+

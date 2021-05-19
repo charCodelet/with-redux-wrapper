@@ -5,7 +5,7 @@ import { Toolbar } from '@coreym/benchmark';
 import { useToggle } from '../benchmark/util/hooks';
 
 // eslint-disable-next-line
-var canvas, ctx, flag = false,
+var canvas: HTMLElement, ctx: { beginPath: () => void; moveTo: (arg0: number, arg1: number) => void; lineTo: (arg0: number, arg1: number) => void; strokeStyle: string; lineWidth: number; stroke: () => void; closePath: () => void; fillStyle: string; fillRect: (arg0: number, arg1: number, arg2: number, arg3: number) => void; clearRect: (arg0: number, arg1: number, arg2: any, arg3: any) => void; }, flag = false,
 prevX = 0,
 currX = 0,
 prevY = 0,
@@ -13,7 +13,7 @@ currY = 0,
 dot_flag = false;
 
 var x = "black";
-var y = 14; 
+var y = 4; // 14; 
 let nodes = [];
 
 const ToolbarRenderer = (): ReactElement | null => {
@@ -35,7 +35,11 @@ const ToolbarRenderer = (): ReactElement | null => {
   const { tabs } = useTypedSelector((state) => state);
   let { zoom } = useTypedSelector((state) => state.zoom);
   const { hasVisited } = useTypedSelector((state: any) => state.hasVisited);
-  const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog, setKeyboard, fetchCalculatorElement, hasVisitedHelp } = useActions(); // prettier-ignore
+  let { moveXY, coordinates } = useTypedSelector((state) => state.mouseMovements);
+  const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog, setKeyboard, fetchCalculatorElement, hasVisitedHelp } = useActions(); 
+
+  const controllerScratchPad = new AbortController();
+  const controller = new AbortController();
 
   function draw() {
     setHasDrawn(true)
@@ -47,7 +51,7 @@ const ToolbarRenderer = (): ReactElement | null => {
     ctx.stroke();
     ctx.closePath();
   }
-  var curriedFn = (res, e) => {
+  var curriedFn = (res: string, e: { clientX: number; clientY: number; }) => {
     if (res == 'down') {
       prevX = currX;
       prevY = currY;
@@ -87,12 +91,8 @@ const ToolbarRenderer = (): ReactElement | null => {
   var bindingMoveEvent = curriedFn.bind(this, 'move');
   var bindingDownEvent = curriedFn.bind(this, 'down');
   var bindingUpEvent = curriedFn.bind(this, 'up');
+
   useEffect(() => {
-
-    
-
-    // console.log(clearCanvas, `--> clearCanvas`);
-
     if(!scratch && !clearCanvas) {
       // console.log('if([!scratch]',scratch,'&& [!clearCanvas]',clearCanvas,')');
       try {      
@@ -104,12 +104,12 @@ const ToolbarRenderer = (): ReactElement | null => {
     } 
 
     if(hasDrawn && !clearCanvas) {
-      console.log('if(hasDrawn && !clearCanvas)');
+      // console.log('if(hasDrawn && !clearCanvas)');
       canvas.style.pointerEvents = 'all';
       return;
     }
 
-    console.log("This should be called once");
+    // console.log("This should be called once");
 
     canvas = document.getElementById('can');
     ctx = canvas.getContext("2d");
@@ -117,28 +117,18 @@ const ToolbarRenderer = (): ReactElement | null => {
     canvas.width = window.innerWidth; 
     canvas.height = window.innerHeight;
     x = 'black';
-    y = 14;
+    y = 4; // 14;
 
     if(scratch) {
-      console.log('if( [scratch]',scratch,')');
-      
-      // var bindingMoveEvent = curriedFn.bind(this, 'move');
-      // var bindingDownEvent = curriedFn.bind(this, 'down');
-      // var bindingUpEvent = curriedFn.bind(this, 'up');
-
-      console.log('add mouse listeners...');
+      // console.log('if( [scratch]',scratch,')');
+      // console.log('add mouse listeners...');
       canvas.style.pointerEvents = 'all';
-      canvas.addEventListener("mousemove", bindingMoveEvent, false);
-      canvas.addEventListener("mousedown", bindingDownEvent, false);
-      canvas.addEventListener("mouseup", bindingUpEvent, false);
-      if(highlighterActive) {
-        // setHighlighterActive();
-        x = 'yellow';
-      }
+      canvas.addEventListener("mousemove", bindingMoveEvent, { signal: controllerScratchPad.signal });
+      canvas.addEventListener("mousedown", bindingDownEvent, { signal: controllerScratchPad.signal });
+      canvas.addEventListener("mouseup", bindingUpEvent, { signal: controllerScratchPad.signal });
+     
+      if(highlighterActive) x = 'yellow';
       else if(eraserActive) {
-        // setEraserActive(); 
-        if(x == 'black') x = 'white'
-        else x = 'black';
         x = 'white';
         y = 14
       }
@@ -150,74 +140,63 @@ const ToolbarRenderer = (): ReactElement | null => {
     }
     return function cleanupListener() {
       // console.log('remove mouse listeners...'); 
-      // canvas.removeEventListener("mousemove", bindingMoveEvent, false);
-      // canvas.removeEventListener("mousedown", bindingDownEvent, false);
-      // canvas.removeEventListener("mouseup", bindingUpEvent, false); 
+      controllerScratchPad.abort();   
     }
   }, [scratch, tabs, clearCanvas]);
   
   useEffect(() => {
     if(pencilActive) {
-      console.log('run when pencil clicked');
+      // console.log('run when pencil clicked');
       x = 'black';
     } 
     return () => {
-      console.log("cleanup pencil");
+      // console.log("cleanup pencil");
     }
   }, [pencilActive]);
 
   useEffect(() => {
     if(highlighterActive) {
-      console.log('run when highlighter clicked');
+      // console.log('run when highlighter clicked');
       x = 'yellow';
     } 
     return () => {
-      console.log("cleanup highlighter");
+      // console.log("cleanup highlighter");
     }
   }, [highlighterActive]);
-  
+
   useEffect(() => {
     if(eraserActive) {
-      console.log('run when eraser clicked');
-      if(x == 'black') x = 'white'
-      else x = 'black';
+      // console.log('run when eraser clicked');
       x = 'white';
       y = 14 
     } 
     return () => {
-      console.log("cleanup eraser");
+      // console.log("cleanup eraser");
     }
   }, [eraserActive]);
-
- 
 
   const onClickScratch = () => {
     getScratch(!scratch);
     setClearCanvas(false);
     if(!scratch) {
       document.body.style.cursor = "url('cursors/Cur_Draw_Scratch.cur'), auto";
-      console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber:"${tabs.blockNumber}} Open Scratchpad)}`);
+      // console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber:"${tabs.blockNumber}} Open Scratchpad)}`);
     }
     else {
       document.body.style.cursor = 'default';
-      console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber:"${tabs.blockNumber}} Close Scratchpad)}`);
+      // controllerScratchPad.abort();
+      // console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber:"${tabs.blockNumber}} Close Scratchpad)}`);
     }
   }
   const onClickClear = () => {
-    console.log('onClickClear');
+    console.log('clear scratchpad');
     setClearCanvas(true);
     console.log(highlighterActive, `--> highlighterActive`);
     console.log(pencilActive, `--> pencilActive`);
     console.log(eraserActive, `--> eraserActive`);
-    // if(highlighterActive) setHighlighterActive();
-    // if(pencilActive) setPencilActive();
-    // if(eraserActive) setEraserActive();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
   }
-
- 
-
   const onClickHighlighter = () => {
     console.log('highlighter clicked');
     document.body.style.cursor = "url('cursors/Cur_Highlighter_Scratch.cur'), auto";
@@ -232,8 +211,7 @@ const ToolbarRenderer = (): ReactElement | null => {
     document.getElementById('pointerTest').style.zIndex = '2';
     if(highlighterActive) setHighlighterActive();
     if(pencilActive) setPencilActive();
-    setEraserActive();
-   
+    setEraserActive();   
   }
   const onClickPencil = () => {
     console.log('pencil clicked');
@@ -261,103 +239,69 @@ const ToolbarRenderer = (): ReactElement | null => {
 
 
   useEffect(() => {
-    // console.log('useEffect called with no dependencies');
     if(stopTimer) {
       console.log('if( [stopTimer]',stopTimer,')');
-        showDialog(!dialogShow);
+      showDialog(!dialogShow);
     } 
   }, []);
-  // useEffect(() => {
-  //   // console.log('useEffect called with tabs as dependency');
-  //   intervalRef.current = setInterval(decreaseNum, (1000 * 60 / 60).toFixed(2));
-  //   return () => {
-  //     // console.log('clearing interval for timer');
-  //     clearInterval(intervalRef.current);
-  //     setNum(30);
-  //   }
-  // }, [tabs]);
+  useEffect(() => {
+    // console.log('useEffect called with tabs as dependency');
+    intervalRef.current = setInterval(decreaseNum, (1000 * 60 / 60).toFixed(2));
+    return () => {
+      // console.log('clearing interval for timer');
+      clearInterval(intervalRef.current);
+      setNum(30);
+    }
+  }, [tabs]);
   const decreaseNum = () => {
-    // console.log('decreaseNum called');
     setNum(prev => {
       if(prev == /*29.94*/ /*27*/ 0) {
-        // console.log('if(',prev,' == 27)');
         setStopTimer(true);
-        setTimeout(() => {
-          // console.log('create asynchronous function so we can stop rendering the toolbar BEFORE we update the modal...')
+        setTimeout(() => { // console.log('create asynchronous function so we can stop rendering the toolbar BEFORE we update the modal...')
           showDialog(dialogShow);
         });
         clearInterval(intervalRef.current);
         return 0; 
       }
-      // console.log('else(',prev,'==',(prev - 1/60).toFixed(2))
       return (prev - 1/60).toFixed(2);
     });
   }
  
-
   const { id, toolbar, tools } = data;
   const progressFormula = (tabs.tabsData.length > 0) ? (100 / tabs.tabsData.length) * (tabs.tabNumber === 0 ? 1 : tabs.tabNumber + 1) : 0 // prettier-ignore
-  const onClickZoomOut = () => {
-    // console.log('zoom out');
-    zoom = +zoom.toFixed(2);
-    changeZoom(zoom - 0.1);
-  };
-  const onClickZoomIn = () => {
-    // console.log('zoom in');
-    zoom = +zoom.toFixed(2);
-    changeZoom(zoom + 0.1);
-  };
+
+
   const onClickCalculator = () => {
     fetchCalculatorElement(calculator.calculator, calculator.calculatorModel, true);
-    console.log(calculator.calculator.current, `--> calculator.calculator.current`)
-    if (calculator.calculator.current.style.visibility === 'hidden') {
-      console.log(calculator.calculator.current, `--> calculator.calculator.current`)
-      calculator.calculator.current.style.visibility = 'visible';
-    } else {
-      calculator.calculator.current.style.visibility = 'hidden';
-    }
-    
+    if (calculator.calculator.current.style.visibility === 'hidden') calculator.calculator.current.style.visibility = 'visible'; // document.getElementById('calculatorDiv')
+    else calculator.calculator.current.style.visibility = 'hidden'; 
   };
-  // const onClickCalculator = () => {
-  //   // fetchCalculatorElement(calculator, calculator.calculatorModel, true);
-  //   if (document.getElementById('calculatorDiv').style.visibility === 'hidden') {
-  //     document.getElementById('calculatorDiv').style.visibility = 'visible';
-  //   } else {
-  //     document.getElementById('calculatorDiv').style.visibility = 'hidden';
-  //   }
-  // };
-  const onClickTheme = () => {
-    setTheme(theme);
-  }
+  const onClickZoomOut = () => changeZoom(+zoom.toFixed(2) - 0.1);
+  const onClickZoomIn = () => changeZoom(+zoom.toFixed(2) + 0.1);
+  const onClickTheme = () => setTheme(theme);
   const onClickHelp = () => {
-    if (!hasVisited) {
-      hasVisitedHelp(true);
-    } else {
-      hasVisitedHelp(false);
-    }
+    if (!hasVisited) hasVisitedHelp(true);
+    else hasVisitedHelp(false);
   };
   const onClickMathKeyboard = async () => {
-    console.log(mathKey, `--> mathKey`);
     setMathKey(!mathKey);
     setKeyboard(!mathKey);
   }
   
   var synth = window.speechSynthesis;
   let div = document.getElementById("scrollRef");
-  let filter = function(node) {
-  return node.tagName.toLowerCase() == "p" ? 
-    NodeFilter.FILTER_ACCEPT :
-    NodeFilter.FILTER_SKIP;
+  let filter = function(node: { tagName: string }) {
+    return node.tagName.toLowerCase() == "p" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
   };  
 
-  const controller = new AbortController();
+  
  
   useEffect(() => {
     const startTalk = (v: { innerText: string; }) => {
       synth.speak(new SpeechSynthesisUtterance(v.innerText))
     }
     if(textOn) {   
-      let iterator = document.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, filter, false);            
+      let iterator = document.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, filter, false); // 4th parameter was false         
       let node = iterator.nextNode();
       while (node !== null) {    
         nodes.push(node)
@@ -366,7 +310,7 @@ const ToolbarRenderer = (): ReactElement | null => {
         node = iterator.nextNode();       
       }
       nodes.forEach(function(v) {
-        v.addEventListener('click', () => startTalk(v),{ signal: controller.signal })
+        v.addEventListener('click', () => startTalk(v), { signal: controller.signal })
       })
     } 
     else {
@@ -377,17 +321,15 @@ const ToolbarRenderer = (): ReactElement | null => {
       synth.cancel();
     }
     return (() => {
-      // console.log('done');
       controller.abort();
     })
   }, [textOn])
 
-  const onClickTTS = (text) => {
+  const onClickTTS = (text: boolean) => {
     console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.blockNumber}} TextToSpeech TextToSpeech Mode ${!text == true ? 'On' : 'Off'}`);
     setTextOn(!text)
   }
   const nextItem = () => {
-    console.log(tabs.tabsData[tabs.tabNumber + 1], `--> tabs`);
     getTabNumber(tabs.tabNumber + 1);
     getBlockNumber(tabs.tabsData[tabs.tabNumber + 1].id);
     multipleSelect('multiple_clear', (tabs.tabNumber + 1).toString());
@@ -395,20 +337,8 @@ const ToolbarRenderer = (): ReactElement | null => {
       setKeyboard(!mathKey);
       setMathKey(!mathKey);
     }
-    try {
-      canvas.removeEventListener("mousemove", bindingMoveEvent, false);
-      canvas.removeEventListener("mousedown", bindingDownEvent, false);
-      canvas.removeEventListener("mouseup", bindingUpEvent, false); 
-      setClearCanvas(true);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    } catch(e) {
-      console.log(e.message)
-    }
-    
-    
-    // getScratch(false);
-    // console.log('and now i need to close the scratchpad and make sure the cursor is changed...');
-    // console.log('NO! remember...we actually have to block out the next and prev buttons UNTIL we close the scratchpad...assume it should be the same with tabs...');
+    setClearCanvas(true);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
   const prevItem = () => {
     getTabNumber(tabs.tabNumber - 1);
@@ -419,12 +349,6 @@ const ToolbarRenderer = (): ReactElement | null => {
       setMathKey(!mathKey);
     }
   };
-  // console.log(tabs, `--> tabs toolbar`);
-  // console.log(tools, `--> tools toolbar`);
-  // console.log(toolbar, `--> toolbar toolbar`);
-  // const setHighlighterActive = () => {
-  //   return false;
-  // }
   return (
     data && (
       <Toolbar
@@ -438,7 +362,7 @@ const ToolbarRenderer = (): ReactElement | null => {
         isDisabled={!toolbar?.enabled}
         isHelpDisabled={!tools?.help?.enabled}
         isThemeDisabled={!tools?.theme?.enabled}
-        isZoomInDisabled={/*!tools?.zoomIn?.enabled*/zoom == 1.3}
+        isZoomInDisabled={zoom == 1.3}
         isZoomOutDisabled={zoom == 1.0}
         isLangDisabled={!tools?.bilingual?.enabled}
         isTTSDisabled={!tools?.readAloud?.enabled}
@@ -456,7 +380,7 @@ const ToolbarRenderer = (): ReactElement | null => {
 
 
         onClickHighlighter={onClickHighlighter}
-        isHighlighterActive={highlighterActive /*tools?.highlighter?.active*/}
+        isHighlighterActive={highlighterActive}
 
 
 
@@ -471,8 +395,8 @@ const ToolbarRenderer = (): ReactElement | null => {
         isTimerDisabled={!tools?.timer?.enabled}
         isPrevDisabled={tabs.tabNumber === 0}
         isNextDisabled={tabs.tabNumber === tabs.data.length - 1 || scratch}
-        isHelpActive={/*tools?.help?.activated*/hasVisited}
-        isTTSActive={/*tools?.bilingual?.activated*/ textOn}
+        isHelpActive={hasVisited}
+        isTTSActive={textOn}
         isMathKeyboardActive={tools?.mathKeyboard?.activated}
         isCalculatorActive={tools?.calculator?.activated}
         isScratchActive={scratch}

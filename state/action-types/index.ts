@@ -31,5 +31,6 @@ export enum ActionType {
   SET_KEYBOARD = 'set_keyboard',
   SSR_MATH = 'ssr-math',
   STORE_WIRIS = 'store_wiris',
-  HAS_VISITED = 'has_visited'
+  HAS_VISITED = 'has_visited',
+  COLLECT_MOUSE_MOVEMENTS = 'collect_mouse_movements',
 }

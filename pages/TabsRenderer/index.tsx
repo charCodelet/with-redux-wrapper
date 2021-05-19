@@ -6,6 +6,7 @@ import { useActions } from '../../hooks/useActions';
 const TabsRenderer = (): ReactElement | null => {
   const { tabs } = useTypedSelector((state: any) => state);
   const { hasVisited } = useTypedSelector((state: any) => state.hasVisited);
+  const { scratch } = useTypedSelector((state) => state.scratch);
   const { getTabNumber, getBlockNumber, multipleSelect, setKeyboard } = useActions();
 
   const handleSelect = (optionId: number) => {
@@ -21,10 +22,10 @@ const TabsRenderer = (): ReactElement | null => {
   return (
     tabs.data &&  (
       <Tabs align={'right'} style={{display: 'block'}} onChange={handleSelect}>
-        <TabList sx={{opacity: hasVisited ? '.5' : '1'}}>
+        <TabList sx={{opacity: hasVisited || scratch ? '.5' : '1'}}>
           {tabs.tabsData.slice(0, 15).map((v: any, i: number) => <Tab 
-          isDisabled={hasVisited ? true : false} 
-          style={{pointerEvents: hasVisited ? 'none' : 'all'}}
+          isDisabled={hasVisited || scratch ? true : false} 
+          style={{pointerEvents: hasVisited || scratch ? 'none' : 'all'}}
           tabIndex={i === tabs.tabNumber ? 0 : -1} 
           aria-selected={i === tabs.tabNumber} 
           key={tabs.tabNumber}>
