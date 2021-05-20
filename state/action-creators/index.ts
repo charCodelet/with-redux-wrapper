@@ -309,7 +309,7 @@ return (dispatch: Dispatch<Action>) => {
 };
 
 // eslint-disable-next-line
-export const fetchCalculatorElement = (element: any, model: string, observable?: boolean) => {
+export const fetchCalculatorElement = (element: any, model: string) => {
   // eslint-disable-next-line
 return (dispatch: Dispatch<Action>, getState: () => any) => {
   dispatch({
@@ -319,7 +319,6 @@ return (dispatch: Dispatch<Action>, getState: () => any) => {
       model
     }
   });
-  // if(observable) console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${getState().tabs.blockNumber}} Open Calculator TI${getState().calculator.calculatorModel})}`);
   };
 };
 

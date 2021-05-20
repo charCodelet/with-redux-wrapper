@@ -1,13 +1,10 @@
 import React, { ReactElement, useState, useEffect, useCallback, useRef } from 'react';
 import { useTypedSelector } from '../hooks/useTypedSelector';
-// import { useDispatch } from 'react-redux'
 import { useActions } from '../hooks/useActions';
 import AssessmentRenderer from './Assessment';
 import { wrapper } from '../state/store';
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async() => {
-
-  // console.log('is there a way to prevent this from running when we transition from /help to /...because that is what is resetting the tabs...');
   let start = await fetch('http://localhost:3010/start');
   let startJson = await start.json();
   // console.log(startJson, `--> startJson`);
@@ -58,32 +55,21 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async() 
   //   <button onClick={() => setVisibility(!isVisible)}>Click me!</button>
   // )
 
-let arrX = [];
-let arrY = [];
-let arrXY = [];
+let arrX: any = [];
+let arrY: any = [];
+let arrXY: any = [];
 
 const App: React.FC = (): ReactElement => {
   // console.log('index.tsx running?');
   // const dispatch = useDispatch()
-  const { collectMouseMovements, collectMouseMovementsInBatch } = useActions(); 
+  const { 
+    // collectMouseMovements, // this did not work so well -- too much data to process in real time, as a result, the timer was being slowed, however slightly. Thus, I opted to batch...
+    collectMouseMovementsInBatch 
+  } = useActions(); 
   const [isVisible, setVisibility] = useState(false)
-  const { zoom } = useTypedSelector((state) => state.zoom);
+  const { zoom } = useTypedSelector(state => state.zoom);
+  const { tabs } = useTypedSelector(state => state);
   const ref = useRef(null);
-  // const myWorker = new Worker("worker.js");
-
-  // myWorker.onmessage = function(e) {
-  //   dispatch({ 
-  //     type: 'collect_mouse_movements', 
-  //     payload: { 
-  //       moveXY: {
-  //         moveX: '[' + e.pageX,
-  //         moveY: e.pageY + ']\n',
-  //       },
-  //       coordinates: `${'[' + e.pageX}, ${e.pageY + ']\n'}`,
-  //     }
-  //     // payload: '[' + e.data[0], e.data[1] + ']\n' })
-  //     // collectMouseMovements('[' + e.pageX, e.pageY + ']\n');
-  // }
 
   const sendBatchedCoords = () => {
     collectMouseMovementsInBatch(arrXY);
@@ -91,54 +77,18 @@ const App: React.FC = (): ReactElement => {
     arrX = [];
     arrY = [];
   }
-
   const onMouseMove = useCallback(e => { 
-    e.preventDefault();
-    e.stopPropagation();
-   
-    // dispatch({ 
-    //   type: 'collect_mouse_movements', 
-    //   payload: { 
-    //     moveXY: {
-    //       moveX: '[' + e.pageX,
-    //       moveY: e.pageY + ']\n',
-    //     },
-    //     coordinates: `${'[' + e.pageX}, ${e.pageY + ']\n'}`,
-    //   }
-    //   // payload: '[' + e.data[0], e.data[1] + ']\n' })
-    //   // collectMouseMovements('[' + e.pageX, e.pageY + ']\n');
-    // })
-    // myWorker.postMessage([e.pageX, e.pageY]);
-    // console.log(e.pageX, e.pageY);
-    // localStorage.setItem('mouseX', e.pageX + localStorage.getItem('mouseX'));
-    // localStorage.setItem('mouseY', e.pageY + localStorage.getItem('mouseY'));
-
-    // let request
-
-    // const performAnimation = () => {
-    //   request = requestAnimationFrame(performAnimation)
-    //   collectMouseMovements('[' + e.pageX, e.pageY + ']\n');
-    // }
-    
-    // requestAnimationFrame(performAnimation)
-    
-    //...
-    
-    // cancelAnimationFrame(request) //stop the animation
-
-
-
+    // console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.blockNumber}} Mouse X: ${e.pageX}, Mouse Y: ${e.pageY})}`);
     arrX.push(e.pageX);
     arrY.push(e.pageY);
     arrXY = arrX.concat(arrY);
-    // console.log(arrX,` --> arrX`);
-    // console.log(arrY,` --> arrY`);
-    // console.log(arrXY, `--> arrXY`);
-    // setTimeout(() => {
-      // collectMouseMovements('[' + e.pageX, e.pageY + ']\n');
-    // }, 1)
   }, []);
-  
+  // const onMouseMove = (e) => { 
+  //   // console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.blockNumber}} Mouse X: ${e.pageX}, Mouse Y: ${e.pageY})}`);
+  //   arrX.push(e.pageX);
+  //   arrY.push(e.pageY);
+  //   arrXY = arrX.concat(arrY);
+  // };
   useEffect(() => {
     if (isVisible) ref.current.addEventListener('mousemove', onMouseMove)
     else ref.current.removeEventListener('mousemove', onMouseMove)

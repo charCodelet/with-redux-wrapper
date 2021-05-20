@@ -214,13 +214,6 @@ const ToolbarRenderer = (): ReactElement | null => {
   }
   /* ScratchPad End */
 
-  // const performAnimation = () => {
-  //   request = requestAnimationFrame(performAnimation)
-  //   collectMouseMovements('[' + e.pageX, e.pageY + ']\n');
-  // }
-  
-  // requestAnimationFrame(performAnimation)
-
   /* Timer Start */
   useEffect(() => {
     if(stopTimer) {
@@ -234,7 +227,7 @@ const ToolbarRenderer = (): ReactElement | null => {
       clearInterval(intervalRef.current);
       setNum(30);
     }
-  }, [/*tabs*/]);
+  }, [tabs]);
   const decreaseNum = () => {
 
     setNum(prev => {
@@ -251,13 +244,16 @@ const ToolbarRenderer = (): ReactElement | null => {
 
   /* Calculator Start */
   const onClickCalculator = () => {
-    // console.log(coordinates, `--> coordinates`);
     console.log(batchedCoords, `--> batchedCoords`);
-    // console.log(localStorage.getItem('mouseX'));
-    // console.log(localStorage.getItem('mouseY'));
     fetchCalculatorElement(calculator.calculator, calculator.calculatorModel, true);
-    if (calculator.calculator.current.style.visibility === 'hidden') calculator.calculator.current.style.visibility = 'visible'; // document.getElementById('calculatorDiv')
-    else calculator.calculator.current.style.visibility = 'hidden'; 
+    if (calculator.calculator.current.style.visibility === 'hidden') {
+      calculator.calculator.current.style.visibility = 'visible'; // document.getElementById('calculatorDiv')
+      console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.blockNumber}} Open Calculator TI${calculator.calculatorModel})}`);
+    }
+    else {
+      calculator.calculator.current.style.visibility = 'hidden'; 
+      console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.blockNumber}} Close Calculator TI${calculator.calculatorModel})}`);
+    }
   };
   /* Calculator End */
 
@@ -275,8 +271,14 @@ const ToolbarRenderer = (): ReactElement | null => {
 
   /* Help Screen Start */
   const onClickHelp = () => {
-    if (!hasVisited) hasVisitedHelp(true);
-    else hasVisitedHelp(false);
+    if (!hasVisited) {
+      hasVisitedHelp(true);
+      console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.blockNumber}} Visited Help Screen`);
+    }
+    else {
+      hasVisitedHelp(false);
+      console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.blockNumber}} Left Help Screen`);
+    }
   };
   /* Help Screen End */
 
@@ -334,6 +336,7 @@ const ToolbarRenderer = (): ReactElement | null => {
     getTabNumber(tabs.tabNumber + 1);
     getBlockNumber(tabs.tabsData[tabs.tabNumber + 1].id);
     multipleSelect('multiple_clear', (tabs.tabNumber + 1).toString());
+    
     if(isKeyboardSet) {
       setKeyboard(!isKeyboardSet);
     }
@@ -347,6 +350,7 @@ const ToolbarRenderer = (): ReactElement | null => {
     getTabNumber(tabs.tabNumber - 1);
     getBlockNumber(tabs.tabsData[tabs.tabNumber - 1].id);
     multipleSelect('multiple_clear', (tabs.tabNumber - 1).toString());
+    console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.tabsData[tabs.tabNumber - 1].id}} On Question ${tabs.tabNumber})}`);
     if(isKeyboardSet) {
       setKeyboard(!isKeyboardSet);
     }

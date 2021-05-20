@@ -16,10 +16,10 @@
   height: 0;
 }
 
-div#VH098389_0 p,li {
+div#VH098389_0 p, li {
   display: flex !important;
 }
-div#mathElement {
+span#mathElement {
   margin: 0 5px !important;
 }
 

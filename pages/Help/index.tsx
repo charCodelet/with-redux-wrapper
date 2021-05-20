@@ -4,7 +4,9 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 const Help = (): ReactElement => {
   const { tabs } = useTypedSelector((state: any) => state);
-  console.log(tabs, `--> tabs`);
+  const { hasVisited } = useTypedSelector((state: any) => state.hasVisited);
+  // console.log(tabs, `--> tabs`);
+  // console.log(`[OBS] booklet position ${new Date()} {"studentId":9925525,"blockId":887,"itemId":4316,"accessionNumber":${tabs.blockNumber}} ${hasVisited ? 'Visited Help Screen' : 'Left Help Screen'})}`);
   return (
     <section style={{display: 'flex', flexDirection: 'column', lineHeight: '2em', margin: '0 10vw', fontSize: '20px'}}>
       <div className="helpContent" >You have opened Help. To go back, tap the Help button again.</div>
