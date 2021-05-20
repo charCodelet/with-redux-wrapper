@@ -190,6 +190,11 @@ interface CollectMouseMovementsAction {
   }
 }
 
+interface CollectMouseMovementsInBatchAction {
+  type: ActionType.COLLECT_MOUSE_MOVEMENTS_IN_BATCH,
+  payload: []
+}
+
 interface saveCanvasAction {
   type: ActionType.SAVE_CANVAS,
   payload: any
@@ -238,3 +243,4 @@ export type Action =
   | CollectMouseMovementsAction
   | saveCanvasAction
   | saveKeyboardAction
+  | CollectMouseMovementsInBatchAction

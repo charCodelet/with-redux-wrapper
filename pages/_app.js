@@ -30,11 +30,10 @@ const WrappedApp = ({ Component, pageProps }) => {
     // collectMouseMovements('[' + pageX, pageY + ']\n');
     // console.log("i htink if we kill this upon hitting a toolbar function, we will be good...")
   }
-
+  
   return (
     <main 
       // onMouseMove={handleMouseMove}
-      // onMouseLeave={handleMouseLeave}
       > 
       <SSRProvider>
         <CalculatorServer model='108' model2='108' model3='108'/> {/* <CalculatorServer model='30MV' model2='30XS' model3='30mv'/> */}

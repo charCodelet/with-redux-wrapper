@@ -1,5 +1,7 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState, useEffect, useCallback, useRef } from 'react';
 import { useTypedSelector } from '../hooks/useTypedSelector';
+// import { useDispatch } from 'react-redux'
+import { useActions } from '../hooks/useActions';
 import AssessmentRenderer from './Assessment';
 import { wrapper } from '../state/store';
 
@@ -42,11 +44,116 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async() 
   })); 
 })
 
+
+// const [isVisible, setVisibility] = useState(false)
+
+  // const onKeyDown = useCallback((event) => { console.log(event) }, [])
+
+  // handleToggle((isVisible) => {
+  //   if (isVisible) window.addEventListener('keydown', onKeyDown)
+  //   else window.removeEventListener('keydown', onKeyDown)
+  // })
+
+  // return (
+  //   <button onClick={() => setVisibility(!isVisible)}>Click me!</button>
+  // )
+
+let arrX = [];
+let arrY = [];
+let arrXY = [];
+
 const App: React.FC = (): ReactElement => {
-  // console.log('index.tsx running?')
+  // console.log('index.tsx running?');
+  // const dispatch = useDispatch()
+  const { collectMouseMovements, collectMouseMovementsInBatch } = useActions(); 
+  const [isVisible, setVisibility] = useState(false)
   const { zoom } = useTypedSelector((state) => state.zoom);
+  const ref = useRef(null);
+  // const myWorker = new Worker("worker.js");
+
+  // myWorker.onmessage = function(e) {
+  //   dispatch({ 
+  //     type: 'collect_mouse_movements', 
+  //     payload: { 
+  //       moveXY: {
+  //         moveX: '[' + e.pageX,
+  //         moveY: e.pageY + ']\n',
+  //       },
+  //       coordinates: `${'[' + e.pageX}, ${e.pageY + ']\n'}`,
+  //     }
+  //     // payload: '[' + e.data[0], e.data[1] + ']\n' })
+  //     // collectMouseMovements('[' + e.pageX, e.pageY + ']\n');
+  // }
+
+  const sendBatchedCoords = () => {
+    collectMouseMovementsInBatch(arrXY);
+    arrXY = [];
+    arrX = [];
+    arrY = [];
+  }
+
+  const onMouseMove = useCallback(e => { 
+    e.preventDefault();
+    e.stopPropagation();
+   
+    // dispatch({ 
+    //   type: 'collect_mouse_movements', 
+    //   payload: { 
+    //     moveXY: {
+    //       moveX: '[' + e.pageX,
+    //       moveY: e.pageY + ']\n',
+    //     },
+    //     coordinates: `${'[' + e.pageX}, ${e.pageY + ']\n'}`,
+    //   }
+    //   // payload: '[' + e.data[0], e.data[1] + ']\n' })
+    //   // collectMouseMovements('[' + e.pageX, e.pageY + ']\n');
+    // })
+    // myWorker.postMessage([e.pageX, e.pageY]);
+    // console.log(e.pageX, e.pageY);
+    // localStorage.setItem('mouseX', e.pageX + localStorage.getItem('mouseX'));
+    // localStorage.setItem('mouseY', e.pageY + localStorage.getItem('mouseY'));
+
+    // let request
+
+    // const performAnimation = () => {
+    //   request = requestAnimationFrame(performAnimation)
+    //   collectMouseMovements('[' + e.pageX, e.pageY + ']\n');
+    // }
+    
+    // requestAnimationFrame(performAnimation)
+    
+    //...
+    
+    // cancelAnimationFrame(request) //stop the animation
+
+
+
+    arrX.push(e.pageX);
+    arrY.push(e.pageY);
+    arrXY = arrX.concat(arrY);
+    // console.log(arrX,` --> arrX`);
+    // console.log(arrY,` --> arrY`);
+    // console.log(arrXY, `--> arrXY`);
+    // setTimeout(() => {
+      // collectMouseMovements('[' + e.pageX, e.pageY + ']\n');
+    // }, 1)
+  }, []);
+  
+  useEffect(() => {
+    if (isVisible) ref.current.addEventListener('mousemove', onMouseMove)
+    else ref.current.removeEventListener('mousemove', onMouseMove)
+  }, [isVisible])
   return ( 
-    <section id="pointerTest" style={{ userSelect: 'none', position: 'relative', transform: `scale(${zoom.toFixed(2)})`}}>
+    <section 
+      ref={ref}
+      id="pointerTest" 
+      onMouseLeave={() => {
+        setVisibility(!isVisible)
+        sendBatchedCoords()
+      }}
+      onMouseEnter={() => setVisibility(!isVisible)}
+      style={{ userSelect: 'none', position: 'relative', transform: `scale(${zoom.toFixed(2)})`}}
+    >
       <AssessmentRenderer /> 
     </section>   
   )

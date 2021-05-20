@@ -6,7 +6,8 @@ export interface RepositoriesState {
     moveX: string,
     moveY: string,
   },
-  coordinates: string
+  coordinates: string,
+  batchedCoords: [],
 }
 
 const initialState = {
@@ -15,13 +16,19 @@ const initialState = {
     moveY: '',
   },
   coordinates: '',
+  batchedCoords: [],
 };
 
 const mouseMovementsReducer = (state: RepositoriesState = initialState, action: Action): RepositoriesState => {
   
   switch (action.type) {
+    case ActionType.COLLECT_MOUSE_MOVEMENTS_IN_BATCH:
+      return {
+        ...state, 
+        batchedCoords: action.payload
+      }
     case ActionType.COLLECT_MOUSE_MOVEMENTS:
-      return { 
+      let mouseMoves = { 
         ...state, 
         moveXY: {
           moveX: state.moveXY.moveX + action.payload.moveXY.moveX,
@@ -29,6 +36,8 @@ const mouseMovementsReducer = (state: RepositoriesState = initialState, action: 
         },
         coordinates: state.coordinates + action.payload.coordinates
       };
+      // console.log(mouseMoves.coordinates, `--> mouseMoves.coordinates`);
+      return mouseMoves;
     default:
       return state;
   }

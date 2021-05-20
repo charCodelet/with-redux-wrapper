@@ -368,7 +368,7 @@ export const hasVisitedHelp = (hasVisited: boolean) => {
 // eslint-disable-next-line
 export const collectMouseMovements = (x: string, y: string) => {
   // eslint-disable-next-line
-  return (dispatch: Dispatch<Action>) => {
+  return async (dispatch: Dispatch<Action>) => {
     dispatch({
       type: ActionType.COLLECT_MOUSE_MOVEMENTS,
       payload: { 
@@ -381,6 +381,19 @@ export const collectMouseMovements = (x: string, y: string) => {
     });
   };
 };
+
+// eslint-disable-next-line
+export const collectMouseMovementsInBatch = (xyArray: []) => {
+  // eslint-disable-next-line
+  return async (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionType.COLLECT_MOUSE_MOVEMENTS_IN_BATCH,
+      payload: xyArray 
+    });
+  };
+};
+
+
 
 // eslint-disable-next-line
 export const saveCanvas = (canvas: any) => {

@@ -35,4 +35,5 @@ export enum ActionType {
   COLLECT_MOUSE_MOVEMENTS = 'collect_mouse_movements',
   SAVE_CANVAS = 'save_canvas',
   SAVE_KEYBOARD = 'save_keyboard',
+  COLLECT_MOUSE_MOVEMENTS_IN_BATCH = 'collect_mouse_movements_in_batch',
 }

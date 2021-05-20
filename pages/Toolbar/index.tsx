@@ -45,7 +45,7 @@ const ToolbarRenderer = (): ReactElement | null => {
   const { tabs } = useTypedSelector((state) => state);
   const { zoom } = useTypedSelector((state) => state.zoom);
   const { hasVisited } = useTypedSelector((state: any) => state.hasVisited);
-  // const { moveXY, coordinates } = useTypedSelector((state) => state.mouseMovements);
+  const { coordinates, batchedCoords } = useTypedSelector((state) => state.mouseMovements);
 
   /* useActions */
   const { getTabNumber, getBlockNumber, multipleSelect, setTheme, getScratch , changeZoom, showDialog, setKeyboard, fetchCalculatorElement, hasVisitedHelp } = useActions(); 
@@ -214,6 +214,13 @@ const ToolbarRenderer = (): ReactElement | null => {
   }
   /* ScratchPad End */
 
+  // const performAnimation = () => {
+  //   request = requestAnimationFrame(performAnimation)
+  //   collectMouseMovements('[' + e.pageX, e.pageY + ']\n');
+  // }
+  
+  // requestAnimationFrame(performAnimation)
+
   /* Timer Start */
   useEffect(() => {
     if(stopTimer) {
@@ -227,7 +234,7 @@ const ToolbarRenderer = (): ReactElement | null => {
       clearInterval(intervalRef.current);
       setNum(30);
     }
-  }, [tabs]);
+  }, [/*tabs*/]);
   const decreaseNum = () => {
 
     setNum(prev => {
@@ -237,13 +244,17 @@ const ToolbarRenderer = (): ReactElement | null => {
         clearInterval(intervalRef.current);
         return 0; 
       }
-      return +(prev - 1/60).toFixed(2);
+      return +(prev - 1/120).toFixed(2);
     });
   }
   /* Timer End */
 
   /* Calculator Start */
   const onClickCalculator = () => {
+    // console.log(coordinates, `--> coordinates`);
+    console.log(batchedCoords, `--> batchedCoords`);
+    // console.log(localStorage.getItem('mouseX'));
+    // console.log(localStorage.getItem('mouseY'));
     fetchCalculatorElement(calculator.calculator, calculator.calculatorModel, true);
     if (calculator.calculator.current.style.visibility === 'hidden') calculator.calculator.current.style.visibility = 'visible'; // document.getElementById('calculatorDiv')
     else calculator.calculator.current.style.visibility = 'hidden'; 
@@ -357,11 +368,7 @@ const ToolbarRenderer = (): ReactElement | null => {
         // Language Concerns (not yet implemented)
         language={tools?.bilingual?.language}
         isLangDisabled={!tools?.bilingual?.enabled}
-
-        // Timer Concerns
-        timeLeft={`${num} minutes`}
-        isDisabled={!toolbar?.enabled}
-        
+  
         // Zoom Concerns
         isZoomOutDisabled={zoom == 1.0}
         isZoomInDisabled={zoom == 1.3}
@@ -397,6 +404,8 @@ const ToolbarRenderer = (): ReactElement | null => {
         hasCalculator={tools?.calculator?.visible}
 
         // Timer Concerns 
+        timeLeft={`${num} minutes`}
+        isDisabled={!toolbar?.enabled}
         isTimerDisabled={!tools?.timer?.enabled}
         hasTimer={tools?.timer?.visible}
         isTimerActive={true}
